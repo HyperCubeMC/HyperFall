@@ -1,4 +1,4 @@
-Travertine-Proxy
+HyperFall-Proxy
 
 # intellij
 *.iml
@@ -6,4 +6,3 @@ Travertine-Proxy
 *.iws
 .idea/
 out/
-

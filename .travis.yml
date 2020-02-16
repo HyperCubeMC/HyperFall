@@ -3,6 +3,7 @@ dist: bionic
 language: java
 jdk: openjdk13
 env: MAVEN_VERSION=3.6.3
+install: true
 script:
  - ./hyperfall patch
  - ./hyperfall build

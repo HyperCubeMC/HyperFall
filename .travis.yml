@@ -21,7 +21,6 @@ deploy:
   file: ./HyperFall-Proxy/bootstrap/target/HyperFall.jar
   on:
     repo: hypercubemc-github/HyperFall
-    tags: true
   tag_name: $TRAVIS_TAG
   target_commitish: $TRAVIS_COMMIT
   name: HyperFall Build $TRAVIS_BUILD_NUMBER

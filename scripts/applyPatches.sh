@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+hyperfall#!/usr/bin/env bash
 
 PS1="$"
 basedir="$(cd "$1" && pwd -P)"
@@ -67,7 +67,7 @@ applyPatch BungeeCord Waterfall-Proxy HEAD
 popd
 basedir=$(dirname $basedir)
 
-# Apply travertine patches
-applyPatch Waterfall/Waterfall-Proxy Travertine-Proxy HEAD
+# Apply hyperfall patches
+applyPatch Waterfall/Waterfall-Proxy HyperFall-Proxy HEAD
 
 enableCommitSigningIfNeeded

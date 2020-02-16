@@ -20,7 +20,7 @@ case "$1" in
         scripts/wigglePatch.py
     ;;
     *)
-        echo "Travertine build tool command. This provides a variety of commands to control the Travertine"
+        echo "HyperFall build tool command. This provides a variety of commands to control the Travertine"
         echo "build. View below for details of the available commands."
         echo ""
         echo "Commands:"

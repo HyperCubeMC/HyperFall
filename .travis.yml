@@ -14,5 +14,6 @@ deploy:
   on:
     repo: hypercubemc-github/HyperFall
     tags: true
+  tag_name: $TRAVIS_BUILD_NUMBER
   name: HyperFall Build $TRAVIS_BUILD_NUMBER
   edge: true

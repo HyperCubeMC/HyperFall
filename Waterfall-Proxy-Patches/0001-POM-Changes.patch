@@ -1,25 +1,28 @@
-From 077e72b6e98a9bea3a8519f670f6f3a7b30b4a84 Mon Sep 17 00:00:00 2001
+From 737cacdd6c1ab3bbac01d84ebe010e20b61802d7 Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
-Date: Sat, 15 Feb 2020 22:11:31 -0600
+Date: Sat, 15 Feb 2020 22:40:02 -0600
 Subject: [PATCH] POM-Changes
 
 
 diff --git a/api/pom.xml b/api/pom.xml
-index f95b96e0..52ed2d2f 100644
+index 2380a5fd..f73fa6cf 100644
 --- a/api/pom.xml
 +++ b/api/pom.xml
-@@ -5,41 +5,41 @@
+@@ -4,42 +4,42 @@
+     <modelVersion>4.0.0</modelVersion>
  
      <parent>
-         <groupId>io.github.waterfallmc</groupId>
+-        <groupId>io.github.waterfallmc</groupId>
 -        <artifactId>waterfall-parent</artifactId>
++        <groupId>io.github.hyperfallmc</groupId>
 +        <artifactId>hyperfall-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-     <groupId>io.github.waterfallmc</groupId>
+-    <groupId>io.github.waterfallmc</groupId>
 -    <artifactId>waterfall-api</artifactId>
++    <groupId>io.github.hyperfallmc</groupId>
 +    <artifactId>hyperfall-api</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
@@ -30,49 +33,65 @@ index f95b96e0..52ed2d2f 100644
  
      <dependencies>
          <dependency>
-             <groupId>io.github.waterfallmc</groupId>
+-            <groupId>io.github.waterfallmc</groupId>
 -            <artifactId>waterfall-chat</artifactId>
++            <groupId>io.github.hyperfallmc</groupId>
 +            <artifactId>hyperfall-chat</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
          <dependency>
-             <groupId>io.github.waterfallmc</groupId>
+-            <groupId>io.github.waterfallmc</groupId>
 -            <artifactId>waterfall-config</artifactId>
++            <groupId>io.github.hyperfallmc</groupId>
 +            <artifactId>hyperfall-config</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
          <dependency>
-             <groupId>io.github.waterfallmc</groupId>
+-            <groupId>io.github.waterfallmc</groupId>
 -            <artifactId>waterfall-event</artifactId>
++            <groupId>io.github.hyperfallmc</groupId>
 +            <artifactId>hyperfall-event</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
          <dependency>
-             <groupId>io.github.waterfallmc</groupId>
+-            <groupId>io.github.waterfallmc</groupId>
 -            <artifactId>waterfall-protocol</artifactId>
++            <groupId>io.github.hyperfallmc</groupId>
 +            <artifactId>hyperfall-protocol</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
+@@ -50,7 +50,7 @@
+             <scope>compile</scope>
+         </dependency>
+ 
+-        <!-- Waterfall - Add SLF4J -->
++        <!-- HyperFall - Add SLF4J -->
+         <dependency>
+             <groupId>org.slf4j</groupId>
+             <artifactId>slf4j-api</artifactId>
 diff --git a/bootstrap/pom.xml b/bootstrap/pom.xml
-index 8c9aba34..a7f9e669 100644
+index e7b76d5b..602e6806 100644
 --- a/bootstrap/pom.xml
 +++ b/bootstrap/pom.xml
-@@ -5,18 +5,18 @@
+@@ -4,19 +4,19 @@
+     <modelVersion>4.0.0</modelVersion>
  
      <parent>
-         <groupId>io.github.waterfallmc</groupId>
+-        <groupId>io.github.waterfallmc</groupId>
 -        <artifactId>waterfall-parent</artifactId>
++        <groupId>io.github.hyperfallmc</groupId>
 +        <artifactId>hyperfall-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-     <groupId>io.github.waterfallmc</groupId>
+-    <groupId>io.github.waterfallmc</groupId>
 -    <artifactId>waterfall-bootstrap</artifactId>
++    <groupId>io.github.hyperfallmc</groupId>
 +    <artifactId>hyperfall-bootstrap</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
@@ -84,11 +103,13 @@ index 8c9aba34..a7f9e669 100644
  
      <properties>
          <maven.deploy.skip>true</maven.deploy.skip>
-@@ -29,14 +29,14 @@
+@@ -28,15 +28,15 @@
+ 
      <dependencies>
          <dependency>
-             <groupId>io.github.waterfallmc</groupId>
+-            <groupId>io.github.waterfallmc</groupId>
 -            <artifactId>waterfall-proxy</artifactId>
++            <groupId>io.github.hyperfallmc</groupId>
 +            <artifactId>hyperfall-proxy</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
@@ -102,21 +123,24 @@ index 8c9aba34..a7f9e669 100644
              <plugin>
                  <groupId>org.apache.maven.plugins</groupId>
 diff --git a/chat/pom.xml b/chat/pom.xml
-index 3cbe1abf..05988b4d 100644
+index 0bd76ea5..340f5bb5 100644
 --- a/chat/pom.xml
 +++ b/chat/pom.xml
-@@ -5,18 +5,18 @@
+@@ -4,19 +4,19 @@
+     <modelVersion>4.0.0</modelVersion>
  
      <parent>
-         <groupId>io.github.waterfallmc</groupId>
+-        <groupId>io.github.waterfallmc</groupId>
 -        <artifactId>waterfall-parent</artifactId>
++        <groupId>io.github.hyperfallmc</groupId>
 +        <artifactId>hyperfall-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-     <groupId>io.github.waterfallmc</groupId>
+-    <groupId>io.github.waterfallmc</groupId>
 -    <artifactId>waterfall-chat</artifactId>
++    <groupId>io.github.hyperfallmc</groupId>
 +    <artifactId>hyperfall-chat</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
@@ -129,21 +153,24 @@ index 3cbe1abf..05988b4d 100644
      <dependencies>
          <dependency>
 diff --git a/config/pom.xml b/config/pom.xml
-index 48184d59..bd8b3653 100644
+index 764fcc6b..ff811c0f 100644
 --- a/config/pom.xml
 +++ b/config/pom.xml
-@@ -5,18 +5,18 @@
+@@ -4,19 +4,19 @@
+     <modelVersion>4.0.0</modelVersion>
  
      <parent>
-         <groupId>io.github.waterfallmc</groupId>
+-        <groupId>io.github.waterfallmc</groupId>
 -        <artifactId>waterfall-parent</artifactId>
++        <groupId>io.github.hyperfallmc</groupId>
 +        <artifactId>hyperfall-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-     <groupId>io.github.waterfallmc</groupId>
+-    <groupId>io.github.waterfallmc</groupId>
 -    <artifactId>waterfall-config</artifactId>
++    <groupId>io.github.hyperfallmc</groupId>
 +    <artifactId>hyperfall-config</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
@@ -156,21 +183,24 @@ index 48184d59..bd8b3653 100644
      <dependencies>
          <dependency>
 diff --git a/event/pom.xml b/event/pom.xml
-index 0be68542..04610716 100644
+index 5eb97c1f..e240b786 100644
 --- a/event/pom.xml
 +++ b/event/pom.xml
-@@ -5,16 +5,16 @@
+@@ -4,17 +4,17 @@
+     <modelVersion>4.0.0</modelVersion>
  
      <parent>
-         <groupId>io.github.waterfallmc</groupId>
+-        <groupId>io.github.waterfallmc</groupId>
 -        <artifactId>waterfall-parent</artifactId>
++        <groupId>io.github.hyperfallmc</groupId>
 +        <artifactId>hyperfall-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-     <groupId>io.github.waterfallmc</groupId>
+-    <groupId>io.github.waterfallmc</groupId>
 -    <artifactId>waterfall-event</artifactId>
++    <groupId>io.github.hyperfallmc</groupId>
 +    <artifactId>hyperfall-event</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
@@ -181,21 +211,24 @@ index 0be68542..04610716 100644
 +    <description>Generic java event dispatching API intended for use with HyperFall.</description>
  </project>
 diff --git a/log/pom.xml b/log/pom.xml
-index b4520832..e3a791c5 100644
+index 23dacb1d..5c5cd781 100644
 --- a/log/pom.xml
 +++ b/log/pom.xml
-@@ -5,18 +5,18 @@
+@@ -4,19 +4,19 @@
+     <modelVersion>4.0.0</modelVersion>
  
      <parent>
-         <groupId>io.github.waterfallmc</groupId>
+-        <groupId>io.github.waterfallmc</groupId>
 -        <artifactId>waterfall-parent</artifactId>
++        <groupId>io.github.hyperfallmc</groupId>
 +        <artifactId>hyperfall-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-     <groupId>io.github.waterfallmc</groupId>
+-    <groupId>io.github.waterfallmc</groupId>
 -    <artifactId>waterfall-log</artifactId>
++    <groupId>io.github.hyperfallmc</groupId>
 +    <artifactId>hyperfall-log</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
@@ -207,165 +240,181 @@ index b4520832..e3a791c5 100644
  
      <dependencies>
          <dependency>
-@@ -27,7 +27,7 @@
+@@ -26,8 +26,8 @@
+             <scope>compile</scope>
          </dependency>
          <dependency>
-             <groupId>io.github.waterfallmc</groupId>
+-            <groupId>io.github.waterfallmc</groupId>
 -            <artifactId>waterfall-chat</artifactId>
++            <groupId>io.github.hyperfallmc</groupId>
 +            <artifactId>hyperfall-chat</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
 diff --git a/log4j/pom.xml b/log4j/pom.xml
-index acb4a43d..aca37dc6 100644
+index f5267567..1042e092 100644
 --- a/log4j/pom.xml
 +++ b/log4j/pom.xml
-@@ -4,17 +4,17 @@
+@@ -3,19 +3,19 @@
+     <modelVersion>4.0.0</modelVersion>
  
      <parent>
-         <groupId>io.github.waterfallmc</groupId>
+-        <groupId>io.github.waterfallmc</groupId>
 -        <artifactId>waterfall-parent</artifactId>
++        <groupId>io.github.hyperfallmc</groupId>
 +        <artifactId>hyperfall-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-     <groupId>io.github.waterfallmc</groupId>
+-    <groupId>io.github.waterfallmc</groupId>
 -    <artifactId>waterfall-log4j</artifactId>
++    <groupId>io.github.hyperfallmc</groupId>
 +    <artifactId>hyperfall-log4j</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 -    <name>Waterfall-Log</name>
+-    <description>Simplistic and performant Log4j2 based logger and console API designed for use with Waterfall and Minecraft related applications.</description>
 +    <name>HyperFall-Log</name>
-     <description>Simplistic and performant Log4j2 based logger and console API designed for use with Waterfall and Minecraft related applications.</description>
++    <description>Simplistic and performant Log4j2 based logger and console API designed for use with HyperFall and Minecraft related applications.</description>
  
      <properties>
-@@ -65,7 +65,7 @@
- 
-         <dependency>
-             <groupId>io.github.waterfallmc</groupId>
--            <artifactId>waterfall-chat</artifactId>
-+            <artifactId>hyperfall-chat</artifactId>
-             <version>${project.version}</version>
-             <scope>compile</scope>
-         </dependency>
+         <log4j2.version>2.12.0</log4j2.version>
 diff --git a/module/cmd-alert/pom.xml b/module/cmd-alert/pom.xml
-index a881b245..ebcdbf98 100644
+index 9340d58a..f9c9969a 100644
 --- a/module/cmd-alert/pom.xml
 +++ b/module/cmd-alert/pom.xml
-@@ -5,13 +5,13 @@
+@@ -4,14 +4,14 @@
+     <modelVersion>4.0.0</modelVersion>
  
      <parent>
-         <groupId>io.github.waterfallmc</groupId>
+-        <groupId>io.github.waterfallmc</groupId>
 -        <artifactId>waterfall-module</artifactId>
++        <groupId>io.github.hyperfallmc</groupId>
 +        <artifactId>hyperfall-module</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-     <groupId>io.github.waterfallmc</groupId>
+-    <groupId>io.github.waterfallmc</groupId>
 -    <artifactId>waterfall-module-cmd-alert</artifactId>
++    <groupId>io.github.hyperfallmc</groupId>
 +    <artifactId>hyperfall-module-cmd-alert</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 diff --git a/module/cmd-find/pom.xml b/module/cmd-find/pom.xml
-index a54d6029..66659177 100644
+index c7106fe9..eccc6959 100644
 --- a/module/cmd-find/pom.xml
 +++ b/module/cmd-find/pom.xml
-@@ -5,13 +5,13 @@
+@@ -4,14 +4,14 @@
+     <modelVersion>4.0.0</modelVersion>
  
      <parent>
-         <groupId>io.github.waterfallmc</groupId>
+-        <groupId>io.github.waterfallmc</groupId>
 -        <artifactId>waterfall-module</artifactId>
++        <groupId>io.github.hyperfallmc</groupId>
 +        <artifactId>hyperfall-module</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-     <groupId>io.github.waterfallmc</groupId>
+-    <groupId>io.github.waterfallmc</groupId>
 -    <artifactId>waterfall-module-cmd-find</artifactId>
++    <groupId>io.github.hyperfallmc</groupId>
 +    <artifactId>hyperfall-module-cmd-find</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 diff --git a/module/cmd-list/pom.xml b/module/cmd-list/pom.xml
-index 9bb18c7d..980376bd 100644
+index e14d18e7..b877613f 100644
 --- a/module/cmd-list/pom.xml
 +++ b/module/cmd-list/pom.xml
-@@ -5,13 +5,13 @@
+@@ -4,14 +4,14 @@
+     <modelVersion>4.0.0</modelVersion>
  
      <parent>
-         <groupId>io.github.waterfallmc</groupId>
+-        <groupId>io.github.waterfallmc</groupId>
 -        <artifactId>waterfall-module</artifactId>
++        <groupId>io.github.hyperfallmc</groupId>
 +        <artifactId>hyperfall-module</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-     <groupId>io.github.waterfallmc</groupId>
+-    <groupId>io.github.waterfallmc</groupId>
 -    <artifactId>waterfall-module-cmd-list</artifactId>
++    <groupId>io.github.hyperfallmc</groupId>
 +    <artifactId>hyperfall-module-cmd-list</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 diff --git a/module/cmd-send/pom.xml b/module/cmd-send/pom.xml
-index 5753b492..96f204bd 100644
+index 68f526b1..6aead5e4 100644
 --- a/module/cmd-send/pom.xml
 +++ b/module/cmd-send/pom.xml
-@@ -5,13 +5,13 @@
+@@ -4,14 +4,14 @@
+     <modelVersion>4.0.0</modelVersion>
  
      <parent>
-         <groupId>io.github.waterfallmc</groupId>
+-        <groupId>io.github.waterfallmc</groupId>
 -        <artifactId>waterfall-module</artifactId>
++        <groupId>io.github.hyperfallmc</groupId>
 +        <artifactId>hyperfall-module</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-     <groupId>io.github.waterfallmc</groupId>
+-    <groupId>io.github.waterfallmc</groupId>
 -    <artifactId>waterfall-module-cmd-send</artifactId>
++    <groupId>io.github.hyperfallmc</groupId>
 +    <artifactId>hyperfall-module-cmd-send</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 diff --git a/module/cmd-server/pom.xml b/module/cmd-server/pom.xml
-index 5c457f76..cf039641 100644
+index d8ebf472..0ef0b9fd 100644
 --- a/module/cmd-server/pom.xml
 +++ b/module/cmd-server/pom.xml
-@@ -5,13 +5,13 @@
+@@ -4,14 +4,14 @@
+     <modelVersion>4.0.0</modelVersion>
  
      <parent>
-         <groupId>io.github.waterfallmc</groupId>
+-        <groupId>io.github.waterfallmc</groupId>
 -        <artifactId>waterfall-module</artifactId>
++        <groupId>io.github.hyperfallmc</groupId>
 +        <artifactId>hyperfall-module</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-     <groupId>io.github.waterfallmc</groupId>
+-    <groupId>io.github.waterfallmc</groupId>
 -    <artifactId>waterfall-module-cmd-server</artifactId>
++    <groupId>io.github.hyperfallmc</groupId>
 +    <artifactId>hyperfall-module-cmd-server</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 diff --git a/module/pom.xml b/module/pom.xml
-index 266678f4..485c0169 100644
+index 7b05190b..b987601e 100644
 --- a/module/pom.xml
 +++ b/module/pom.xml
-@@ -5,18 +5,18 @@
+@@ -4,19 +4,19 @@
+     <modelVersion>4.0.0</modelVersion>
  
      <parent>
-         <groupId>io.github.waterfallmc</groupId>
+-        <groupId>io.github.waterfallmc</groupId>
 -        <artifactId>waterfall-parent</artifactId>
++        <groupId>io.github.hyperfallmc</groupId>
 +        <artifactId>hyperfall-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-     <groupId>io.github.waterfallmc</groupId>
+-    <groupId>io.github.waterfallmc</groupId>
 -    <artifactId>waterfall-module</artifactId>
++    <groupId>io.github.hyperfallmc</groupId>
 +    <artifactId>hyperfall-module</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>pom</packaging>
@@ -377,51 +426,66 @@ index 266678f4..485c0169 100644
  
      <modules>
          <module>cmd-alert</module>
-@@ -35,7 +35,7 @@
+@@ -28,14 +28,14 @@
+     </modules>
+ 
+     <properties>
+-        <module.author>WaterfallMC</module.author>
++        <module.author>hypercubemc-github</module.author>
+         <maven.deploy.skip>true</maven.deploy.skip>
+     </properties>
+ 
      <dependencies>
          <dependency>
-             <groupId>io.github.waterfallmc</groupId>
+-            <groupId>io.github.waterfallmc</groupId>
 -            <artifactId>waterfall-api</artifactId>
++            <groupId>io.github.hyperfallmc</groupId>
 +            <artifactId>hyperfall-api</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
 diff --git a/module/reconnect-yaml/pom.xml b/module/reconnect-yaml/pom.xml
-index 4774659f..c9d4658b 100644
+index c29ac52f..265946dc 100644
 --- a/module/reconnect-yaml/pom.xml
 +++ b/module/reconnect-yaml/pom.xml
-@@ -5,13 +5,13 @@
+@@ -4,14 +4,14 @@
+     <modelVersion>4.0.0</modelVersion>
  
      <parent>
-         <groupId>io.github.waterfallmc</groupId>
+-        <groupId>io.github.waterfallmc</groupId>
 -        <artifactId>waterfall-module</artifactId>
++        <groupId>io.github.hyperfallmc</groupId>
 +        <artifactId>hyperfall-module</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-     <groupId>io.github.waterfallmc</groupId>
+-    <groupId>io.github.waterfallmc</groupId>
 -    <artifactId>waterfall-module-reconnect-yaml</artifactId>
++    <groupId>io.github.hyperfallmc</groupId>
 +    <artifactId>hyperfall-module-reconnect-yaml</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 diff --git a/native/pom.xml b/native/pom.xml
-index b4459ace..2ebc8e39 100644
+index f8b549dc..d0a68650 100644
 --- a/native/pom.xml
 +++ b/native/pom.xml
-@@ -5,18 +5,18 @@
+@@ -4,19 +4,19 @@
+     <modelVersion>4.0.0</modelVersion>
  
      <parent>
-         <groupId>io.github.waterfallmc</groupId>
+-        <groupId>io.github.waterfallmc</groupId>
 -        <artifactId>waterfall-parent</artifactId>
++        <groupId>io.github.hyperfallmc</groupId>
 +        <artifactId>hyperfall-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-     <groupId>io.github.waterfallmc</groupId>
+-    <groupId>io.github.waterfallmc</groupId>
 -    <artifactId>waterfall-native</artifactId>
++    <groupId>io.github.hyperfallmc</groupId>
 +    <artifactId>hyperfall-native</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
@@ -434,44 +498,53 @@ index b4459ace..2ebc8e39 100644
      <dependencies>
          <dependency>
 diff --git a/pom.xml b/pom.xml
-index 2924cdaf..e5bb0458 100644
+index ae6f901e..6495f865 100644
 --- a/pom.xml
 +++ b/pom.xml
-@@ -5,19 +5,19 @@
+@@ -4,24 +4,24 @@
+     <modelVersion>4.0.0</modelVersion>
  
      <parent>
-         <groupId>io.github.waterfallmc</groupId>
+-        <groupId>io.github.waterfallmc</groupId>
 -        <artifactId>waterfall-super</artifactId>
++        <groupId>io.github.hyperfallmc</groupId>
 +        <artifactId>hyperfall-super</artifactId>
          <version>dev-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-     <groupId>io.github.waterfallmc</groupId>
+-    <groupId>io.github.waterfallmc</groupId>
 -    <artifactId>waterfall-parent</artifactId>
++    <groupId>io.github.hyperfallmc</groupId>
 +    <artifactId>hyperfall-parent</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>pom</packaging>
  
 -    <name>Waterfall-Parent</name>
 -    <description>Parent project for all Waterfall modules.</description>
--    <url>https://github.com/PaperMC/Waterfall</url>
+-    <url>https://github.com/WaterfallMC/Waterfall</url>
 +    <name>HyperFall-Parent</name>
 +    <description>Parent project for all HyperFall modules.</description>
-+    <url>https://github.com/PaperMC/HyperFall</url>
++    <url>https://github.com/hypercubemc-github/HyperFall</url>
      <inceptionYear>2015</inceptionYear>
      <organization>
-         <name>WaterfallMC</name>
+-        <name>WaterfallMC</name>
+-        <url>https://github.com/WaterfallMC</url>
++        <name>hypercubemc-github</name>
++        <url>https://github.com/hypercubemc-github</url>
+     </organization>
+     <licenses>
+         <license>
 @@ -65,17 +65,17 @@
      </modules>
  
      <scm>
--        <connection>scm:git:git@github.com:com:PaperMC/Waterfall.git</connection>
--        <developerConnection>scm:git:git@github.com:PaperMC/Waterfall.git</developerConnection>
--        <url>git@github.com:PaperMC/Waterfall.git</url>
-+        <connection>scm:git:git@github.com:com:PaperMC/HyperFall.git</connection>
-+        <developerConnection>scm:git:git@github.com:PaperMC/HyperFall.git</developerConnection>
-+        <url>git@github.com:PaperMC/HyperFall.git</url>
+-        <connection>scm:git:git@github.com:com:WaterfallMC/Waterfall.git</connection>
+-        <developerConnection>scm:git:git@github.com:WaterfallMC/Waterfall.git</developerConnection>
+-        <url>git@github.com:WaterfallMC/Waterfall.git</url>
++        <connection>scm:git:git@github.com:com:hypercubemc-github/HyperFall.git</connection>
++        <developerConnection>scm:git:git@github.com:hypercubemc-github/HyperFall.git</developerConnection>
++        <url>git@github.com:hypercubemc-github/HyperFall.git</url>
      </scm>
      <issueManagement>
          <system>GitHub</system>
@@ -485,22 +558,36 @@ index 2924cdaf..e5bb0458 100644
      </ciManagement>
  
      <distributionManagement>
+@@ -250,8 +250,8 @@
+                                 </goals>
+                                 <inherited>false</inherited>
+                                 <configuration>
+-                                    <doctitle>Waterfall ${project.version} API</doctitle>
+-                                    <windowtitle>Waterfall ${project.version} API</windowtitle>
++                                    <doctitle>HyperFall ${project.version} API</doctitle>
++                                    <windowtitle>HyperFall ${project.version} API</windowtitle>
+                                     <sourcepath>
+                                         api/target/generated-sources/delombok;
+                                         chat/target/generated-sources/delombok
 diff --git a/protocol/pom.xml b/protocol/pom.xml
-index 0501a835..38780ca1 100644
+index 4592e2b3..0c51b315 100644
 --- a/protocol/pom.xml
 +++ b/protocol/pom.xml
-@@ -5,18 +5,18 @@
+@@ -4,19 +4,19 @@
+     <modelVersion>4.0.0</modelVersion>
  
      <parent>
-         <groupId>io.github.waterfallmc</groupId>
+-        <groupId>io.github.waterfallmc</groupId>
 -        <artifactId>waterfall-parent</artifactId>
++        <groupId>io.github.hyperfallmc</groupId>
 +        <artifactId>hyperfall-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-     <groupId>io.github.waterfallmc</groupId>
+-    <groupId>io.github.waterfallmc</groupId>
 -    <artifactId>waterfall-protocol</artifactId>
++    <groupId>io.github.hyperfallmc</groupId>
 +    <artifactId>hyperfall-protocol</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
@@ -512,31 +599,36 @@ index 0501a835..38780ca1 100644
  
      <!-- We really shouldn't depend on external repositories, but at least this is the Central staging one -->
      <repositories>
-@@ -42,7 +42,7 @@
+@@ -41,8 +41,8 @@
+             <scope>compile</scope>
          </dependency>
          <dependency>
-             <groupId>io.github.waterfallmc</groupId>
+-            <groupId>io.github.waterfallmc</groupId>
 -            <artifactId>waterfall-chat</artifactId>
++            <groupId>io.github.hyperfallmc</groupId>
 +            <artifactId>hyperfall-chat</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
 diff --git a/proxy/pom.xml b/proxy/pom.xml
-index 1c4b009f..677de126 100644
+index 52e45fe1..36104937 100644
 --- a/proxy/pom.xml
 +++ b/proxy/pom.xml
-@@ -5,17 +5,17 @@
+@@ -4,18 +4,18 @@
+     <modelVersion>4.0.0</modelVersion>
  
      <parent>
-         <groupId>io.github.waterfallmc</groupId>
+-        <groupId>io.github.waterfallmc</groupId>
 -        <artifactId>waterfall-parent</artifactId>
++        <groupId>io.github.hyperfallmc</groupId>
 +        <artifactId>hyperfall-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-     <groupId>io.github.waterfallmc</groupId>
+-    <groupId>io.github.waterfallmc</groupId>
 -    <artifactId>waterfall-proxy</artifactId>
++    <groupId>io.github.hyperfallmc</groupId>
 +    <artifactId>hyperfall-proxy</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
@@ -563,59 +655,104 @@ index 1c4b009f..677de126 100644
          <dependency>
              <groupId>io.netty</groupId>
              <artifactId>netty-handler</artifactId>
-@@ -64,31 +64,31 @@
+@@ -63,32 +63,32 @@
+             <scope>compile</scope>
          </dependency>
          <dependency>
-             <groupId>io.github.waterfallmc</groupId>
+-            <groupId>io.github.waterfallmc</groupId>
 -            <artifactId>waterfall-api</artifactId>
++            <groupId>io.github.hyperfallmc</groupId>
 +            <artifactId>hyperfall-api</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
          <dependency>
-             <groupId>io.github.waterfallmc</groupId>
+-            <groupId>io.github.waterfallmc</groupId>
 -            <artifactId>waterfall-log4j</artifactId>
++            <groupId>io.github.hyperfallmc</groupId>
 +            <artifactId>hyperfall-log4j</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
          <dependency>
-             <groupId>io.github.waterfallmc</groupId>
+-            <groupId>io.github.waterfallmc</groupId>
 -            <artifactId>waterfall-native</artifactId>
++            <groupId>io.github.hyperfallmc</groupId>
 +            <artifactId>hyperfall-native</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
          <dependency>
-             <groupId>io.github.waterfallmc</groupId>
+-            <groupId>io.github.waterfallmc</groupId>
 -            <artifactId>waterfall-protocol</artifactId>
++            <groupId>io.github.hyperfallmc</groupId>
 +            <artifactId>hyperfall-protocol</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
          <dependency>
-             <groupId>io.github.waterfallmc</groupId>
+-            <groupId>io.github.waterfallmc</groupId>
 -            <artifactId>waterfall-query</artifactId>
++            <groupId>io.github.hyperfallmc</groupId>
 +            <artifactId>hyperfall-query</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
+@@ -105,7 +105,7 @@
+             <scope>runtime</scope>
+         </dependency>
+ 
+-        <!-- Waterfall start - Console improvements -->
++        <!-- HyperFall start - Console improvements -->
+         <dependency>
+             <groupId>net.minecrell</groupId>
+             <artifactId>terminalconsoleappender</artifactId>
+@@ -117,7 +117,7 @@
+             <version>3.12.1</version>
+             <scope>runtime</scope>
+         </dependency>
+-        <!-- Waterfall end -->
++        <!-- HyperFall end -->
+     </dependencies>
+ 
+     <build>
+@@ -126,7 +126,7 @@
+                 <directory>src/main/resources</directory>
+                 <filtering>true</filtering>
+             </resource>
+-            <!-- Waterfall start - copy license files into jar -->
++            <!-- HyperFall start - copy license files into jar -->
+             <resource>
+                 <directory>../</directory>
+                 <includes>
+@@ -139,7 +139,7 @@
+                     <include>LICENSE.txt</include>
+                 </includes>
+             </resource>
+-            <!-- Waterfall end -->
++            <!-- HyperFall end -->
+         </resources>
+     </build>
+ </project>
 diff --git a/query/pom.xml b/query/pom.xml
-index 109574c0..a73291fa 100644
+index c3a29122..48eaf208 100644
 --- a/query/pom.xml
 +++ b/query/pom.xml
-@@ -5,18 +5,18 @@
+@@ -4,19 +4,19 @@
+     <modelVersion>4.0.0</modelVersion>
  
      <parent>
-         <groupId>io.github.waterfallmc</groupId>
+-        <groupId>io.github.waterfallmc</groupId>
 -        <artifactId>waterfall-parent</artifactId>
++        <groupId>io.github.hyperfallmc</groupId>
 +        <artifactId>hyperfall-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
-     <groupId>io.github.waterfallmc</groupId>
+-    <groupId>io.github.waterfallmc</groupId>
 -    <artifactId>waterfall-query</artifactId>
++    <groupId>io.github.hyperfallmc</groupId>
 +    <artifactId>hyperfall-query</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
@@ -627,14 +764,17 @@ index 109574c0..a73291fa 100644
  
      <dependencies>
          <dependency>
-@@ -27,7 +27,7 @@
+@@ -26,8 +26,8 @@
+             <scope>compile</scope>
          </dependency>
          <dependency>
-             <groupId>io.github.waterfallmc</groupId>
+-            <groupId>io.github.waterfallmc</groupId>
 -            <artifactId>waterfall-api</artifactId>
++            <groupId>io.github.hyperfallmc</groupId>
 +            <artifactId>hyperfall-api</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
 -- 
 2.17.1
+

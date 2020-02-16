@@ -6,4 +6,4 @@ A patch-based fork of Waterfall, the Minecraft server proxy, with a few changes.
 
 To compile HyperFall, you need JDK8, git, bash, maven, and an internet connection.
 
-Clone this repo, run `./hyperfall b` from *bash*, get jar from HyperFall-Proxy/bootstrap/target/
+Clone this repo, run `./hyperfall b` from *bash*, and get the jar from HyperFall-Proxy/bootstrap/target/

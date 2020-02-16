@@ -1,86 +1,86 @@
-From b1b40cb5b7feb185e32568395e1e5c930076775c Mon Sep 17 00:00:00 2001
-From: Justsnoopy30 <everettallen30@gmail.com>
-Date: Sat, 15 Feb 2020 20:05:41 -0600
-Subject: [PATCH] Pom changes for rebranding
+From 23f3ebb951403df84805e47c8e6509b54b52f549 Mon Sep 17 00:00:00 2001
+From: Troy Frew <fuzzy_bot@arenaga.me>
+Date: Tue, 15 Nov 2016 08:56:43 -0500
+Subject: [PATCH] POM Changes
 
 
 diff --git a/api/pom.xml b/api/pom.xml
-index f95b96e0..52ed2d2f 100644
+index 2380a5fd..f95b96e0 100644
 --- a/api/pom.xml
 +++ b/api/pom.xml
 @@ -5,41 +5,41 @@
  
      <parent>
          <groupId>io.github.waterfallmc</groupId>
--        <artifactId>travertine-parent</artifactId>
-+        <artifactId>hyperfall-parent</artifactId>
+-        <artifactId>waterfall-parent</artifactId>
++        <artifactId>travertine-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
      <groupId>io.github.waterfallmc</groupId>
--    <artifactId>travertine-api</artifactId>
-+    <artifactId>hyperfall-api</artifactId>
+-    <artifactId>waterfall-api</artifactId>
++    <artifactId>travertine-api</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
--    <name>Travertine-API</name>
-+    <name>HyperFall-API</name>
+-    <name>Waterfall-API</name>
++    <name>Travertine-API</name>
      <description>API implemented by the Elastic Portal Suite</description>
  
      <dependencies>
          <dependency>
              <groupId>io.github.waterfallmc</groupId>
--            <artifactId>travertine-chat</artifactId>
-+            <artifactId>hyperfall-chat</artifactId>
+-            <artifactId>waterfall-chat</artifactId>
++            <artifactId>travertine-chat</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
          <dependency>
              <groupId>io.github.waterfallmc</groupId>
--            <artifactId>travertine-config</artifactId>
-+            <artifactId>hyperfall-config</artifactId>
+-            <artifactId>waterfall-config</artifactId>
++            <artifactId>travertine-config</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
          <dependency>
              <groupId>io.github.waterfallmc</groupId>
--            <artifactId>travertine-event</artifactId>
-+            <artifactId>hyperfall-event</artifactId>
+-            <artifactId>waterfall-event</artifactId>
++            <artifactId>travertine-event</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
          <dependency>
              <groupId>io.github.waterfallmc</groupId>
--            <artifactId>travertine-protocol</artifactId>
-+            <artifactId>hyperfall-protocol</artifactId>
+-            <artifactId>waterfall-protocol</artifactId>
++            <artifactId>travertine-protocol</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
 diff --git a/bootstrap/pom.xml b/bootstrap/pom.xml
-index 8c9aba34..a7f9e669 100644
+index e7b76d5b..8c9aba34 100644
 --- a/bootstrap/pom.xml
 +++ b/bootstrap/pom.xml
 @@ -5,18 +5,18 @@
  
      <parent>
          <groupId>io.github.waterfallmc</groupId>
--        <artifactId>travertine-parent</artifactId>
-+        <artifactId>hyperfall-parent</artifactId>
+-        <artifactId>waterfall-parent</artifactId>
++        <artifactId>travertine-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
      <groupId>io.github.waterfallmc</groupId>
--    <artifactId>travertine-bootstrap</artifactId>
-+    <artifactId>hyperfall-bootstrap</artifactId>
+-    <artifactId>waterfall-bootstrap</artifactId>
++    <artifactId>travertine-bootstrap</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
--    <name>Travertine-Bootstrap</name>
--    <description>Java 1.6 loader for Travertine</description>
-+    <name>HyperFall-Bootstrap</name>
-+    <description>Java 1.6 loader for HyperFall</description>
+-    <name>Waterfall-Bootstrap</name>
+-    <description>Java 1.6 loader for Waterfall</description>
++    <name>Travertine-Bootstrap</name>
++    <description>Java 1.6 loader for Travertine</description>
  
      <properties>
          <maven.deploy.skip>true</maven.deploy.skip>
@@ -88,122 +88,122 @@ index 8c9aba34..a7f9e669 100644
      <dependencies>
          <dependency>
              <groupId>io.github.waterfallmc</groupId>
--            <artifactId>travertine-proxy</artifactId>
-+            <artifactId>hyperfall-proxy</artifactId>
+-            <artifactId>waterfall-proxy</artifactId>
++            <artifactId>travertine-proxy</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
      </dependencies>
  
      <build>
--        <finalName>Travertine</finalName>
-+        <finalName>HyperFall</finalName>
+-        <finalName>Waterfall</finalName>
++        <finalName>Travertine</finalName>
          <plugins>
              <plugin>
                  <groupId>org.apache.maven.plugins</groupId>
 diff --git a/chat/pom.xml b/chat/pom.xml
-index 3cbe1abf..05988b4d 100644
+index 0bd76ea5..3cbe1abf 100644
 --- a/chat/pom.xml
 +++ b/chat/pom.xml
 @@ -5,18 +5,18 @@
  
      <parent>
          <groupId>io.github.waterfallmc</groupId>
--        <artifactId>travertine-parent</artifactId>
-+        <artifactId>hyperfall-parent</artifactId>
+-        <artifactId>waterfall-parent</artifactId>
++        <artifactId>travertine-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
      <groupId>io.github.waterfallmc</groupId>
--    <artifactId>travertine-chat</artifactId>
-+    <artifactId>hyperfall-chat</artifactId>
+-    <artifactId>waterfall-chat</artifactId>
++    <artifactId>travertine-chat</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
--    <name>Travertine-Chat</name>
--    <description>Minecraft JSON chat API intended for use with Travertine</description>
-+    <name>HyperFall-Chat</name>
-+    <description>Minecraft JSON chat API intended for use with HyperFall</description>
+-    <name>Waterfall-Chat</name>
+-    <description>Minecraft JSON chat API intended for use with Waterfall</description>
++    <name>Travertine-Chat</name>
++    <description>Minecraft JSON chat API intended for use with Travertine</description>
  
      <dependencies>
          <dependency>
 diff --git a/config/pom.xml b/config/pom.xml
-index 48184d59..bd8b3653 100644
+index 764fcc6b..48184d59 100644
 --- a/config/pom.xml
 +++ b/config/pom.xml
 @@ -5,18 +5,18 @@
  
      <parent>
          <groupId>io.github.waterfallmc</groupId>
--        <artifactId>travertine-parent</artifactId>
-+        <artifactId>hyperfall-parent</artifactId>
+-        <artifactId>waterfall-parent</artifactId>
++        <artifactId>travertine-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
      <groupId>io.github.waterfallmc</groupId>
--    <artifactId>travertine-config</artifactId>
-+    <artifactId>hyperfall-config</artifactId>
+-    <artifactId>waterfall-config</artifactId>
++    <artifactId>travertine-config</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
--    <name>Travertine-Config</name>
--    <description>Generic java configuration API intended for use with Travertine</description>
-+    <name>HyperFall-Config</name>
-+    <description>Generic java configuration API intended for use with HyperFall</description>
+-    <name>Waterfall-Config</name>
+-    <description>Generic java configuration API intended for use with Waterfall</description>
++    <name>Travertine-Config</name>
++    <description>Generic java configuration API intended for use with Travertine</description>
  
      <dependencies>
          <dependency>
 diff --git a/event/pom.xml b/event/pom.xml
-index 0be68542..04610716 100644
+index 5eb97c1f..0be68542 100644
 --- a/event/pom.xml
 +++ b/event/pom.xml
 @@ -5,16 +5,16 @@
  
      <parent>
          <groupId>io.github.waterfallmc</groupId>
--        <artifactId>travertine-parent</artifactId>
-+        <artifactId>hyperfall-parent</artifactId>
+-        <artifactId>waterfall-parent</artifactId>
++        <artifactId>travertine-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
      <groupId>io.github.waterfallmc</groupId>
--    <artifactId>travertine-event</artifactId>
-+    <artifactId>hyperfall-event</artifactId>
+-    <artifactId>waterfall-event</artifactId>
++    <artifactId>travertine-event</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
--    <name>Travertine-Event</name>
--    <description>Generic java event dispatching API intended for use with Travertine.</description>
-+    <name>HyperFall-Event</name>
-+    <description>Generic java event dispatching API intended for use with HyperFall.</description>
+-    <name>Waterfall-Event</name>
+-    <description>Generic java event dispatching API intended for use with Waterfall.</description>
++    <name>Travertine-Event</name>
++    <description>Generic java event dispatching API intended for use with Travertine.</description>
  </project>
 diff --git a/log/pom.xml b/log/pom.xml
-index b4520832..e3a791c5 100644
+index 23dacb1d..b4520832 100644
 --- a/log/pom.xml
 +++ b/log/pom.xml
 @@ -5,18 +5,18 @@
  
      <parent>
          <groupId>io.github.waterfallmc</groupId>
--        <artifactId>travertine-parent</artifactId>
-+        <artifactId>hyperfall-parent</artifactId>
+-        <artifactId>waterfall-parent</artifactId>
++        <artifactId>travertine-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
      <groupId>io.github.waterfallmc</groupId>
--    <artifactId>travertine-log</artifactId>
-+    <artifactId>hyperfall-log</artifactId>
+-    <artifactId>waterfall-log</artifactId>
++    <artifactId>travertine-log</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
--    <name>Travertine-Log</name>
--    <description>Simplistic and performant java.util.Logger based logger and console API designed for use with Travertine and Minecraft related applications.</description>
-+    <name>HyperFall-Log</name>
-+    <description>Simplistic and performant java.util.Logger based logger and console API designed for use with HyperFall and Minecraft related applications.</description>
+-    <name>Waterfall-Log</name>
+-    <description>Simplistic and performant java.util.Logger based logger and console API designed for use with Waterfall and Minecraft related applications.</description>
++    <name>Travertine-Log</name>
++    <description>Simplistic and performant java.util.Logger based logger and console API designed for use with Travertine and Minecraft related applications.</description>
  
      <dependencies>
          <dependency>
@@ -211,169 +211,185 @@ index b4520832..e3a791c5 100644
          </dependency>
          <dependency>
              <groupId>io.github.waterfallmc</groupId>
--            <artifactId>travertine-chat</artifactId>
-+            <artifactId>hyperfall-chat</artifactId>
+-            <artifactId>waterfall-chat</artifactId>
++            <artifactId>travertine-chat</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
 diff --git a/log4j/pom.xml b/log4j/pom.xml
-index acb4a43d..aca37dc6 100644
+index f5267567..acb4a43d 100644
 --- a/log4j/pom.xml
 +++ b/log4j/pom.xml
 @@ -4,17 +4,17 @@
  
      <parent>
          <groupId>io.github.waterfallmc</groupId>
--        <artifactId>travertine-parent</artifactId>
-+        <artifactId>hyperfall-parent</artifactId>
+-        <artifactId>waterfall-parent</artifactId>
++        <artifactId>travertine-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
      <groupId>io.github.waterfallmc</groupId>
--    <artifactId>travertine-log4j</artifactId>
-+    <artifactId>hyperfall-log4j</artifactId>
+-    <artifactId>waterfall-log4j</artifactId>
++    <artifactId>travertine-log4j</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
--    <name>Travertine-Log</name>
-+    <name>HyperFall-Log</name>
+-    <name>Waterfall-Log</name>
++    <name>Travertine-Log</name>
      <description>Simplistic and performant Log4j2 based logger and console API designed for use with Waterfall and Minecraft related applications.</description>
  
      <properties>
-@@ -65,7 +65,7 @@
- 
-         <dependency>
-             <groupId>io.github.waterfallmc</groupId>
--            <artifactId>travertine-chat</artifactId>
-+            <artifactId>hyperfall-chat</artifactId>
-             <version>${project.version}</version>
-             <scope>compile</scope>
+@@ -50,5 +50,24 @@
+             <version>3.4.2</version>
+             <scope>runtime</scope>
          </dependency>
++        <!-- Console improvements -->
++        <dependency>
++            <groupId>net.minecrell</groupId>
++            <artifactId>terminalconsoleappender</artifactId>
++            <version>1.0.0</version>
++        </dependency>
++        <dependency>
++            <groupId>net.java.dev.jna</groupId>
++            <artifactId>jna</artifactId>
++            <version>4.4.0</version>
++            <scope>runtime</scope>
++        </dependency>
++
++        <dependency>
++            <groupId>io.github.waterfallmc</groupId>
++            <artifactId>travertine-chat</artifactId>
++            <version>${project.version}</version>
++            <scope>compile</scope>
++        </dependency>
+     </dependencies>
+ </project>
 diff --git a/module/cmd-alert/pom.xml b/module/cmd-alert/pom.xml
-index a881b245..ebcdbf98 100644
+index 9340d58a..a881b245 100644
 --- a/module/cmd-alert/pom.xml
 +++ b/module/cmd-alert/pom.xml
 @@ -5,13 +5,13 @@
  
      <parent>
          <groupId>io.github.waterfallmc</groupId>
--        <artifactId>travertine-module</artifactId>
-+        <artifactId>hyperfall-module</artifactId>
+-        <artifactId>waterfall-module</artifactId>
++        <artifactId>travertine-module</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
      <groupId>io.github.waterfallmc</groupId>
--    <artifactId>travertine-module-cmd-alert</artifactId>
-+    <artifactId>hyperfall-module-cmd-alert</artifactId>
+-    <artifactId>waterfall-module-cmd-alert</artifactId>
++    <artifactId>travertine-module-cmd-alert</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 diff --git a/module/cmd-find/pom.xml b/module/cmd-find/pom.xml
-index a54d6029..66659177 100644
+index c7106fe9..a54d6029 100644
 --- a/module/cmd-find/pom.xml
 +++ b/module/cmd-find/pom.xml
 @@ -5,13 +5,13 @@
  
      <parent>
          <groupId>io.github.waterfallmc</groupId>
--        <artifactId>travertine-module</artifactId>
-+        <artifactId>hyperfall-module</artifactId>
+-        <artifactId>waterfall-module</artifactId>
++        <artifactId>travertine-module</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
      <groupId>io.github.waterfallmc</groupId>
--    <artifactId>travertine-module-cmd-find</artifactId>
-+    <artifactId>hyperfall-module-cmd-find</artifactId>
+-    <artifactId>waterfall-module-cmd-find</artifactId>
++    <artifactId>travertine-module-cmd-find</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 diff --git a/module/cmd-list/pom.xml b/module/cmd-list/pom.xml
-index 9bb18c7d..980376bd 100644
+index e14d18e7..9bb18c7d 100644
 --- a/module/cmd-list/pom.xml
 +++ b/module/cmd-list/pom.xml
 @@ -5,13 +5,13 @@
  
      <parent>
          <groupId>io.github.waterfallmc</groupId>
--        <artifactId>travertine-module</artifactId>
-+        <artifactId>hyperfall-module</artifactId>
+-        <artifactId>waterfall-module</artifactId>
++        <artifactId>travertine-module</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
      <groupId>io.github.waterfallmc</groupId>
--    <artifactId>travertine-module-cmd-list</artifactId>
-+    <artifactId>hyperfall-module-cmd-list</artifactId>
+-    <artifactId>waterfall-module-cmd-list</artifactId>
++    <artifactId>travertine-module-cmd-list</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 diff --git a/module/cmd-send/pom.xml b/module/cmd-send/pom.xml
-index 5753b492..96f204bd 100644
+index 68f526b1..5753b492 100644
 --- a/module/cmd-send/pom.xml
 +++ b/module/cmd-send/pom.xml
 @@ -5,13 +5,13 @@
  
      <parent>
          <groupId>io.github.waterfallmc</groupId>
--        <artifactId>travertine-module</artifactId>
-+        <artifactId>hyperfall-module</artifactId>
+-        <artifactId>waterfall-module</artifactId>
++        <artifactId>travertine-module</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
      <groupId>io.github.waterfallmc</groupId>
--    <artifactId>travertine-module-cmd-send</artifactId>
-+    <artifactId>hyperfall-module-cmd-send</artifactId>
+-    <artifactId>waterfall-module-cmd-send</artifactId>
++    <artifactId>travertine-module-cmd-send</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 diff --git a/module/cmd-server/pom.xml b/module/cmd-server/pom.xml
-index 5c457f76..cf039641 100644
+index d8ebf472..5c457f76 100644
 --- a/module/cmd-server/pom.xml
 +++ b/module/cmd-server/pom.xml
 @@ -5,13 +5,13 @@
  
      <parent>
          <groupId>io.github.waterfallmc</groupId>
--        <artifactId>travertine-module</artifactId>
-+        <artifactId>hyperfall-module</artifactId>
+-        <artifactId>waterfall-module</artifactId>
++        <artifactId>travertine-module</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
      <groupId>io.github.waterfallmc</groupId>
--    <artifactId>travertine-module-cmd-server</artifactId>
-+    <artifactId>hyperfall-module-cmd-server</artifactId>
+-    <artifactId>waterfall-module-cmd-server</artifactId>
++    <artifactId>travertine-module-cmd-server</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 diff --git a/module/pom.xml b/module/pom.xml
-index 266678f4..485c0169 100644
+index 7b05190b..266678f4 100644
 --- a/module/pom.xml
 +++ b/module/pom.xml
 @@ -5,18 +5,18 @@
  
      <parent>
          <groupId>io.github.waterfallmc</groupId>
--        <artifactId>travertine-parent</artifactId>
-+        <artifactId>hyperfall-parent</artifactId>
+-        <artifactId>waterfall-parent</artifactId>
++        <artifactId>travertine-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
      <groupId>io.github.waterfallmc</groupId>
--    <artifactId>travertine-module</artifactId>
-+    <artifactId>hyperfall-module</artifactId>
+-    <artifactId>waterfall-module</artifactId>
++    <artifactId>travertine-module</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>pom</packaging>
  
--    <name>Travertine Modules</name>
--    <description>Parent project for all Travertine modules.</description>
-+    <name>HyperFall Modules</name>
-+    <description>Parent project for all HyperFall modules.</description>
+-    <name>Waterfall Modules</name>
+-    <description>Parent project for all Waterfall modules.</description>
++    <name>Travertine Modules</name>
++    <description>Parent project for all Travertine modules.</description>
  
      <modules>
          <module>cmd-alert</module>
@@ -381,84 +397,84 @@ index 266678f4..485c0169 100644
      <dependencies>
          <dependency>
              <groupId>io.github.waterfallmc</groupId>
--            <artifactId>travertine-api</artifactId>
-+            <artifactId>hyperfall-api</artifactId>
+-            <artifactId>waterfall-api</artifactId>
++            <artifactId>travertine-api</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
 diff --git a/module/reconnect-yaml/pom.xml b/module/reconnect-yaml/pom.xml
-index 4774659f..c9d4658b 100644
+index c29ac52f..4774659f 100644
 --- a/module/reconnect-yaml/pom.xml
 +++ b/module/reconnect-yaml/pom.xml
 @@ -5,13 +5,13 @@
  
      <parent>
          <groupId>io.github.waterfallmc</groupId>
--        <artifactId>travertine-module</artifactId>
-+        <artifactId>hyperfall-module</artifactId>
+-        <artifactId>waterfall-module</artifactId>
++        <artifactId>travertine-module</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
      <groupId>io.github.waterfallmc</groupId>
--    <artifactId>travertine-module-reconnect-yaml</artifactId>
-+    <artifactId>hyperfall-module-reconnect-yaml</artifactId>
+-    <artifactId>waterfall-module-reconnect-yaml</artifactId>
++    <artifactId>travertine-module-reconnect-yaml</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 diff --git a/native/pom.xml b/native/pom.xml
-index b4459ace..2ebc8e39 100644
+index f8b549dc..b4459ace 100644
 --- a/native/pom.xml
 +++ b/native/pom.xml
 @@ -5,18 +5,18 @@
  
      <parent>
          <groupId>io.github.waterfallmc</groupId>
--        <artifactId>travertine-parent</artifactId>
-+        <artifactId>hyperfall-parent</artifactId>
+-        <artifactId>waterfall-parent</artifactId>
++        <artifactId>travertine-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
      <groupId>io.github.waterfallmc</groupId>
--    <artifactId>travertine-native</artifactId>
-+    <artifactId>hyperfall-native</artifactId>
+-    <artifactId>waterfall-native</artifactId>
++    <artifactId>travertine-native</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
--    <name>Travertine-Native</name>
--    <description>Optional native code to speed up and enhance Travertine functionality.</description>
-+    <name>HyperFall-Native</name>
-+    <description>Optional native code to speed up and enhance HyperFall functionality.</description>
+-    <name>Waterfall-Native</name>
+-    <description>Optional native code to speed up and enhance Waterfall functionality.</description>
++    <name>Travertine-Native</name>
++    <description>Optional native code to speed up and enhance Travertine functionality.</description>
  
      <dependencies>
          <dependency>
 diff --git a/pom.xml b/pom.xml
-index 2924cdaf..9dc0c794 100644
+index 903fd182..508022b7 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -5,19 +5,19 @@
  
      <parent>
          <groupId>io.github.waterfallmc</groupId>
--        <artifactId>travertine-super</artifactId>
-+        <artifactId>hyperfall-super</artifactId>
+-        <artifactId>waterfall-super</artifactId>
++        <artifactId>travertine-super</artifactId>
          <version>dev-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
      <groupId>io.github.waterfallmc</groupId>
--    <artifactId>travertine-parent</artifactId>
-+    <artifactId>hyperfall-parent</artifactId>
+-    <artifactId>waterfall-parent</artifactId>
++    <artifactId>travertine-parent</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>pom</packaging>
  
--    <name>Travertine-Parent</name>
--    <description>Parent project for all Travertine modules.</description>
--    <url>https://github.com/PaperMC/Travertine</url>
-+    <name>HyperFall-Parent</name>
-+    <description>Parent project for all HyperFall modules.</description>
-+    <url>https://github.com/hypercubemc-github/HyperFall</url>
+-    <name>Waterfall-Parent</name>
+-    <description>Parent project for all Waterfall modules.</description>
+-    <url>https://github.com/WaterfallMC/Waterfall</url>
++    <name>Travertine-Parent</name>
++    <description>Parent project for all Travertine modules.</description>
++    <url>https://github.com/PaperMC/Travertine</url>
      <inceptionYear>2015</inceptionYear>
      <organization>
          <name>WaterfallMC</name>
@@ -466,49 +482,49 @@ index 2924cdaf..9dc0c794 100644
      </modules>
  
      <scm>
--        <connection>scm:git:git@github.com:com:PaperMC/Travertine.git</connection>
--        <developerConnection>scm:git:git@github.com:PaperMC/Travertine.git</developerConnection>
--        <url>git@github.com:PaperMC/Travertine.git</url>
-+        <connection>scm:git:git@github.com:com:hypercubemc-github/HyperFall.git</connection>
-+        <developerConnection>scm:git:git@github.com:hypercubemc-github/HyperFall.git</developerConnection>
-+        <url>git@github.com:hypercubemc-github/HyperFall.git</url>
+-        <connection>scm:git:git@github.com:com:WaterfallMC/Waterfall.git</connection>
+-        <developerConnection>scm:git:git@github.com:WaterfallMC/Waterfall.git</developerConnection>
+-        <url>git@github.com:WaterfallMC/Waterfall.git</url>
++        <connection>scm:git:git@github.com:com:PaperMC/Travertine.git</connection>
++        <developerConnection>scm:git:git@github.com:PaperMC/Travertine.git</developerConnection>
++        <url>git@github.com:PaperMC/Travertine.git</url>
      </scm>
      <issueManagement>
          <system>GitHub</system>
--        <url>https://github.com/PaperMC/Travertine/issues</url>
-+        <url>https://github.com/hypercubemc-github/HyperFall/issues</url>
+-        <url>https://github.com/PaperMC/Waterfall/issues</url>
++        <url>https://github.com/PaperMC/Travertine/issues</url>
      </issueManagement>
      <ciManagement>
          <system>jenkins</system>
--        <url>https://papermc.io/ci/job/Travertine/</url>
-+        <url>https://papermc.io/ci/job/HyperFall/</url>
+-        <url>https://papermc.io/ci/job/Waterfall/</url>
++        <url>https://papermc.io/ci/job/Travertine/</url>
      </ciManagement>
  
      <distributionManagement>
 diff --git a/protocol/pom.xml b/protocol/pom.xml
-index 0501a835..38780ca1 100644
+index 4592e2b3..0501a835 100644
 --- a/protocol/pom.xml
 +++ b/protocol/pom.xml
 @@ -5,18 +5,18 @@
  
      <parent>
          <groupId>io.github.waterfallmc</groupId>
--        <artifactId>travertine-parent</artifactId>
-+        <artifactId>hyperfall-parent</artifactId>
+-        <artifactId>waterfall-parent</artifactId>
++        <artifactId>travertine-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
      <groupId>io.github.waterfallmc</groupId>
--    <artifactId>travertine-protocol</artifactId>
-+    <artifactId>hyperfall-protocol</artifactId>
+-    <artifactId>waterfall-protocol</artifactId>
++    <artifactId>travertine-protocol</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
--    <name>Travertine-Protocol</name>
--    <description>Minimal implementation of the Minecraft protocol for use in Travertine</description>
-+    <name>HyperFall-Protocol</name>
-+    <description>Minimal implementation of the Minecraft protocol for use in HyperFall</description>
+-    <name>Waterfall-Protocol</name>
+-    <description>Minimal implementation of the Minecraft protocol for use in Waterfall</description>
++    <name>Travertine-Protocol</name>
++    <description>Minimal implementation of the Minecraft protocol for use in Travertine</description>
  
      <!-- We really shouldn't depend on external repositories, but at least this is the Central staging one -->
      <repositories>
@@ -516,33 +532,33 @@ index 0501a835..38780ca1 100644
          </dependency>
          <dependency>
              <groupId>io.github.waterfallmc</groupId>
--            <artifactId>travertine-chat</artifactId>
-+            <artifactId>hyperfall-chat</artifactId>
+-            <artifactId>waterfall-chat</artifactId>
++            <artifactId>travertine-chat</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
 diff --git a/proxy/pom.xml b/proxy/pom.xml
-index 1c4b009f..677de126 100644
+index 52e45fe1..1c4b009f 100644
 --- a/proxy/pom.xml
 +++ b/proxy/pom.xml
 @@ -5,17 +5,17 @@
  
      <parent>
          <groupId>io.github.waterfallmc</groupId>
--        <artifactId>travertine-parent</artifactId>
-+        <artifactId>hyperfall-parent</artifactId>
+-        <artifactId>waterfall-parent</artifactId>
++        <artifactId>travertine-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
      <groupId>io.github.waterfallmc</groupId>
--    <artifactId>travertine-proxy</artifactId>
-+    <artifactId>hyperfall-proxy</artifactId>
+-    <artifactId>waterfall-proxy</artifactId>
++    <artifactId>travertine-proxy</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
--    <name>Travertine-Proxy</name>
-+    <name>HyperFall-Proxy</name>
+-    <name>Waterfall-Proxy</name>
++    <name>Travertine-Proxy</name>
      <description>Proxy component of the Elastic Portal Suite</description>
  
      <properties>
@@ -550,16 +566,16 @@ index 1c4b009f..677de126 100644
              <version>${netty.version}</version>
              <scope>compile</scope>
          </dependency>
--        <!-- Travertine Start - add Netty DNS resolver -->
-+        <!-- HyperFall Start - add Netty DNS resolver -->
+-        <!-- Waterfall Start - add Netty DNS resolver -->
++        <!-- Travertine Start - add Netty DNS resolver -->
          <dependency>
              <groupId>io.netty</groupId>
              <artifactId>netty-resolver-dns</artifactId>
              <version>${netty.version}</version>
              <scope>compile</scope>
          </dependency>
--        <!-- Travertine End -->
-+        <!-- HyperFall End -->
+-        <!-- Waterfall End -->
++        <!-- Travertine End -->
          <dependency>
              <groupId>io.netty</groupId>
              <artifactId>netty-handler</artifactId>
@@ -567,63 +583,76 @@ index 1c4b009f..677de126 100644
          </dependency>
          <dependency>
              <groupId>io.github.waterfallmc</groupId>
--            <artifactId>travertine-api</artifactId>
-+            <artifactId>hyperfall-api</artifactId>
+-            <artifactId>waterfall-api</artifactId>
++            <artifactId>travertine-api</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
          <dependency>
              <groupId>io.github.waterfallmc</groupId>
--            <artifactId>travertine-log4j</artifactId>
-+            <artifactId>hyperfall-log4j</artifactId>
+-            <artifactId>waterfall-log4j</artifactId>
++            <artifactId>travertine-log4j</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
          <dependency>
              <groupId>io.github.waterfallmc</groupId>
--            <artifactId>travertine-native</artifactId>
-+            <artifactId>hyperfall-native</artifactId>
+-            <artifactId>waterfall-native</artifactId>
++            <artifactId>travertine-native</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
          <dependency>
              <groupId>io.github.waterfallmc</groupId>
--            <artifactId>travertine-protocol</artifactId>
-+            <artifactId>hyperfall-protocol</artifactId>
+-            <artifactId>waterfall-protocol</artifactId>
++            <artifactId>travertine-protocol</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
          <dependency>
              <groupId>io.github.waterfallmc</groupId>
--            <artifactId>travertine-query</artifactId>
-+            <artifactId>hyperfall-query</artifactId>
+-            <artifactId>waterfall-query</artifactId>
++            <artifactId>travertine-query</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
+diff --git a/proxy/src/main/java/net/md_5/bungee/module/JenkinsModuleSource.java b/proxy/src/main/java/net/md_5/bungee/module/JenkinsModuleSource.java
+index 9b20d0df..2637b9e2 100644
+--- a/proxy/src/main/java/net/md_5/bungee/module/JenkinsModuleSource.java
++++ b/proxy/src/main/java/net/md_5/bungee/module/JenkinsModuleSource.java
+@@ -18,7 +18,7 @@ public class JenkinsModuleSource implements ModuleSource
+         System.out.println( "Attempting to Jenkins download module " + module.getName() + " v" + version.getBuild() );
+         try
+         {
+-            URL website = new URL( "https://papermc.io/ci/job/Waterfall/" + version.getBuild() + "/artifact/Waterfall-Proxy/module/" + module.getName().replace( '_', '-' ) + "/target/" + module.getName() + ".jar" );
++            URL website = new URL( "https://papermc.io/ci/job/Travertine/" + version.getBuild() + "/artifact/Travertine-Proxy/module/" + module.getName().replace( '_', '-' ) + "/target/" + module.getName() + ".jar" );
+             URLConnection con = website.openConnection();
+             // 15 second timeout at various stages
+             con.setConnectTimeout( 15000 );
 diff --git a/query/pom.xml b/query/pom.xml
-index 109574c0..a73291fa 100644
+index c3a29122..109574c0 100644
 --- a/query/pom.xml
 +++ b/query/pom.xml
 @@ -5,18 +5,18 @@
  
      <parent>
          <groupId>io.github.waterfallmc</groupId>
--        <artifactId>travertine-parent</artifactId>
-+        <artifactId>hyperfall-parent</artifactId>
+-        <artifactId>waterfall-parent</artifactId>
++        <artifactId>travertine-parent</artifactId>
          <version>1.15-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
      </parent>
  
      <groupId>io.github.waterfallmc</groupId>
--    <artifactId>travertine-query</artifactId>
-+    <artifactId>hyperfall-query</artifactId>
+-    <artifactId>waterfall-query</artifactId>
++    <artifactId>travertine-query</artifactId>
      <version>1.15-SNAPSHOT</version>
      <packaging>jar</packaging>
  
--    <name>Travertine-Query</name>
--    <description>Minecraft query implementation based on the Travertine API.</description>
-+    <name>HyperFall-Query</name>
-+    <description>Minecraft query implementation based on the HyperFall API.</description>
+-    <name>Waterfall-Query</name>
+-    <description>Minecraft query implementation based on the Waterfall API.</description>
++    <name>Travertine-Query</name>
++    <description>Minecraft query implementation based on the Travertine API.</description>
  
      <dependencies>
          <dependency>
@@ -631,11 +660,11 @@ index 109574c0..a73291fa 100644
          </dependency>
          <dependency>
              <groupId>io.github.waterfallmc</groupId>
--            <artifactId>travertine-api</artifactId>
-+            <artifactId>hyperfall-api</artifactId>
+-            <artifactId>waterfall-api</artifactId>
++            <artifactId>travertine-api</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
 -- 
-2.17.1
+2.25.0
 

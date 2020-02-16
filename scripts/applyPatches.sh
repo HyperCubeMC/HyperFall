@@ -1,4 +1,4 @@
-hyperfall#!/usr/bin/env bash
+#!/usr/bin/env bash
 
 PS1="$"
 basedir="$(cd "$1" && pwd -P)"

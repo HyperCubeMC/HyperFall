@@ -7,3 +7,12 @@ install: true
 script:
  - ./hyperfall patch
  - ./hyperfall build
+deploy:
+  provider: releases
+  token: $GITHUB_TOKEN
+  file: ./HyperFall-Proxy/bootstrap/target/HyperFall.jar
+  on:
+    repo: hypercubemc-github/HyperFall
+    tags: true
+  name: HyperFall Build $TRAVIS_BUILD_NUMBER
+  edge: true

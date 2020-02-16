@@ -1,4 +1,4 @@
-From a609eb4a966fa6c94f91fdfa615d916539acc8c4 Mon Sep 17 00:00:00 2001
+From 765d4cf5bf824372b422b360df378f1874bbd7de Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -338,162 +338,199 @@ index 0c51b315..53f48f3f 100644
  
      <name>HyperFall-Protocol</name>
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java b/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
-index 44dc34ff..f35e2d50 100644
+index 44dc34ff..177a0553 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
-@@ -71,6 +71,7 @@ public enum Protocol
+@@ -70,7 +70,8 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_9, 0x1F ),
                      map( ProtocolConstants.MINECRAFT_1_13, 0x21 ),
                      map( ProtocolConstants.MINECRAFT_1_14, 0x20 ),
-                     map( ProtocolConstants.MINECRAFT_1_15, 0x21 )
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x21 )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x21 ),
 +                    map( ProtocolConstants.MINECRAFT_1_16, 0x21 )
              );
              TO_CLIENT.registerPacket(
                      Login.class,
-@@ -79,6 +80,7 @@ public enum Protocol
+@@ -78,7 +79,8 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_8, 0x01 ),
                      map( ProtocolConstants.MINECRAFT_1_9, 0x23 ),
                      map( ProtocolConstants.MINECRAFT_1_13, 0x25 ),
-                     map( ProtocolConstants.MINECRAFT_1_15, 0x26 )
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x26 )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x26 ),
 +                    map( ProtocolConstants.MINECRAFT_1_16, 0x26 )
              );
              TO_CLIENT.registerPacket(
                      Chat.class,
-@@ -87,6 +89,7 @@ public enum Protocol
+@@ -86,7 +88,8 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_8, 0x02 ),
                      map( ProtocolConstants.MINECRAFT_1_9, 0x0F ),
                      map( ProtocolConstants.MINECRAFT_1_13, 0x0E ),
-                     map( ProtocolConstants.MINECRAFT_1_15, 0x0F )
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x0F )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x0F ),
 +                    map( ProtocolConstants.MINECRAFT_1_16, 0x0F )
              );
              TO_CLIENT.registerPacket(
                      Respawn.class,
-@@ -98,12 +101,14 @@ public enum Protocol
+@@ -97,13 +100,15 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x35 ),
                      map( ProtocolConstants.MINECRAFT_1_13, 0x38 ),
                      map( ProtocolConstants.MINECRAFT_1_14, 0x3A ),
-                     map( ProtocolConstants.MINECRAFT_1_15, 0x3B )
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x3B )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x3B ),
 +                    map( ProtocolConstants.MINECRAFT_1_16, 0x3B )
              );
              TO_CLIENT.registerPacket(
                      BossBar.class,
                      BossBar::new, // Waterfall - speed up packet construction
                      map( ProtocolConstants.MINECRAFT_1_9, 0x0C ),
-                     map( ProtocolConstants.MINECRAFT_1_15, 0x0D )
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x0D )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x0D ),
 +                    map( ProtocolConstants.MINECRAFT_1_16, 0x0D )
              );
              // Waterfall start
              TO_CLIENT.registerPacket(
-@@ -117,6 +122,7 @@ public enum Protocol
+@@ -116,7 +121,8 @@ public enum Protocol
+                     map(ProtocolConstants.MINECRAFT_1_12_1, 0x4F),
                      map(ProtocolConstants.MINECRAFT_1_13, 0x53),
                      map(ProtocolConstants.MINECRAFT_1_14, 0x59),
-                     map(ProtocolConstants.MINECRAFT_1_15, 0x5A)
+-                    map(ProtocolConstants.MINECRAFT_1_15, 0x5A)
++                    map(ProtocolConstants.MINECRAFT_1_15, 0x5A),
 +                    map(ProtocolConstants.MINECRAFT_1_16, 0x5A)
              );
              TO_CLIENT.registerPacket(
                      EntityRemoveEffect.class,
-@@ -128,6 +134,7 @@ public enum Protocol
+@@ -127,7 +133,8 @@ public enum Protocol
+                     map(ProtocolConstants.MINECRAFT_1_12_1, 0x33),
                      map(ProtocolConstants.MINECRAFT_1_13, 0x36),
                      map(ProtocolConstants.MINECRAFT_1_14, 0x38),
-                     map(ProtocolConstants.MINECRAFT_1_15, 0x39)
+-                    map(ProtocolConstants.MINECRAFT_1_15, 0x39)
++                    map(ProtocolConstants.MINECRAFT_1_15, 0x39),
 +                    map(ProtocolConstants.MINECRAFT_1_16, 0x39)
              );
              // Waterfall end
              TO_CLIENT.registerPacket(
-@@ -139,6 +146,7 @@ public enum Protocol
+@@ -138,7 +145,8 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x2E ),
                      map( ProtocolConstants.MINECRAFT_1_13, 0x30 ),
                      map( ProtocolConstants.MINECRAFT_1_14, 0x33 ),
-                     map( ProtocolConstants.MINECRAFT_1_15, 0x34 )
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x34 )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x34 ),
 +                    map( ProtocolConstants.MINECRAFT_1_16, 0x34 )
              );
              TO_CLIENT.registerPacket(
                      TabCompleteResponse.class,
-@@ -147,6 +155,7 @@ public enum Protocol
+@@ -146,7 +154,8 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_8, 0x3A ),
                      map( ProtocolConstants.MINECRAFT_1_9, 0x0E ),
                      map( ProtocolConstants.MINECRAFT_1_13, 0x10 ),
-                     map( ProtocolConstants.MINECRAFT_1_15, 0x11 )
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x11 )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x11 ),
 +                    map( ProtocolConstants.MINECRAFT_1_16, 0x11 )
              );
              TO_CLIENT.registerPacket(
                      ScoreboardObjective.class,
-@@ -158,6 +167,7 @@ public enum Protocol
+@@ -157,7 +166,8 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x42 ),
                      map( ProtocolConstants.MINECRAFT_1_13, 0x45 ),
                      map( ProtocolConstants.MINECRAFT_1_14, 0x49 ),
-                     map( ProtocolConstants.MINECRAFT_1_15, 0x4A )
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x4A )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x4A ),
 +                    map( ProtocolConstants.MINECRAFT_1_16, 0x4A )
              );
              TO_CLIENT.registerPacket(
                      ScoreboardScore.class,
-@@ -169,6 +179,7 @@ public enum Protocol
+@@ -168,7 +178,8 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x45 ),
                      map( ProtocolConstants.MINECRAFT_1_13, 0x48 ),
                      map( ProtocolConstants.MINECRAFT_1_14, 0x4C ),
-                     map( ProtocolConstants.MINECRAFT_1_15, 0x4D )
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x4D )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x4D ),
 +                    map( ProtocolConstants.MINECRAFT_1_16, 0x4D )
              );
              TO_CLIENT.registerPacket(
                      ScoreboardDisplay.class,
-@@ -180,6 +191,7 @@ public enum Protocol
+@@ -179,7 +190,8 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x3B ),
                      map( ProtocolConstants.MINECRAFT_1_13, 0x3E ),
                      map( ProtocolConstants.MINECRAFT_1_14, 0x42 ),
-                     map( ProtocolConstants.MINECRAFT_1_15, 0x43 )
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x43 )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x43 ),
 +                    map( ProtocolConstants.MINECRAFT_1_16, 0x43 )
              );
              TO_CLIENT.registerPacket(
                      Team.class,
-@@ -191,6 +203,7 @@ public enum Protocol
+@@ -190,7 +202,8 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x44 ),
                      map( ProtocolConstants.MINECRAFT_1_13, 0x47 ),
                      map( ProtocolConstants.MINECRAFT_1_14, 0x4B ),
-                     map( ProtocolConstants.MINECRAFT_1_15, 0x4C )
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x4C )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x4C ),
 +                    map( ProtocolConstants.MINECRAFT_1_16, 0x4C )
              );
              TO_CLIENT.registerPacket(
                      PluginMessage.class,
-@@ -200,6 +213,7 @@ public enum Protocol
+@@ -199,7 +212,8 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_9, 0x18 ),
                      map( ProtocolConstants.MINECRAFT_1_13, 0x19 ),
                      map( ProtocolConstants.MINECRAFT_1_14, 0x18 ),
-                     map( ProtocolConstants.MINECRAFT_1_15, 0x19 )
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x19 )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x19 ),
 +                    map( ProtocolConstants.MINECRAFT_1_16, 0x19 )
              );
              TO_CLIENT.registerPacket(
                      Kick.class,
-@@ -209,6 +223,7 @@ public enum Protocol
+@@ -208,7 +222,8 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_9, 0x1A ),
                      map( ProtocolConstants.MINECRAFT_1_13, 0x1B ),
                      map( ProtocolConstants.MINECRAFT_1_14, 0x1A ),
-                     map( ProtocolConstants.MINECRAFT_1_15, 0x1B )
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x1B )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x1B ),
 +                    map( ProtocolConstants.MINECRAFT_1_16, 0x1B )
              );
              TO_CLIENT.registerPacket(
                      Title.class,
-@@ -219,6 +234,7 @@ public enum Protocol
+@@ -218,7 +233,8 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x48 ),
                      map( ProtocolConstants.MINECRAFT_1_13, 0x4B ),
                      map( ProtocolConstants.MINECRAFT_1_14, 0x4F ),
-                     map( ProtocolConstants.MINECRAFT_1_15, 0x50 )
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x50 )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x50 ),
 +                    map( ProtocolConstants.MINECRAFT_1_16, 0x50 )
              );
              TO_CLIENT.registerPacket(
                      PlayerListHeaderFooter.class,
-@@ -231,6 +247,7 @@ public enum Protocol
+@@ -230,7 +246,8 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x4A ),
                      map( ProtocolConstants.MINECRAFT_1_13, 0x4E ),
                      map( ProtocolConstants.MINECRAFT_1_14, 0x53 ),
-                     map( ProtocolConstants.MINECRAFT_1_15, 0x54 )
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x54 )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x54 ),
 +                    map( ProtocolConstants.MINECRAFT_1_16, 0x54 )
              );
              TO_CLIENT.registerPacket(
                      EntityStatus.class,
-@@ -240,18 +257,21 @@ public enum Protocol
+@@ -239,19 +256,22 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_9, 0x1B ),
                      map( ProtocolConstants.MINECRAFT_1_13, 0x1C ),
                      map( ProtocolConstants.MINECRAFT_1_14, 0x1B ),
-                     map( ProtocolConstants.MINECRAFT_1_15, 0x1C )
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x1C )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x1C ),
 +                    map( ProtocolConstants.MINECRAFT_1_16, 0x1C )
              );
              TO_CLIENT.registerPacket(
                      Commands.class,
                      Commands::new, // Waterfall - speed up packet construction
                      map( ProtocolConstants.MINECRAFT_1_13, 0x11 ),
-                     map( ProtocolConstants.MINECRAFT_1_15, 0x12 )
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x12 )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x12 ),
 +                    map( ProtocolConstants.MINECRAFT_1_16, 0x12 )
              );
              TO_CLIENT.registerPacket(
                      ViewDistance.class,
                      ViewDistance::new, // Waterfall - speed up packet construction
                      map( ProtocolConstants.MINECRAFT_1_14, 0x41 ),
-                     map( ProtocolConstants.MINECRAFT_1_15, 0x42 )
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x42 )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x42 ),
 +                    map( ProtocolConstants.MINECRAFT_1_16, 0x42 )
              );
  

@@ -25,3 +25,7 @@ deploy:
   target_commitish: $TRAVIS_COMMIT
   name: HyperFall Build $TRAVIS_BUILD_NUMBER
   edge: true
+
+cache:
+  directories:
+    - $HOME/.m2

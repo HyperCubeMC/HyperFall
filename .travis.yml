@@ -5,15 +5,15 @@ jdk: openjdk13
 env: MAVEN_VERSION=3.6.3
 install: true
 script:
- - ./hyperfall patch
- - ./hyperfall build
+  - ./hyperfall patch
+  - ./hyperfall build
 
- before_deploy:
-- export TRAVIS_TAG="$TRAVIS_BUILD_NUMBER"
-- echo "$TRAVIS_TAG" "$TRAVIS_COMMIT"
-- git config --local user.name "$USER_NAME"
-- git config --local user.email "$USER_EMAIL"
-- git tag "$TRAVIS_TAG" "$TRAVIS_COMMIT"
+before_deploy:
+  - export TRAVIS_TAG="$TRAVIS_BUILD_NUMBER"
+  - echo "$TRAVIS_TAG" "$TRAVIS_COMMIT"
+  - git config --local user.name "$USER_NAME"
+  - git config --local user.email "$USER_EMAIL"
+  - git tag "$TRAVIS_TAG" "$TRAVIS_COMMIT"
 
 deploy:
   provider: releases

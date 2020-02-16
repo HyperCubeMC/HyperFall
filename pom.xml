@@ -3,16 +3,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.waterfallmc</groupId>
-    <artifactId>travertine-super</artifactId>
+    <artifactId>hyperfall-super</artifactId>
     <version>dev-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Travertine-Super</name>
-    <description>Super project for Travertine.</description>
-    <url>https://github.com/WaterfallMC/Travertine</url>
+    <name>HyperFall-Super</name>
+    <description>Super project for HyperFall.</description>
+    <url>https://github.com/hypercubemc-github/HyperFall</url>
 
     <modules>
-        <module>Travertine-Proxy</module>
+        <module>HyperFall-Proxy</module>
     </modules>
 
     <build>

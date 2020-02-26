@@ -1,4 +1,4 @@
-From 43de7cbfced373d0c1f0c99bcb363ca3c3499741 Mon Sep 17 00:00:00 2001
+From 12f8d74cfeb44bcf1c093628ce3eea8e3394e90c Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -350,14 +350,14 @@ index 44dc34ff..daa4b6e8 100644
              // Waterfall start
              TO_CLIENT.registerPacket(
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
-index cd987c8a..9592a377 100644
+index cd987c8a..44271594 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 @@ -28,6 +28,7 @@ public class ProtocolConstants
      public static final int MINECRAFT_1_15 = 573;
      public static final int MINECRAFT_1_15_1 = 575;
      public static final int MINECRAFT_1_15_2 = 578;
-+    public static final int MINECRAFT_1_16 = 703;
++    public static final int MINECRAFT_1_16 = 704;
      public static final List<String> SUPPORTED_VERSIONS = Arrays.asList(
              "1.8.x",
              "1.9.x",

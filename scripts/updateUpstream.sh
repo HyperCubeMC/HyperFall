@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 
-echo Merging upstream...
+printf "\033[1;31mMerging upstream...\033[0m\n"
 ./hyperfall m
-echo Merged upstream!
+printf "\033[1;31mMerged upstream\033[0m\n"
 read -rsp $'Press enter to continue or Ctrl+C to exit...\n'
-echo Applying all the patches to Waterfall...
+printf "\033[1;31mApplying all the patches to Waterfall...\033[0m\n"
 ./hyperfall p
-echo Applied all the patches to Waterfall!
-echo Check to see if there is any conflicts and fix them if there are any with the steps below:
-echo 1) Ctrl+C to exit
-echo 2) Fix the merge conflict in HyperFall-Proxy
-echo 3) cd HyperFall-Proxy
-echo 4) git am --continue
-echo 5) cd ..
-echo 6) ./hyperfall rb
+printf "\033[1;31mApplied all the patches to Waterfall\033[0m\n"
+printf "\033[1;31mCheck to see if there is any conflicts and fix them if there are any with the steps below:\033[0m\n"
+printf "\033[1;31m1) Ctrl+C to exit so you can run commands\033[0m\n"
+printf "\033[1;31m2) Fix the merge conflict in HyperFall-Proxy\033[0m\n"
+printf "\033[1;31m3) cd HyperFall-Proxy\033[0m\n"
+printf "\033[1;31m4) git am --continue\033[0m\n"
+printf "\033[1;31m5) cd ..\033[0m\n"
+printf "\033[1;31m6) ./hyperfall rb\033[0m\n"
 read -rsp $'Press enter to continue or Ctrl+C to exit...\n'
-echo Rebuilding the patches...
+printf "\033[1;31mRebuilding the patches...\033[0m\n"
 ./hyperfall rb
-echo Rebuilt the patches!
+printf "\033[1;31mRebuilt the patches\033[0m\n"
 read -rsp $'Press enter to continue or Ctrl+C to exit...\n'

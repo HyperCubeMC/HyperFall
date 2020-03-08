@@ -1,11 +1,11 @@
-From 9cbf16b135a14042623b9782f84e7aa0d3e935fd Mon Sep 17 00:00:00 2001
+From a4c1fdf1405ebc0173c104c49eb771d593c4c577 Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
 
 
 diff --git a/api/pom.xml b/api/pom.xml
-index f73fa6cf..b1e491b0 100644
+index 07897a44..c0269379 100644
 --- a/api/pom.xml
 +++ b/api/pom.xml
 @@ -6,13 +6,13 @@
@@ -25,7 +25,7 @@ index f73fa6cf..b1e491b0 100644
  
      <name>HyperFall-API</name>
 diff --git a/bootstrap/pom.xml b/bootstrap/pom.xml
-index 602e6806..03f0281e 100644
+index c52bda72..d9e302a5 100644
 --- a/bootstrap/pom.xml
 +++ b/bootstrap/pom.xml
 @@ -6,13 +6,13 @@
@@ -65,7 +65,7 @@ index 340f5bb5..1cd23a81 100644
  
      <name>HyperFall-Chat</name>
 diff --git a/config/pom.xml b/config/pom.xml
-index ff811c0f..c1094332 100644
+index aecc12bd..072ceff7 100644
 --- a/config/pom.xml
 +++ b/config/pom.xml
 @@ -6,13 +6,13 @@
@@ -245,7 +245,7 @@ index 0ef0b9fd..66ec198e 100644
  
      <name>cmd_server</name>
 diff --git a/module/pom.xml b/module/pom.xml
-index b987601e..b6ad2646 100644
+index 838adbce..ea62aa04 100644
 --- a/module/pom.xml
 +++ b/module/pom.xml
 @@ -6,13 +6,13 @@
@@ -305,7 +305,7 @@ index d0a68650..f0fcb2f8 100644
  
      <name>HyperFall-Native</name>
 diff --git a/pom.xml b/pom.xml
-index 6495f865..6e9b5812 100644
+index 1c695045..77b6b751 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -12,7 +12,7 @@
@@ -338,10 +338,10 @@ index 0c51b315..53f48f3f 100644
  
      <name>HyperFall-Protocol</name>
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java b/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
-index 44dc34ff..daa4b6e8 100644
+index aa1515f4..5e1399a6 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
-@@ -104,6 +104,7 @@ public enum Protocol
+@@ -105,6 +105,7 @@ public enum Protocol
                      BossBar::new, // Waterfall - speed up packet construction
                      map( ProtocolConstants.MINECRAFT_1_9, 0x0C ),
                      map( ProtocolConstants.MINECRAFT_1_15, 0x0D )
@@ -394,7 +394,7 @@ index 1b0e4474..bdc5cc98 100644
  
          private static void registerDummy(String name)
 diff --git a/proxy/pom.xml b/proxy/pom.xml
-index 36104937..add0fc19 100644
+index 65ef6611..8eb97054 100644
 --- a/proxy/pom.xml
 +++ b/proxy/pom.xml
 @@ -6,13 +6,13 @@

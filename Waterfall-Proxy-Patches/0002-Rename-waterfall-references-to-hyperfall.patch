@@ -1,4 +1,4 @@
-From a8c64218279ece3b87b6166a03c2784df4a4d12f Mon Sep 17 00:00:00 2001
+From 5d9c26d400c99e1cb4ba454362787d4627a323bf Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sat, 15 Feb 2020 22:59:48 -0600
 Subject: [PATCH] Rename-waterfall-references-to-hyperfall
@@ -31,10 +31,10 @@ index d703d6d2..d9fcdfca 100644
      }
  
 diff --git a/proxy/src/main/java/net/md_5/bungee/BungeeCord.java b/proxy/src/main/java/net/md_5/bungee/BungeeCord.java
-index c7ac1735..91af62d5 100644
+index a839cba5..fcb9c211 100644
 --- a/proxy/src/main/java/net/md_5/bungee/BungeeCord.java
 +++ b/proxy/src/main/java/net/md_5/bungee/BungeeCord.java
-@@ -181,7 +181,7 @@ public class BungeeCord extends ProxyServer
+@@ -187,7 +187,7 @@ public class BungeeCord extends ProxyServer
      public BungeeCord() throws IOException
      {
          // Java uses ! to indicate a resource inside of a jar/zip/other container. Running Bungee from within a directory that has a ! will cause this to muck up.
@@ -43,7 +43,7 @@ index c7ac1735..91af62d5 100644
  
          try
          {
-@@ -498,7 +498,7 @@ public class BungeeCord extends ProxyServer
+@@ -533,7 +533,7 @@ public class BungeeCord extends ProxyServer
      @Override
      public String getName()
      {

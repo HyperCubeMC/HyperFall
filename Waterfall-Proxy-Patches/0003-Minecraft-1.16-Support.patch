@@ -1,4 +1,4 @@
-From 222dac9cadf9ab6b3e7abe6edbfe44635cf525df Mon Sep 17 00:00:00 2001
+From 7ba1397c74082fee00e08a072ef7e106f75237c0 Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -338,7 +338,7 @@ index 0c51b315..53f48f3f 100644
  
      <name>HyperFall-Protocol</name>
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java b/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
-index aa1515f4..7684e514 100644
+index aa1515f4..6a8d3495 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
 @@ -105,6 +105,7 @@ public enum Protocol
@@ -355,7 +355,7 @@ index aa1515f4..7684e514 100644
                      map( ProtocolConstants.MINECRAFT_1_14, 0x49 ),
 -                    map( ProtocolConstants.MINECRAFT_1_15, 0x4A )
 +                    map( ProtocolConstants.MINECRAFT_1_15, 0x4A ),
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x4B )
++                    map( ProtocolConstants.MINECRAFT_1_16, 0x4B )
              );
              TO_CLIENT.registerPacket(
                      ScoreboardScore.class,
@@ -434,7 +434,7 @@ index 1b0e4474..bdc5cc98 100644
  
          private static void registerDummy(String name)
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java b/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
-index 2aa5ad58..62c9124f 100644
+index 2aa5ad58..bd243fa9 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
 @@ -7,6 +7,9 @@ import lombok.EqualsAndHashCode;
@@ -442,49 +442,93 @@ index 2aa5ad58..62c9124f 100644
  import net.md_5.bungee.protocol.AbstractPacketHandler;
  import net.md_5.bungee.protocol.DefinedPacket;
 +import net.md_5.bungee.protocol.ProtocolConstants;
-+import java.util.Arrays;
++
 +import java.util.UUID;
  
  @Data
  @NoArgsConstructor
-@@ -21,15 +24,35 @@ public class LoginSuccess extends DefinedPacket
+@@ -17,18 +20,62 @@ public class LoginSuccess extends DefinedPacket
+ 
+     private String uuid;
+     private String username;
++    private int protocolVersion;
++
++    @Override
++    public void read0(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion){
++        this.protocolVersion = protocolVersion;
++        read(buf);
++    }
++
++    @Override
++    public void read(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion){
++        this.protocolVersion = protocolVersion;
++        read(buf);
++    }
++
++    @Override
++    public void write(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion){
++        this.protocolVersion = protocolVersion;
++        write(buf);
++    }
++
++    @Override
++    public void write0(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion){
++        this.protocolVersion = protocolVersion;
++        write(buf);
++    }
+ 
      @Override
      public void read(ByteBuf buf)
      {
-+      if (true)
-+      {
-+        uuid = new UUID((long)buf.readInt() << 32 | (long)buf.readInt() & 0xFFFFFFFFL, (long)buf.readInt() << 32 | (long)buf.readInt() & 0xFFFFFFFFL).toString();
-+      }
-+      else
-+      {
-         uuid = readString( buf );
--        username = readString( buf );
-+      }
-+      username = readString( buf );
+-        uuid = readString( buf );
++        if(ProtocolConstants.isAfterOrEq( this.protocolVersion, ProtocolConstants.MINECRAFT_1_16 )){
++            int[] ints = {
++                    buf.readInt(),
++                    buf.readInt(),
++                    buf.readInt(),
++                    buf.readInt()
++            };
++            this.uuid = uuidFromIntArray(ints).toString();
++        } else{
++            uuid = readString( buf );
++
++        }
+         username = readString( buf );
      }
  
      @Override
      public void write(ByteBuf buf)
      {
-+      if (true)
-+      {
-+        UUID theUUID = UUID.fromString(this.uuid);
-+        long uuidMostSignificantBits = theUUID.getMostSignificantBits();
-+        long uuidLeastSignificantBits = theUUID.getLeastSignificantBits();
-+        buf.writeInt((int)(uuidMostSignificantBits >> 32));
-+        buf.writeInt((int)uuidMostSignificantBits);
-+        buf.writeInt((int)(uuidLeastSignificantBits >> 32));
-+        buf.writeInt((int)uuidLeastSignificantBits);
-+      }
-+      else
-+      {
-         writeString( uuid, buf );
--        writeString( username, buf );
-+      }
-+      writeString( username, buf );
+-        writeString( uuid, buf );
++        if(ProtocolConstants.isAfterOrEq( this.protocolVersion, ProtocolConstants.MINECRAFT_1_16 )){
++            int[] ints = uuidToIntArray(UUID.fromString(this.uuid));
++            buf.writeInt(ints[0]);
++            buf.writeInt(ints[1]);
++            buf.writeInt(ints[2]);
++            buf.writeInt(ints[3]);
++        } else {
++            writeString(uuid, buf);
++        }
+         writeString( username, buf );
      }
  
-     @Override
+@@ -37,4 +84,16 @@ public class LoginSuccess extends DefinedPacket
+     {
+         handler.handle( this );
+     }
++
++    public static UUID uuidFromIntArray(int[] ints) {
++        return new UUID((long) ints[0] << 32 | ((long) ints[1] & 0xFFFFFFFFL), (long) ints[2] << 32 | ((long) ints[3] & 0xFFFFFFFFL));
++    }
++
++    public static int[] uuidToIntArray(UUID uuid) {
++        return bitsToIntArray(uuid.getMostSignificantBits(), uuid.getLeastSignificantBits());
++    }
++
++    public static int[] bitsToIntArray(long long1, long long2) {
++        return new int[]{(int) (long1 >> 32), (int) long1, (int) (long2 >> 32), (int) long2};
++    }
+ }
 diff --git a/proxy/pom.xml b/proxy/pom.xml
 index 65ef6611..8eb97054 100644
 --- a/proxy/pom.xml
@@ -505,6 +549,19 @@ index 65ef6611..8eb97054 100644
      <packaging>jar</packaging>
  
      <name>HyperFall-Proxy</name>
+diff --git a/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java b/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java
+index 007d3daf..026e1ab8 100644
+--- a/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java
++++ b/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java
+@@ -536,7 +536,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
+                             userCon.setCompressionThreshold( BungeeCord.getInstance().config.getCompressionThreshold() );
+                             userCon.init();
+ 
+-                            unsafe.sendPacket( new LoginSuccess( getUniqueId().toString(), getName() ) ); // With dashes in between
++                            unsafe.sendPacket( new LoginSuccess( getUniqueId().toString(), getName(), getVersion() ) ); // With dashes in between - HyperFall 20w12a change - add getVersion()
+                             ch.setProtocol( Protocol.GAME );
+ 
+                             ch.getHandle().pipeline().get( HandlerBoss.class ).setHandler( new UpstreamBridge( bungee, userCon ) );
 diff --git a/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap.java b/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap.java
 index e6afb98d..07b1f1ed 100644
 --- a/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap.java

@@ -1,4 +1,4 @@
-From 74e7d61e73b466d834073bf7aa7df98b66028581 Mon Sep 17 00:00:00 2001
+From 7fce11ad418dcf9a1258cb974a8d1acf993f0389 Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -434,7 +434,7 @@ index 1b0e4474..bdc5cc98 100644
  
          private static void registerDummy(String name)
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java b/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
-index 2aa5ad58..9d397b06 100644
+index 2aa5ad58..697a740e 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
 @@ -7,6 +7,9 @@ import lombok.EqualsAndHashCode;
@@ -481,7 +481,7 @@ index 2aa5ad58..9d397b06 100644
      public void read(ByteBuf buf)
      {
 -        uuid = readString( buf );
-+        if(ProtocolConstants.isAfterOrEq( this.protocolVersion, ProtocolConstants.MINECRAFT_1_16_20w12a )){
++        if(ProtocolConstants.isAfterOrEq( this.protocolVersion, ProtocolConstants.MINECRAFT_1_16 )){
 +            int[] ints = {
 +                    buf.readInt(),
 +                    buf.readInt(),
@@ -500,7 +500,7 @@ index 2aa5ad58..9d397b06 100644
      public void write(ByteBuf buf)
      {
 -        writeString( uuid, buf );
-+        if(ProtocolConstants.isAfterOrEq( this.protocolVersion, ProtocolConstants.MINECRAFT_1_16_20w12a )){
++        if(ProtocolConstants.isAfterOrEq( this.protocolVersion, ProtocolConstants.MINECRAFT_1_16 )){
 +            int[] ints = uuidToIntArray(UUID.fromString(this.uuid));
 +            buf.writeInt(ints[0]);
 +            buf.writeInt(ints[1]);

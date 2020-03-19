@@ -23,7 +23,7 @@ case "$1" in
         scripts/updateUpstream.sh
     ;;
     *)
-        echo "HyperFall build tool command. This provides a variety of commands to control the Travertine"
+        echo "HyperFall build tool command. This provides a variety of commands to control the HyperFall"
         echo "build. View below for details of the available commands."
         echo ""
         echo "Commands:"

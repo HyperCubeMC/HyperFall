@@ -1,4 +1,4 @@
-From 8110384b7f8d58afa899332284f4af4d8d8bdfe0 Mon Sep 17 00:00:00 2001
+From 2613e4d0bc7dcb5f6910bf7c26b56b6ae0fa2a78 Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -510,15 +510,13 @@ index 65ef6611..8eb97054 100644
  
      <name>HyperFall-Proxy</name>
 diff --git a/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap.java b/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap.java
-index e6afb98d..ccc82839 100644
+index e6afb98d..07b1f1ed 100644
 --- a/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap.java
 +++ b/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap.java
-@@ -65,7 +65,9 @@ public abstract class EntityMap
-             case ProtocolConstants.MINECRAFT_1_15:
+@@ -66,6 +66,8 @@ public abstract class EntityMap
              case ProtocolConstants.MINECRAFT_1_15_1:
              case ProtocolConstants.MINECRAFT_1_15_2:
--                return EntityMap_1_15.INSTANCE;
-+              return EntityMap_1_15.INSTANCE;
+                 return EntityMap_1_15.INSTANCE;
 +            case ProtocolConstants.MINECRAFT_1_16:
 +                return EntityMap_1_16.INSTANCE;
          }

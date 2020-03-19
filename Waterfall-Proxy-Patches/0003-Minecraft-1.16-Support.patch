@@ -1,4 +1,4 @@
-From 486c6b03de53a39c42f314ed3074e5b24299427c Mon Sep 17 00:00:00 2001
+From 1111f410a6703887817b4a9762186afc54ff152f Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -394,7 +394,7 @@ index 1b0e4474..bdc5cc98 100644
  
          private static void registerDummy(String name)
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java b/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
-index 2aa5ad58..4dcc2eb6 100644
+index 2aa5ad58..e32252f0 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
 @@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
@@ -431,7 +431,7 @@ index 2aa5ad58..4dcc2eb6 100644
 +        long uuidLeastSignificantBits = theUUID.getLeastSignificantBits();
 +        buf.writeInt((int)(uuidMostSignificantBits >> 32));
 +        buf.writeInt((int)uuidMostSignificantBits);
-+        buf.writeInt((int)(uuidLeastSignificantBits >> 32))
++        buf.writeInt((int)(uuidLeastSignificantBits >> 32));
 +        buf.writeInt((int)uuidLeastSignificantBits);
 +      }
 +      else

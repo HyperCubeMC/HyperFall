@@ -1,4 +1,4 @@
-From 1111f410a6703887817b4a9762186afc54ff152f Mon Sep 17 00:00:00 2001
+From b7c2259065a3e618d265c6965e7c022218f1bc25 Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -394,7 +394,7 @@ index 1b0e4474..bdc5cc98 100644
  
          private static void registerDummy(String name)
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java b/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
-index 2aa5ad58..e32252f0 100644
+index 2aa5ad58..5c8069bc 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
 @@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
@@ -405,9 +405,12 @@ index 2aa5ad58..e32252f0 100644
  
  @Data
  @NoArgsConstructor
-@@ -21,15 +22,35 @@ public class LoginSuccess extends DefinedPacket
+@@ -19,17 +20,37 @@ public class LoginSuccess extends DefinedPacket
+     private String username;
+ 
      @Override
-     public void read(ByteBuf buf)
+-    public void read(ByteBuf buf)
++    public void read(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion)
      {
 +      if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_16 )
 +      {
@@ -422,7 +425,8 @@ index 2aa5ad58..e32252f0 100644
      }
  
      @Override
-     public void write(ByteBuf buf)
+-    public void write(ByteBuf buf)
++    public void write(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion)
      {
 +      if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_16 )
 +      {

@@ -1,4 +1,4 @@
-From 1e198f819634712bef38f56906a2916d86f3b784 Mon Sep 17 00:00:00 2001
+From 54dbe2548fcefd9a7aa9149159d93d6fe8675e14 Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -338,7 +338,7 @@ index 0c51b315..53f48f3f 100644
  
      <name>HyperFall-Protocol</name>
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java b/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
-index aa1515f4..5e1399a6 100644
+index aa1515f4..7684e514 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
 @@ -105,6 +105,7 @@ public enum Protocol
@@ -349,6 +349,46 @@ index aa1515f4..5e1399a6 100644
              );
              // Waterfall start
              TO_CLIENT.registerPacket(
+@@ -158,7 +159,8 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x42 ),
+                     map( ProtocolConstants.MINECRAFT_1_13, 0x45 ),
+                     map( ProtocolConstants.MINECRAFT_1_14, 0x49 ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x4A )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x4A ),
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x4B )
+             );
+             TO_CLIENT.registerPacket(
+                     ScoreboardScore.class,
+@@ -169,7 +171,8 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x45 ),
+                     map( ProtocolConstants.MINECRAFT_1_13, 0x48 ),
+                     map( ProtocolConstants.MINECRAFT_1_14, 0x4C ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x4D )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x4D ),
++                    map( ProtocolConstants.MINECRAFT_1_16, 0x4E )
+             );
+             TO_CLIENT.registerPacket(
+                     ScoreboardDisplay.class,
+@@ -180,7 +183,8 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x3B ),
+                     map( ProtocolConstants.MINECRAFT_1_13, 0x3E ),
+                     map( ProtocolConstants.MINECRAFT_1_14, 0x42 ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x43 )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x43 ),
++                    map( ProtocolConstants.MINECRAFT_1_16, 0x44 )
+             );
+             TO_CLIENT.registerPacket(
+                     Team.class,
+@@ -191,7 +195,8 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x44 ),
+                     map( ProtocolConstants.MINECRAFT_1_13, 0x47 ),
+                     map( ProtocolConstants.MINECRAFT_1_14, 0x4B ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x4C )
++                    map( ProtocolConstants.MINECRAFT_1_15, 0x4C ),
++                    map( ProtocolConstants.MINECRAFT_1_16, 0x4D )
+             );
+             TO_CLIENT.registerPacket(
+                     PluginMessage.class,
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 index cd987c8a..9fa666a2 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java

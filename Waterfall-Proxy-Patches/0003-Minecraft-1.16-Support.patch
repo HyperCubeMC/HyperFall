@@ -1,4 +1,4 @@
-From 47efebdea2426d4f6ba76005ddfc1ca55f206497 Mon Sep 17 00:00:00 2001
+From 486c6b03de53a39c42f314ed3074e5b24299427c Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -393,6 +393,56 @@ index 1b0e4474..bdc5cc98 100644
          }
  
          private static void registerDummy(String name)
+diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java b/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
+index 2aa5ad58..4dcc2eb6 100644
+--- a/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
++++ b/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
+@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
+ import lombok.NoArgsConstructor;
+ import net.md_5.bungee.protocol.AbstractPacketHandler;
+ import net.md_5.bungee.protocol.DefinedPacket;
++import net.md_5.bungee.protocol.ProtocolConstants;
+ 
+ @Data
+ @NoArgsConstructor
+@@ -21,15 +22,35 @@ public class LoginSuccess extends DefinedPacket
+     @Override
+     public void read(ByteBuf buf)
+     {
++      if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_16 )
++      {
++        uuid = new UUID((long)buf.readInt() << 32 | (long)buf.readInt() & 0xFFFFFFFFL, (long)buf.readInt() << 32 | (long)buf.readInt() & 0xFFFFFFFFL).toString();
++      }
++      else
++      {
+         uuid = readString( buf );
+-        username = readString( buf );
++      }
++      username = readString( buf );
+     }
+ 
+     @Override
+     public void write(ByteBuf buf)
+     {
++      if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_16 )
++      {
++        UUID theUUID = UUID.fromString(this.uuid);
++        long uuidMostSignificantBits = theUUID.getMostSignificantBits();
++        long uuidLeastSignificantBits = theUUID.getLeastSignificantBits();
++        buf.writeInt((int)(uuidMostSignificantBits >> 32));
++        buf.writeInt((int)uuidMostSignificantBits);
++        buf.writeInt((int)(uuidLeastSignificantBits >> 32))
++        buf.writeInt((int)uuidLeastSignificantBits);
++      }
++      else
++      {
+         writeString( uuid, buf );
+-        writeString( username, buf );
++      }
++      writeString( username, buf );
+     }
+ 
+     @Override
 diff --git a/proxy/pom.xml b/proxy/pom.xml
 index 65ef6611..8eb97054 100644
 --- a/proxy/pom.xml

@@ -1,4 +1,4 @@
-From 7fce11ad418dcf9a1258cb974a8d1acf993f0389 Mon Sep 17 00:00:00 2001
+From 9552e5b776892a7c478b55d47fac8092a139ae78 Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -434,7 +434,7 @@ index 1b0e4474..bdc5cc98 100644
  
          private static void registerDummy(String name)
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java b/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
-index 2aa5ad58..697a740e 100644
+index 2aa5ad58..ff986fe0 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
 @@ -7,6 +7,9 @@ import lombok.EqualsAndHashCode;
@@ -447,13 +447,12 @@ index 2aa5ad58..697a740e 100644
  
  @Data
  @NoArgsConstructor
-@@ -17,18 +20,62 @@ public class LoginSuccess extends DefinedPacket
+@@ -17,18 +20,60 @@ public class LoginSuccess extends DefinedPacket
  
      private String uuid;
      private String username;
 +    private int protocolVersion;
 +
-+    @Override
 +    public void read0(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion){
 +        this.protocolVersion = protocolVersion;
 +        read(buf);
@@ -471,7 +470,6 @@ index 2aa5ad58..697a740e 100644
 +        write(buf);
 +    }
 +
-+    @Override
 +    public void write0(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion){
 +        this.protocolVersion = protocolVersion;
 +        write(buf);
@@ -512,7 +510,7 @@ index 2aa5ad58..697a740e 100644
          writeString( username, buf );
      }
  
-@@ -37,4 +84,17 @@ public class LoginSuccess extends DefinedPacket
+@@ -37,4 +82,17 @@ public class LoginSuccess extends DefinedPacket
      {
          handler.handle( this );
      }

@@ -1,4 +1,4 @@
-From 2613e4d0bc7dcb5f6910bf7c26b56b6ae0fa2a78 Mon Sep 17 00:00:00 2001
+From 222dac9cadf9ab6b3e7abe6edbfe44635cf525df Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -434,7 +434,7 @@ index 1b0e4474..bdc5cc98 100644
  
          private static void registerDummy(String name)
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java b/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
-index 2aa5ad58..79be8630 100644
+index 2aa5ad58..62c9124f 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
 @@ -7,6 +7,9 @@ import lombok.EqualsAndHashCode;
@@ -447,14 +447,11 @@ index 2aa5ad58..79be8630 100644
  
  @Data
  @NoArgsConstructor
-@@ -19,17 +22,37 @@ public class LoginSuccess extends DefinedPacket
-     private String username;
- 
+@@ -21,15 +24,35 @@ public class LoginSuccess extends DefinedPacket
      @Override
--    public void read(ByteBuf buf)
-+    public void read(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion)
+     public void read(ByteBuf buf)
      {
-+      if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_16 )
++      if (true)
 +      {
 +        uuid = new UUID((long)buf.readInt() << 32 | (long)buf.readInt() & 0xFFFFFFFFL, (long)buf.readInt() << 32 | (long)buf.readInt() & 0xFFFFFFFFL).toString();
 +      }
@@ -467,10 +464,9 @@ index 2aa5ad58..79be8630 100644
      }
  
      @Override
--    public void write(ByteBuf buf)
-+    public void write(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion)
+     public void write(ByteBuf buf)
      {
-+      if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_16 )
++      if (true)
 +      {
 +        UUID theUUID = UUID.fromString(this.uuid);
 +        long uuidMostSignificantBits = theUUID.getMostSignificantBits();

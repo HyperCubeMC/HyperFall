@@ -1,4 +1,4 @@
-From 515cc3cfac6a1fe853e14fc907a0f4c09a4fa2e4 Mon Sep 17 00:00:00 2001
+From 53f0322d96bf7c6e0466005e76080181a433a88f Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -305,7 +305,7 @@ index d0a68650..f0fcb2f8 100644
  
      <name>HyperFall-Native</name>
 diff --git a/pom.xml b/pom.xml
-index 1c695045..77b6b751 100644
+index 90ecf103..4c61184d 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -12,7 +12,7 @@
@@ -390,14 +390,14 @@ index aa1515f4..6a8d3495 100644
              TO_CLIENT.registerPacket(
                      PluginMessage.class,
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
-index cd987c8a..8af146e7 100644
+index cd987c8a..ceff92c8 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 @@ -28,6 +28,7 @@ public class ProtocolConstants
      public static final int MINECRAFT_1_15 = 573;
      public static final int MINECRAFT_1_15_1 = 575;
      public static final int MINECRAFT_1_15_2 = 578;
-+    public static final int MINECRAFT_1_16 = 710;
++    public static final int MINECRAFT_1_16 = 711;
      public static final List<String> SUPPORTED_VERSIONS = Arrays.asList(
              "1.8.x",
              "1.9.x",

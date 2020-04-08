@@ -1,4 +1,4 @@
-From 5d9c26d400c99e1cb4ba454362787d4627a323bf Mon Sep 17 00:00:00 2001
+From 2cb8c8b774965b443c4c82431835002162c27849 Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sat, 15 Feb 2020 22:59:48 -0600
 Subject: [PATCH] Rename-waterfall-references-to-hyperfall
@@ -113,6 +113,19 @@ index 65121ba2..2d75bf92 100644
              boolean restricted = get( "restricted", false, val );
              SocketAddress address = Util.getAddr( addr );
              ServerInfo info = ProxyServer.getInstance().constructServerInfo( name, address, motd, restricted );
+diff --git a/proxy/src/main/java/net/md_5/bungee/module/JenkinsModuleSource.java b/proxy/src/main/java/net/md_5/bungee/module/JenkinsModuleSource.java
+index 9b20d0df..af6fdc5f 100644
+--- a/proxy/src/main/java/net/md_5/bungee/module/JenkinsModuleSource.java
++++ b/proxy/src/main/java/net/md_5/bungee/module/JenkinsModuleSource.java
+@@ -18,7 +18,7 @@ public class JenkinsModuleSource implements ModuleSource
+         System.out.println( "Attempting to Jenkins download module " + module.getName() + " v" + version.getBuild() );
+         try
+         {
+-            URL website = new URL( "https://papermc.io/ci/job/Waterfall/" + version.getBuild() + "/artifact/Waterfall-Proxy/module/" + module.getName().replace( '_', '-' ) + "/target/" + module.getName() + ".jar" );
++            URL website = new URL( "https://papermc.io/ci/job/Waterfall/lastSuccessfulBuild/artifact/Waterfall-Proxy/module/" + module.getName().replace( '_', '-' ) + "/target/" + module.getName() + ".jar" );
+             URLConnection con = website.openConnection();
+             // 15 second timeout at various stages
+             con.setConnectTimeout( 15000 );
 -- 
 2.17.1
 

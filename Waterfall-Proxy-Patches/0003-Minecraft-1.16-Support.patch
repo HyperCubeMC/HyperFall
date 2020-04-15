@@ -1,4 +1,4 @@
-From 53f0322d96bf7c6e0466005e76080181a433a88f Mon Sep 17 00:00:00 2001
+From d5286d3fead7ce8c8d7816bb88386c0d02eead04 Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -338,7 +338,7 @@ index 0c51b315..53f48f3f 100644
  
      <name>HyperFall-Protocol</name>
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java b/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
-index aa1515f4..6a8d3495 100644
+index aa1515f4..707d93c5 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
 @@ -105,6 +105,7 @@ public enum Protocol
@@ -389,15 +389,25 @@ index aa1515f4..6a8d3495 100644
              );
              TO_CLIENT.registerPacket(
                      PluginMessage.class,
+@@ -268,7 +273,8 @@ public enum Protocol
+                     map( ProtocolConstants.MINECRAFT_1_12, 0x0C ),
+                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x0B ),
+                     map( ProtocolConstants.MINECRAFT_1_13, 0x0E ),
+-                    map( ProtocolConstants.MINECRAFT_1_14, 0x0F )
++                    map( ProtocolConstants.MINECRAFT_1_14, 0x0F ),
++                    map( ProtocolConstants.MINECRAFT_1_16, 0x10 )
+             );
+             TO_SERVER.registerPacket(
+                     Chat.class,
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
-index cd987c8a..ceff92c8 100644
+index cd987c8a..1b471c3d 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 @@ -28,6 +28,7 @@ public class ProtocolConstants
      public static final int MINECRAFT_1_15 = 573;
      public static final int MINECRAFT_1_15_1 = 575;
      public static final int MINECRAFT_1_15_2 = 578;
-+    public static final int MINECRAFT_1_16 = 711;
++    public static final int MINECRAFT_1_16 = 712;
      public static final List<String> SUPPORTED_VERSIONS = Arrays.asList(
              "1.8.x",
              "1.9.x",
@@ -576,7 +586,7 @@ index e6afb98d..07b1f1ed 100644
      }
 diff --git a/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap_1_16.java b/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap_1_16.java
 new file mode 100644
-index 00000000..d25ff1e0
+index 00000000..ab10cc87
 --- /dev/null
 +++ b/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap_1_16.java
 @@ -0,0 +1,187 @@
@@ -624,7 +634,7 @@ index 00000000..d25ff1e0
 +        addRewrite( 0x5A, ProtocolConstants.Direction.TO_CLIENT, true ); // Entity Effect : PacketPlayOutEntityEffect
 +
 +        addRewrite( 0x0E, ProtocolConstants.Direction.TO_SERVER, true ); // Use Entity : PacketPlayInUseEntity
-+        addRewrite( 0x1B, ProtocolConstants.Direction.TO_SERVER, true ); // Entity Action : PacketPlayInEntityAction
++        addRewrite( 0x1C, ProtocolConstants.Direction.TO_SERVER, true ); // Entity Action : PacketPlayInEntityAction
 +    }
 +
 +    @Override
@@ -751,7 +761,7 @@ index 00000000..d25ff1e0
 +        int packetId = DefinedPacket.readVarInt( packet );
 +        int packetIdLength = packet.readerIndex() - readerIndex;
 +
-+        if ( packetId == 0x2B /* Spectate : PacketPlayInSpectate */ && !BungeeCord.getInstance().getConfig().isIpForward() )
++        if ( packetId == 0x2C /* Spectate : PacketPlayInSpectate */ && !BungeeCord.getInstance().getConfig().isIpForward() )
 +        {
 +            UUID uuid = DefinedPacket.readUUID( packet );
 +            ProxiedPlayer player;

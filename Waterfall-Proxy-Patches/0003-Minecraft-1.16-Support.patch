@@ -1,4 +1,4 @@
-From d5286d3fead7ce8c8d7816bb88386c0d02eead04 Mon Sep 17 00:00:00 2001
+From e82f1ec6b3c6f0485089ff4eecc6f16b50be8671 Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -400,14 +400,14 @@ index aa1515f4..707d93c5 100644
              TO_SERVER.registerPacket(
                      Chat.class,
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
-index cd987c8a..1b471c3d 100644
+index cd987c8a..a9105448 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 @@ -28,6 +28,7 @@ public class ProtocolConstants
      public static final int MINECRAFT_1_15 = 573;
      public static final int MINECRAFT_1_15_1 = 575;
      public static final int MINECRAFT_1_15_2 = 578;
-+    public static final int MINECRAFT_1_16 = 712;
++    public static final int MINECRAFT_1_16 = 713;
      public static final List<String> SUPPORTED_VERSIONS = Arrays.asList(
              "1.8.x",
              "1.9.x",
@@ -432,10 +432,18 @@ index cd987c8a..1b471c3d 100644
  
      public static final boolean isBeforeOrEq(int before, int other)
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Commands.java b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Commands.java
-index 1b0e4474..bdc5cc98 100644
+index 1b0e4474..7235ea87 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Commands.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Commands.java
-@@ -587,6 +587,7 @@ public class Commands extends DefinedPacket
+@@ -516,6 +516,7 @@ public class Commands extends DefinedPacket
+             PROVIDERS.put( "minecraft:entity_summon", VOID );
+             PROVIDERS.put( "minecraft:dimension", VOID );
+             PROVIDERS.put( "minecraft:time", VOID ); // 1.14
++            PROVIDERS.put( "minecraft:uuid", VOID ); // Minecraft 1.16 20w17a snapshot and up - HyperFall
+         }
+ 
+         private static ArgumentType<?> read(String key, ByteBuf buf)
+@@ -587,6 +588,7 @@ public class Commands extends DefinedPacket
              registerDummy( "minecraft:all_recipes" );
              registerDummy( "minecraft:available_sounds" );
              registerDummy( "minecraft:summonable_entities" );

@@ -1,4 +1,4 @@
-From e82f1ec6b3c6f0485089ff4eecc6f16b50be8671 Mon Sep 17 00:00:00 2001
+From fb6e42641dd9225241615a6273e459d4db468899 Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -305,7 +305,7 @@ index d0a68650..f0fcb2f8 100644
  
      <name>HyperFall-Native</name>
 diff --git a/pom.xml b/pom.xml
-index 90ecf103..4c61184d 100644
+index 0a322a27..47bb360c 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -12,7 +12,7 @@
@@ -400,14 +400,14 @@ index aa1515f4..707d93c5 100644
              TO_SERVER.registerPacket(
                      Chat.class,
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
-index cd987c8a..a9105448 100644
+index cd987c8a..345b235d 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 @@ -28,6 +28,7 @@ public class ProtocolConstants
      public static final int MINECRAFT_1_15 = 573;
      public static final int MINECRAFT_1_15_1 = 575;
      public static final int MINECRAFT_1_15_2 = 578;
-+    public static final int MINECRAFT_1_16 = 713;
++    public static final int MINECRAFT_1_16 = 714;
      public static final List<String> SUPPORTED_VERSIONS = Arrays.asList(
              "1.8.x",
              "1.9.x",
@@ -546,6 +546,46 @@ index 2aa5ad58..ff986fe0 100644
 +        return new int[]{(int) (long1 >> 32), (int) long1, (int) (long2 >> 32), (int) long2};
 +    }
  }
+diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Respawn.java b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Respawn.java
+index 1f544f26..51d837c5 100644
+--- a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Respawn.java
++++ b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Respawn.java
+@@ -21,6 +21,7 @@ public class Respawn extends DefinedPacket
+     private short difficulty;
+     private short gameMode;
+     private String levelType;
++    private boolean keepAllPlayerData; // HyperFall 20w18a+
+ 
+     @Override
+     public void read(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion)
+@@ -36,6 +37,13 @@ public class Respawn extends DefinedPacket
+         }
+         gameMode = buf.readUnsignedByte();
+         levelType = readString( buf );
++
++        // HyperFall start 20w18a+
++        if( protocolVersion >= ProtocolConstants.MINECRAFT_1_16 )
++        {
++            keepAllPlayerData = buf.readBoolean();
++        }
++        // HyperFall end
+     }
+ 
+     @Override
+@@ -52,6 +60,13 @@ public class Respawn extends DefinedPacket
+         }
+         buf.writeByte( gameMode );
+         writeString( levelType, buf );
++
++        // HyperFall start 20w18a+
++        if( protocolVersion >= ProtocolConstants.MINECRAFT_1_16 )
++        {
++            buf.writeBoolean( keepAllPlayerData );
++        }
++        // HyperFall end
+     }
+ 
+     @Override
 diff --git a/proxy/pom.xml b/proxy/pom.xml
 index 65ef6611..8eb97054 100644
 --- a/proxy/pom.xml
@@ -566,6 +606,57 @@ index 65ef6611..8eb97054 100644
      <packaging>jar</packaging>
  
      <name>HyperFall-Proxy</name>
+diff --git a/proxy/src/main/java/net/md_5/bungee/PacketConstants.java b/proxy/src/main/java/net/md_5/bungee/PacketConstants.java
+index 000c450e..0fa89d16 100644
+--- a/proxy/src/main/java/net/md_5/bungee/PacketConstants.java
++++ b/proxy/src/main/java/net/md_5/bungee/PacketConstants.java
+@@ -7,8 +7,8 @@ import net.md_5.bungee.protocol.packet.Respawn;
+ public class PacketConstants
+ {
+ 
+-    public static final Respawn DIM1_SWITCH = new Respawn( (byte) 1, 0, (byte) 0, (byte) 0, "default" );
+-    public static final Respawn DIM2_SWITCH = new Respawn( (byte) -1, 0, (byte) 0, (byte) 0, "default" );
++    public static final Respawn DIM1_SWITCH = new Respawn( (byte) 1, 0, (byte) 0, (byte) 0, "default", false /*HyperFall 20w18a+*/ );
++    public static final Respawn DIM2_SWITCH = new Respawn( (byte) -1, 0, (byte) 0, (byte) 0, "default", false /*HyperFall 20w18a+*/ );
+     public static final ClientStatus CLIENT_LOGIN = new ClientStatus( (byte) 0 );
+     public static final PluginMessage FORGE_MOD_REQUEST = new PluginMessage( "FML", new byte[]
+     {
+diff --git a/proxy/src/main/java/net/md_5/bungee/ServerConnector.java b/proxy/src/main/java/net/md_5/bungee/ServerConnector.java
+index 35a19224..5dd323bc 100644
+--- a/proxy/src/main/java/net/md_5/bungee/ServerConnector.java
++++ b/proxy/src/main/java/net/md_5/bungee/ServerConnector.java
+@@ -296,7 +296,7 @@ public class ServerConnector extends PacketHandler
+             user.setDimensionChange( true );
+             if ( !user.isDisableEntityMetadataRewrite() && login.getDimension() == user.getDimension() ) // Waterfall - defer
+             {
+-                user.unsafe().sendPacket( new Respawn( ( login.getDimension() >= 0 ? -1 : 0 ), login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType() ) );
++                user.unsafe().sendPacket( new Respawn( ( login.getDimension() >= 0 ? -1 : 0 ), login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType(), false /*HyperFall 20w18a+*/ ) );
+             }
+ 
+             user.setServerEntityId( login.getEntityId() );
+@@ -308,7 +308,7 @@ public class ServerConnector extends PacketHandler
+ 
+                 // Only send if we are not in the same dimension
+                 if (user.getDimension() != login.getDimension()) {
+-                    user.unsafe().sendPacket( new Respawn(user.getDimension() == 0 ? -1 : 0, login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType()));
++                    user.unsafe().sendPacket( new Respawn(user.getDimension() == 0 ? -1 : 0, login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType(), false /*HyperFall 20w18a+*/));
+                 }
+ 
+                 Login modLogin = new Login( login.getEntityId(),login.getGameMode(), login.getDimension(), login.getSeed(),
+@@ -317,11 +317,11 @@ public class ServerConnector extends PacketHandler
+ 
+                 // Only send if we're in the same dimension
+                 if (user.getDimension() == login.getDimension()) {
+-                    user.unsafe().sendPacket( new Respawn(user.getDimension() == 0 ? -1 : 0, login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType()));
++                    user.unsafe().sendPacket( new Respawn(user.getDimension() == 0 ? -1 : 0, login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType(), false /*HyperFall 20w18a+*/));
+                 }
+             }
+             // Waterfall end
+-            user.unsafe().sendPacket( new Respawn( login.getDimension(), login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType() ) );
++            user.unsafe().sendPacket( new Respawn( login.getDimension(), login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType(), false /*HyperFall 20w18a+*/ ) );
+             if ( user.getPendingConnection().getVersion() >= ProtocolConstants.MINECRAFT_1_14 )
+             {
+                 user.unsafe().sendPacket( new ViewDistance( login.getViewDistance() ) );
 diff --git a/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java b/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java
 index 007d3daf..026e1ab8 100644
 --- a/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java
@@ -806,5 +897,5 @@ index 48eaf208..eb068344 100644
  
      <name>HyperFall-Query</name>
 -- 
-2.17.1
+2.25.1
 

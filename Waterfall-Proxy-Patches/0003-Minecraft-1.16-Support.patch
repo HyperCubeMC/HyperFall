@@ -1,4 +1,4 @@
-From 03a88c704752c8cdd9b4223e9008586d1dbe8010 Mon Sep 17 00:00:00 2001
+From fdec9f478c2947502f8e6b5095ef7362abad5b1f Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -451,6 +451,73 @@ index 1b0e4474..7235ea87 100644
          }
  
          private static void registerDummy(String name)
+diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Login.java b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Login.java
+index e0cdf82e..b319509c 100644
+--- a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Login.java
++++ b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Login.java
+@@ -26,6 +26,8 @@ public class Login extends DefinedPacket
+     private int viewDistance;
+     private boolean reducedDebugInfo;
+     private boolean normalRespawn;
++    private boolean isDebug; // HyperFall 20w20a+
++    private boolean isFlat; // HyperFall 20w20a+
+ 
+     @Override
+     public void read(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion)
+@@ -48,7 +50,10 @@ public class Login extends DefinedPacket
+             difficulty = buf.readUnsignedByte();
+         }
+         maxPlayers = buf.readUnsignedByte();
+-        levelType = readString( buf );
++        if ( protocolVersion < ProtocolConstants.MINECRAFT_1_16 )
++        {
++            levelType = readString( buf ); // HyperFall 20w20a+
++        }
+         if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_14 )
+         {
+             viewDistance = readVarInt( buf );
+@@ -61,6 +66,14 @@ public class Login extends DefinedPacket
+         {
+             normalRespawn = buf.readBoolean();
+         }
++        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_16 )
++        {
++            isDebug = buf.readBoolean(); // HyperFall 20w20a+
++        }
++        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_16 )
++        {
++            isFlat = buf.readBoolean(); // HyperFall 20w20a+
++        }
+     }
+ 
+     @Override
+@@ -84,7 +97,10 @@ public class Login extends DefinedPacket
+             buf.writeByte( difficulty );
+         }
+         buf.writeByte( maxPlayers );
+-        writeString( levelType, buf );
++        if ( protocolVersion < ProtocolConstants.MINECRAFT_1_16 ) // HyperFall 20w20a+
++        {
++            writeString( levelType, buf );
++        }
+         if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_14 )
+         {
+             writeVarInt( viewDistance, buf );
+@@ -97,6 +113,14 @@ public class Login extends DefinedPacket
+         {
+             buf.writeBoolean( normalRespawn );
+         }
++        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_16 )
++        {
++            buf.writeBoolean( isDebug ); // HyperFall 20w20a+
++        }
++        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_16 )
++        {
++            buf.writeBoolean( isFlat ); // HyperFall 20w20a+
++        }
+     }
+ 
+     @Override
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java b/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
 index 2aa5ad58..ff986fe0 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/packet/LoginSuccess.java
@@ -622,10 +689,41 @@ index 000c450e..0fa89d16 100644
      public static final PluginMessage FORGE_MOD_REQUEST = new PluginMessage( "FML", new byte[]
      {
 diff --git a/proxy/src/main/java/net/md_5/bungee/ServerConnector.java b/proxy/src/main/java/net/md_5/bungee/ServerConnector.java
-index 35a19224..5dd323bc 100644
+index 35a19224..39b9ddc0 100644
 --- a/proxy/src/main/java/net/md_5/bungee/ServerConnector.java
 +++ b/proxy/src/main/java/net/md_5/bungee/ServerConnector.java
-@@ -296,7 +296,7 @@ public class ServerConnector extends PacketHandler
+@@ -244,9 +244,28 @@ public class ServerConnector extends PacketHandler
+             user.setClientEntityId( login.getEntityId() );
+             user.setServerEntityId( login.getEntityId() );
+ 
++            // HyperFall 20w20a+
++            Boolean isDebug = false;
++            Boolean isFlat = false;
++            if ( login.getLevelType() == 'debug')
++            {
++              isDebug = true;
++            }
++
++            if ( login.getLevelType() == 'flat')
++            {
++              isFlat = true;
++            }
++
+             // Set tab list size, TODO: what shall we do about packet mutability
+-            Login modLogin = new Login( login.getEntityId(), login.getGameMode(), (byte) login.getDimension(), login.getSeed(), login.getDifficulty(),
+-                    (byte) user.getPendingConnection().getListener().getTabListSize(), login.getLevelType(), login.getViewDistance(), login.isReducedDebugInfo(), login.isNormalRespawn() );
++            if ( user.getPendingConnection().getVersion() >= ProtocolConstants.MINECRAFT_1_16 ) // HyperFall 20w20a+
++            {
++              Login modLogin = new Login( login.getEntityId(), login.getGameMode(), (byte) login.getDimension(), login.getSeed(), login.getDifficulty(),
++                      (byte) user.getPendingConnection().getListener().getTabListSize(), login.getViewDistance(), login.isReducedDebugInfo(), login.isNormalRespawn(), isDebug, isFlat );
++            } else { // HyperFall 20w20a+
++              Login modLogin = new Login( login.getEntityId(), login.getGameMode(), (byte) login.getDimension(), login.getSeed(), login.getDifficulty(),
++                      (byte) user.getPendingConnection().getListener().getTabListSize(), login.getLevelType(), login.getViewDistance(), login.isReducedDebugInfo(), login.isNormalRespawn() );
++            }
+ 
+             user.unsafe().sendPacket( modLogin );
+ 
+@@ -296,7 +315,7 @@ public class ServerConnector extends PacketHandler
              user.setDimensionChange( true );
              if ( !user.isDisableEntityMetadataRewrite() && login.getDimension() == user.getDimension() ) // Waterfall - defer
              {
@@ -634,16 +732,40 @@ index 35a19224..5dd323bc 100644
              }
  
              user.setServerEntityId( login.getEntityId() );
-@@ -308,7 +308,7 @@ public class ServerConnector extends PacketHandler
+@@ -308,20 +327,41 @@ public class ServerConnector extends PacketHandler
  
                  // Only send if we are not in the same dimension
                  if (user.getDimension() != login.getDimension()) {
 -                    user.unsafe().sendPacket( new Respawn(user.getDimension() == 0 ? -1 : 0, login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType()));
 +                    user.unsafe().sendPacket( new Respawn(user.getDimension() == 0 ? -1 : 0, login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType(), false /*HyperFall 20w18a+*/));
++                }
++
++                // HyperFall 20w20a+
++                Boolean isDebug = false;
++                Boolean isFlat = false;
++                if ( login.getLevelType() == 'debug')
++                {
++                  isDebug = true;
++                }
++
++                if ( login.getLevelType() == 'flat')
++                {
++                  isFlat = true;
++                }
++
++                // Set tab list size, TODO: what shall we do about packet mutability
++                if ( user.getPendingConnection().getVersion() >= ProtocolConstants.MINECRAFT_1_16 ) // HyperFall 20w20a+
++                {
++                  Login modLogin = new Login( login.getEntityId(),login.getGameMode(), login.getDimension(), login.getSeed(),
++                          login.getDifficulty(), login.getMaxPlayers(), login.getViewDistance(), login.isReducedDebugInfo(), login.isNormalRespawn(), isDebug, isFlat );
++                } else { // HyperFall 20w20a+
++                  Login modLogin = new Login( login.getEntityId(),login.getGameMode(), login.getDimension(), login.getSeed(),
++                          login.getDifficulty(), login.getMaxPlayers(), login.getViewDistance(), login.isReducedDebugInfo(), login.isNormalRespawn() );
                  }
  
-                 Login modLogin = new Login( login.getEntityId(),login.getGameMode(), login.getDimension(), login.getSeed(),
-@@ -317,11 +317,11 @@ public class ServerConnector extends PacketHandler
+-                Login modLogin = new Login( login.getEntityId(),login.getGameMode(), login.getDimension(), login.getSeed(),
+-                        login.getDifficulty(), login.getMaxPlayers(), login.getLevelType(), login.getViewDistance(), login.isReducedDebugInfo(), login.isNormalRespawn() );
+                 user.unsafe().sendPacket(modLogin);
  
                  // Only send if we're in the same dimension
                  if (user.getDimension() == login.getDimension()) {

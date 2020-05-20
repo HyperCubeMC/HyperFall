@@ -1,4 +1,4 @@
-From 8d88fd3c09e4fe33389bc144236cb1506b2081d7 Mon Sep 17 00:00:00 2001
+From d85023d75dc1c4f2ce7d9839a9730409abd2bc89 Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -400,14 +400,14 @@ index aa1515f4..85595bfa 100644
              TO_SERVER.registerPacket(
                      Chat.class,
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
-index cd987c8a..4d769978 100644
+index cd987c8a..fbe950cb 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 @@ -28,6 +28,7 @@ public class ProtocolConstants
      public static final int MINECRAFT_1_15 = 573;
      public static final int MINECRAFT_1_15_1 = 575;
      public static final int MINECRAFT_1_15_2 = 578;
-+    public static final int MINECRAFT_1_16 = 717; // HyperFall 1.16 Snapshots
++    public static final int MINECRAFT_1_16 = 718; // HyperFall 1.16 Latest Snapshot
      public static final List<String> SUPPORTED_VERSIONS = Arrays.asList(
              "1.8.x",
              "1.9.x",
@@ -452,7 +452,7 @@ index 1b0e4474..7235ea87 100644
  
          private static void registerDummy(String name)
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Login.java b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Login.java
-index e0cdf82e..3cdf3b27 100644
+index e0cdf82e..dab0c01c 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Login.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Login.java
 @@ -26,6 +26,8 @@ public class Login extends DefinedPacket
@@ -464,7 +464,38 @@ index e0cdf82e..3cdf3b27 100644
  
      @Override
      public void read(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion)
-@@ -48,7 +50,10 @@ public class Login extends DefinedPacket
+@@ -34,7 +36,29 @@ public class Login extends DefinedPacket
+         gameMode = buf.readUnsignedByte();
+         if ( protocolVersion > ProtocolConstants.MINECRAFT_1_9 )
+         {
+-            dimension = buf.readInt();
++            // HyperFall 20w21a+ Start
++            if ( protocolVersion < ProtocolConstants.MINECRAFT_1_16 )
++            {
++                dimension = buf.readInt();
++            }
++            if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_16 )
++            {
++                String dimensionType;
++                dimensionType = readString( buf );
++                if ( dimensionType.equals("minecraft:overworld") )
++                {
++                    dimension = 0;
++                }
++                if ( dimensionType.equals("minecraft:nether") )
++                {
++                    dimension = -1;
++                }
++                if ( dimensionType.equals("minecraft:the_end") )
++                {
++                    dimension = 1;
++                }
++            }
++            // HyperFall 20w21a+ End
+         } else
+         {
+             dimension = buf.readByte();
+@@ -48,7 +72,10 @@ public class Login extends DefinedPacket
              difficulty = buf.readUnsignedByte();
          }
          maxPlayers = buf.readUnsignedByte();
@@ -476,7 +507,7 @@ index e0cdf82e..3cdf3b27 100644
          if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_14 )
          {
              viewDistance = readVarInt( buf );
-@@ -61,6 +66,11 @@ public class Login extends DefinedPacket
+@@ -61,6 +88,11 @@ public class Login extends DefinedPacket
          {
              normalRespawn = buf.readBoolean();
          }
@@ -488,7 +519,36 @@ index e0cdf82e..3cdf3b27 100644
      }
  
      @Override
-@@ -84,7 +94,10 @@ public class Login extends DefinedPacket
+@@ -70,7 +102,27 @@ public class Login extends DefinedPacket
+         buf.writeByte( gameMode );
+         if ( protocolVersion > ProtocolConstants.MINECRAFT_1_9 )
+         {
+-            buf.writeInt( dimension );
++            // HyperFall 20w21a+ Start
++            if ( protocolVersion < ProtocolConstants.MINECRAFT_1_16 )
++            {
++                buf.writeInt( dimension );
++            }
++            if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_16 )
++            {
++                if ( dimension == 0 )
++                {
++                    writeString( "minecraft:overworld", buf );
++                }
++                if ( dimension == -1 )
++                {
++                    writeString( "minecraft:nether", buf );
++                }
++                if ( dimension == 1 )
++                {
++                    writeString( "minecraft:the_end", buf );
++                }
++            }
++            // HyperFall 20w21a+ End
+         } else
+         {
+             buf.writeByte( dimension );
+@@ -84,7 +136,10 @@ public class Login extends DefinedPacket
              buf.writeByte( difficulty );
          }
          buf.writeByte( maxPlayers );
@@ -500,7 +560,7 @@ index e0cdf82e..3cdf3b27 100644
          if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_14 )
          {
              writeVarInt( viewDistance, buf );
-@@ -97,6 +110,11 @@ public class Login extends DefinedPacket
+@@ -97,6 +152,11 @@ public class Login extends DefinedPacket
          {
              buf.writeBoolean( normalRespawn );
          }
@@ -608,10 +668,10 @@ index 2aa5ad58..ff986fe0 100644
 +    }
  }
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Respawn.java b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Respawn.java
-index 1f544f26..fbe481e6 100644
+index 1f544f26..c0275698 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Respawn.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Respawn.java
-@@ -21,6 +21,9 @@ public class Respawn extends DefinedPacket
+@@ -21,11 +21,36 @@ public class Respawn extends DefinedPacket
      private short difficulty;
      private short gameMode;
      private String levelType;
@@ -621,7 +681,35 @@ index 1f544f26..fbe481e6 100644
  
      @Override
      public void read(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion)
-@@ -35,7 +38,16 @@ public class Respawn extends DefinedPacket
+     {
+-        dimension = buf.readInt();
++        // HyperFall 20w21a+ Start
++        if ( protocolVersion < ProtocolConstants.MINECRAFT_1_16 )
++        {
++            dimension = buf.readInt();
++        }
++        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_16 )
++        {
++            String dimensionType;
++            dimensionType = readString( buf );
++            if ( dimensionType.equals("minecraft:overworld") )
++            {
++                dimension = 0;
++            }
++            if ( dimensionType.equals("minecraft:nether") )
++            {
++                dimension = -1;
++            }
++            if ( dimensionType.equals("minecraft:the_end") )
++            {
++                dimension = 1;
++            }
++        }
++        // HyperFall 20w21a+ End
+         if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_15 )
+         {
+             seed = buf.readLong();
+@@ -35,13 +60,42 @@ public class Respawn extends DefinedPacket
              difficulty = buf.readUnsignedByte();
          }
          gameMode = buf.readUnsignedByte();
@@ -639,7 +727,34 @@ index 1f544f26..fbe481e6 100644
      }
  
      @Override
-@@ -51,7 +63,16 @@ public class Respawn extends DefinedPacket
+     public void write(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion)
+     {
+-        buf.writeInt( dimension );
++        // HyperFall 20w21a+ Start
++        if ( protocolVersion < ProtocolConstants.MINECRAFT_1_16 )
++        {
++            buf.writeInt( dimension );
++        }
++        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_16 )
++        {
++            if ( dimension == 0 )
++            {
++                writeString( "minecraft:overworld", buf );
++            }
++            if ( dimension == -1 )
++            {
++                writeString( "minecraft:nether", buf );
++            }
++            if ( dimension == 1 )
++            {
++                writeString( "minecraft:the_end", buf );
++            }
++        }
++        // HyperFall 20w21a+ End
+         if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_15 )
+         {
+             buf.writeLong( seed );
+@@ -51,7 +105,16 @@ public class Respawn extends DefinedPacket
              buf.writeByte( difficulty );
          }
          buf.writeByte( gameMode );

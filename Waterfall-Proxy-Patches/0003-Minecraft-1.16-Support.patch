@@ -1,4 +1,4 @@
-From b34f622f019f6034060b059a05b0640d9bb31bfd Mon Sep 17 00:00:00 2001
+From 03f71bc8c39d4f7a236ed413bf7145ddb73668ee Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -338,7 +338,7 @@ index 0c51b315..53f48f3f 100644
  
      <name>HyperFall-Protocol</name>
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/DefinedPacket.java b/protocol/src/main/java/net/md_5/bungee/protocol/DefinedPacket.java
-index e56bfccb..11eb10d2 100644
+index 68c716b9..0aba0a24 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/DefinedPacket.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/DefinedPacket.java
 @@ -7,9 +7,77 @@ import java.util.List;
@@ -417,8 +417,8 @@ index e56bfccb..11eb10d2 100644
 +    }
 +    // HyperFall 20w21a+ End
  
-     public static void writeString(String s, ByteBuf buf)
-     {
+     private static final boolean PROCESS_TRACES = Boolean.getBoolean("waterfall.bad-packet-traces");
+     private static final BadPacketException OVERSIZED_VAR_INT_EXCEPTION = new BadPacketException( "VarInt too big" );
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java b/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
 index aa1515f4..85595bfa 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
@@ -515,7 +515,7 @@ index cd987c8a..a8fde4d1 100644
      public static final boolean isBeforeOrEq(int before, int other)
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/nbt/CompoundTag.java b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/CompoundTag.java
 new file mode 100644
-index 00000000..8001fe76
+index 00000000..dda7275e
 --- /dev/null
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/CompoundTag.java
 @@ -0,0 +1,57 @@
@@ -579,7 +579,7 @@ index 00000000..8001fe76
 \ No newline at end of file
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/nbt/EndTag.java b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/EndTag.java
 new file mode 100644
-index 00000000..aa4891ac
+index 00000000..84bdaf40
 --- /dev/null
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/EndTag.java
 @@ -0,0 +1,32 @@
@@ -618,7 +618,7 @@ index 00000000..aa4891ac
 \ No newline at end of file
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/nbt/ListTag.java b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/ListTag.java
 new file mode 100644
-index 00000000..f6d86415
+index 00000000..1391631f
 --- /dev/null
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/ListTag.java
 @@ -0,0 +1,68 @@
@@ -693,7 +693,7 @@ index 00000000..f6d86415
 \ No newline at end of file
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/nbt/NBTTag.java b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/NBTTag.java
 new file mode 100644
-index 00000000..587e9936
+index 00000000..a238d9e3
 --- /dev/null
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/NBTTag.java
 @@ -0,0 +1,23 @@
@@ -723,7 +723,7 @@ index 00000000..587e9936
 \ No newline at end of file
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/nbt/NBTTagTypes.java b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/NBTTagTypes.java
 new file mode 100644
-index 00000000..ba3278ec
+index 00000000..a0374ad6
 --- /dev/null
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/NBTTagTypes.java
 @@ -0,0 +1,29 @@
@@ -759,7 +759,7 @@ index 00000000..ba3278ec
 \ No newline at end of file
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/nbt/StringTag.java b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/StringTag.java
 new file mode 100644
-index 00000000..01a80a7b
+index 00000000..7fa0a7de
 --- /dev/null
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/StringTag.java
 @@ -0,0 +1,38 @@
@@ -856,10 +856,10 @@ index 0ded6739..c33b5064 100644
      }
  
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Commands.java b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Commands.java
-index 1b0e4474..7235ea87 100644
+index 2f14d074..8cede6a9 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Commands.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Commands.java
-@@ -516,6 +516,7 @@ public class Commands extends DefinedPacket
+@@ -547,6 +547,7 @@ public class Commands extends DefinedPacket
              PROVIDERS.put( "minecraft:entity_summon", VOID );
              PROVIDERS.put( "minecraft:dimension", VOID );
              PROVIDERS.put( "minecraft:time", VOID ); // 1.14
@@ -867,7 +867,7 @@ index 1b0e4474..7235ea87 100644
          }
  
          private static ArgumentType<?> read(String key, ByteBuf buf)
-@@ -587,6 +588,7 @@ public class Commands extends DefinedPacket
+@@ -618,6 +619,7 @@ public class Commands extends DefinedPacket
              registerDummy( "minecraft:all_recipes" );
              registerDummy( "minecraft:available_sounds" );
              registerDummy( "minecraft:summonable_entities" );
@@ -1205,7 +1205,7 @@ index 1f544f26..aa4626bb 100644
  
      @Override
 diff --git a/proxy/pom.xml b/proxy/pom.xml
-index 65ef6611..8eb97054 100644
+index 519f1a76..2ab5a17b 100644
 --- a/proxy/pom.xml
 +++ b/proxy/pom.xml
 @@ -6,13 +6,13 @@
@@ -1289,7 +1289,7 @@ index 35a19224..b0ffa4e8 100644
              {
                  user.unsafe().sendPacket( new ViewDistance( login.getViewDistance() ) );
 diff --git a/proxy/src/main/java/net/md_5/bungee/UserConnection.java b/proxy/src/main/java/net/md_5/bungee/UserConnection.java
-index 04436dfb..b244d5bd 100644
+index 87cff4ff..579978f8 100644
 --- a/proxy/src/main/java/net/md_5/bungee/UserConnection.java
 +++ b/proxy/src/main/java/net/md_5/bungee/UserConnection.java
 @@ -465,7 +465,7 @@ public final class UserConnection implements ProxiedPlayer
@@ -1302,7 +1302,7 @@ index 04436dfb..b244d5bd 100644
  
      @Override
 diff --git a/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java b/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java
-index 007d3daf..026e1ab8 100644
+index 37ea35e3..0905ea82 100644
 --- a/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java
 +++ b/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java
 @@ -536,7 +536,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
@@ -1315,10 +1315,10 @@ index 007d3daf..026e1ab8 100644
  
                              ch.getHandle().pipeline().get( HandlerBoss.class ).setHandler( new UpstreamBridge( bungee, userCon ) );
 diff --git a/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap.java b/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap.java
-index e6afb98d..07b1f1ed 100644
+index bc1de55a..ef2a66fa 100644
 --- a/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap.java
 +++ b/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap.java
-@@ -66,6 +66,8 @@ public abstract class EntityMap
+@@ -67,6 +67,8 @@ public abstract class EntityMap
              case ProtocolConstants.MINECRAFT_1_15_1:
              case ProtocolConstants.MINECRAFT_1_15_2:
                  return EntityMap_1_15.INSTANCE;

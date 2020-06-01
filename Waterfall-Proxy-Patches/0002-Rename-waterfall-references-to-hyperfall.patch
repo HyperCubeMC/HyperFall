@@ -1,4 +1,4 @@
-From 2cb8c8b774965b443c4c82431835002162c27849 Mon Sep 17 00:00:00 2001
+From c7bcb8935c7db1f39b07832c70bf85351d2d85a5 Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sat, 15 Feb 2020 22:59:48 -0600
 Subject: [PATCH] Rename-waterfall-references-to-hyperfall
@@ -31,10 +31,10 @@ index d703d6d2..d9fcdfca 100644
      }
  
 diff --git a/proxy/src/main/java/net/md_5/bungee/BungeeCord.java b/proxy/src/main/java/net/md_5/bungee/BungeeCord.java
-index a839cba5..fcb9c211 100644
+index a963c748..6f40ee82 100644
 --- a/proxy/src/main/java/net/md_5/bungee/BungeeCord.java
 +++ b/proxy/src/main/java/net/md_5/bungee/BungeeCord.java
-@@ -187,7 +187,7 @@ public class BungeeCord extends ProxyServer
+@@ -189,7 +189,7 @@ public class BungeeCord extends ProxyServer
      public BungeeCord() throws IOException
      {
          // Java uses ! to indicate a resource inside of a jar/zip/other container. Running Bungee from within a directory that has a ! will cause this to muck up.
@@ -43,7 +43,7 @@ index a839cba5..fcb9c211 100644
  
          try
          {
-@@ -533,7 +533,7 @@ public class BungeeCord extends ProxyServer
+@@ -539,7 +539,7 @@ public class BungeeCord extends ProxyServer
      @Override
      public String getName()
      {
@@ -127,5 +127,5 @@ index 9b20d0df..af6fdc5f 100644
              // 15 second timeout at various stages
              con.setConnectTimeout( 15000 );
 -- 
-2.17.1
+2.25.1
 

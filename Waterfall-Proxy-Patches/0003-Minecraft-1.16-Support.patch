@@ -1,4 +1,4 @@
-From 778d72149aaa970222a5da9bfca1592bb548a948 Mon Sep 17 00:00:00 2001
+From b34f622f019f6034060b059a05b0640d9bb31bfd Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -482,14 +482,14 @@ index aa1515f4..85595bfa 100644
              TO_SERVER.registerPacket(
                      Chat.class,
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
-index cd987c8a..fbe950cb 100644
+index cd987c8a..a8fde4d1 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 @@ -28,6 +28,7 @@ public class ProtocolConstants
      public static final int MINECRAFT_1_15 = 573;
      public static final int MINECRAFT_1_15_1 = 575;
      public static final int MINECRAFT_1_15_2 = 578;
-+    public static final int MINECRAFT_1_16 = 718; // HyperFall 1.16 Latest Snapshot
++    public static final int MINECRAFT_1_16 = 719; // HyperFall 1.16 Latest Snapshot
      public static final List<String> SUPPORTED_VERSIONS = Arrays.asList(
              "1.8.x",
              "1.9.x",
@@ -876,7 +876,7 @@ index 1b0e4474..7235ea87 100644
  
          private static void registerDummy(String name)
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Login.java b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Login.java
-index e0cdf82e..8953c121 100644
+index e0cdf82e..28bebb3c 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Login.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Login.java
 @@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
@@ -887,7 +887,15 @@ index e0cdf82e..8953c121 100644
  
  @Data
  @NoArgsConstructor
-@@ -26,19 +27,32 @@ public class Login extends DefinedPacket
+@@ -15,7 +16,6 @@ import net.md_5.bungee.protocol.ProtocolConstants;
+ @EqualsAndHashCode(callSuper = false)
+ public class Login extends DefinedPacket
+ {
+-
+     private int entityId;
+     private short gameMode;
+     private int dimension;
+@@ -26,19 +26,43 @@ public class Login extends DefinedPacket
      private int viewDistance;
      private boolean reducedDebugInfo;
      private boolean normalRespawn;
@@ -895,6 +903,8 @@ index e0cdf82e..8953c121 100644
 +    private boolean isFlat; // HyperFall 20w20a+
 +    private String dimensionCodecName; // HyperFall 20w21a+
 +    private NBTTag codecTag; // HyperFall 20w21a+
++    private String[] worldNamesList; // HyperFall 20w22a+
++    private String worldName; // HyperFall 20w22a+
  
      @Override
      public void read(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion)
@@ -906,8 +916,17 @@ index e0cdf82e..8953c121 100644
 +        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_16 )
          {
 -            dimension = buf.readInt();
++            // HyperFall 20w22a+ Start
++            int worldNamesListLength = readVarInt( buf );
++            worldNamesList = new String[worldNamesListLength];
++            for ( int iter = 0; iter < worldNamesListLength; iter++ )
++            {
++                worldNamesList[iter] = readString( buf );
++            }
++            // HyperFall 20w22a+ End
 +            codecTag = readNBT( buf );
 +            dimensionCodecName = readString( buf );
++            worldName = readString( buf ); // HyperFall 20w22a+
          } else
          {
 -            dimension = buf.readByte();
@@ -923,7 +942,7 @@ index e0cdf82e..8953c121 100644
          if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_15 )
          {
              seed = buf.readLong();
-@@ -48,7 +62,10 @@ public class Login extends DefinedPacket
+@@ -48,7 +72,10 @@ public class Login extends DefinedPacket
              difficulty = buf.readUnsignedByte();
          }
          maxPlayers = buf.readUnsignedByte();
@@ -935,7 +954,7 @@ index e0cdf82e..8953c121 100644
          if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_14 )
          {
              viewDistance = readVarInt( buf );
-@@ -61,6 +78,11 @@ public class Login extends DefinedPacket
+@@ -61,6 +88,11 @@ public class Login extends DefinedPacket
          {
              normalRespawn = buf.readBoolean();
          }
@@ -947,7 +966,7 @@ index e0cdf82e..8953c121 100644
      }
  
      @Override
-@@ -68,13 +90,22 @@ public class Login extends DefinedPacket
+@@ -68,13 +100,30 @@ public class Login extends DefinedPacket
      {
          buf.writeInt( entityId );
          buf.writeByte( gameMode );
@@ -956,8 +975,16 @@ index e0cdf82e..8953c121 100644
 +        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_16 )
          {
 -            buf.writeInt( dimension );
++            // HyperFall 20w22a+ Start
++            writeVarInt( worldNamesList.length, buf );
++            for ( int iter = 0; iter < worldNamesList.length; iter++ )
++            {
++                writeString( worldNamesList[iter], buf );
++            }
++            // HyperFall 20w22a+ End
 +            writeNBT( codecTag, buf );
 +            writeString( dimensionCodecName, buf );
++            writeString( worldName, buf ); // HyperFall 20w22a+
          } else
          {
 -            buf.writeByte( dimension );
@@ -973,7 +1000,7 @@ index e0cdf82e..8953c121 100644
          if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_15 )
          {
              buf.writeLong( seed );
-@@ -84,7 +115,10 @@ public class Login extends DefinedPacket
+@@ -84,7 +133,10 @@ public class Login extends DefinedPacket
              buf.writeByte( difficulty );
          }
          buf.writeByte( maxPlayers );
@@ -985,7 +1012,7 @@ index e0cdf82e..8953c121 100644
          if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_14 )
          {
              writeVarInt( viewDistance, buf );
-@@ -97,6 +131,11 @@ public class Login extends DefinedPacket
+@@ -97,6 +149,11 @@ public class Login extends DefinedPacket
          {
              buf.writeBoolean( normalRespawn );
          }
@@ -1093,10 +1120,10 @@ index 2aa5ad58..ff986fe0 100644
 +    }
  }
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Respawn.java b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Respawn.java
-index 1f544f26..efd97a05 100644
+index 1f544f26..aa4626bb 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Respawn.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Respawn.java
-@@ -21,11 +21,22 @@ public class Respawn extends DefinedPacket
+@@ -21,11 +21,25 @@ public class Respawn extends DefinedPacket
      private short difficulty;
      private short gameMode;
      private String levelType;
@@ -1104,6 +1131,7 @@ index 1f544f26..efd97a05 100644
 +    private Boolean isDebug; // HyperFall 20w20a+
 +    private Boolean isFlat; // HyperFall 20w20a+
 +    private String dimensionCodecName; // HyperFall 20w21a+
++    private String worldType; // HyperFall 20w22a+
  
      @Override
 -    public void read(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion)
@@ -1114,15 +1142,17 @@ index 1f544f26..efd97a05 100644
 +        if (protocolVersion >= ProtocolConstants.MINECRAFT_1_16)
 +        {
 +            dimensionCodecName = readString( buf );
++            worldType = readString( buf ); // HyperFall 20w22a+
 +        } else
 +        {
 +            dimension = buf.readInt();
 +        }
++
 +        // HyperFall 20w21a+ End - Thanks to Five DE (Xernium) for the NBT work
          if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_15 )
          {
              seed = buf.readLong();
-@@ -35,13 +46,30 @@ public class Respawn extends DefinedPacket
+@@ -35,13 +49,31 @@ public class Respawn extends DefinedPacket
              difficulty = buf.readUnsignedByte();
          }
          gameMode = buf.readUnsignedByte();
@@ -1147,6 +1177,7 @@ index 1f544f26..efd97a05 100644
 +        if (protocolVersion >= ProtocolConstants.MINECRAFT_1_16)
 +        {
 +            writeString( dimensionCodecName, buf );
++            writeString( worldType, buf ); // HyperFall 20w22a+
 +        } else
 +        {
 +            buf.writeInt( dimension );
@@ -1155,7 +1186,7 @@ index 1f544f26..efd97a05 100644
          if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_15 )
          {
              buf.writeLong( seed );
-@@ -51,7 +79,16 @@ public class Respawn extends DefinedPacket
+@@ -51,7 +83,16 @@ public class Respawn extends DefinedPacket
              buf.writeByte( difficulty );
          }
          buf.writeByte( gameMode );
@@ -1194,7 +1225,7 @@ index 65ef6611..8eb97054 100644
  
      <name>HyperFall-Proxy</name>
 diff --git a/proxy/src/main/java/net/md_5/bungee/PacketConstants.java b/proxy/src/main/java/net/md_5/bungee/PacketConstants.java
-index 000c450e..4ecd4731 100644
+index 000c450e..85d10ed2 100644
 --- a/proxy/src/main/java/net/md_5/bungee/PacketConstants.java
 +++ b/proxy/src/main/java/net/md_5/bungee/PacketConstants.java
 @@ -7,8 +7,8 @@ import net.md_5.bungee.protocol.packet.Respawn;
@@ -1203,13 +1234,13 @@ index 000c450e..4ecd4731 100644
  
 -    public static final Respawn DIM1_SWITCH = new Respawn( (byte) 1, 0, (byte) 0, (byte) 0, "default" );
 -    public static final Respawn DIM2_SWITCH = new Respawn( (byte) -1, 0, (byte) 0, (byte) 0, "default" );
-+    public static final Respawn DIM1_SWITCH = new Respawn( (byte) 1, 0, (byte) 0, (byte) 0, "default", false, /* HyperFall 20w18a+ */ false, false, /* HyperFall 20w20a+ */ "minecraft:overworld" /* HyperFall 20w21a+ */);
-+    public static final Respawn DIM2_SWITCH = new Respawn( (byte) -1, 0, (byte) 0, (byte) 0, "default", false, /* HyperFall 20w18a+ */ false, false, /* HyperFall 20w20a+ */ "minecraft:overworld" /* HyperFall 20w21a+ */);
++    public static final Respawn DIM1_SWITCH = new Respawn( (byte) 1, 0, (byte) 0, (byte) 0, "default", false, /* HyperFall 20w18a+ */ false, false, /* HyperFall 20w20a+ */ "minecraft:overworld", /* HyperFall 20w21a+ */ "bungeecord:dimension_switch1" /* HyperFall 20w22a+ */);
++    public static final Respawn DIM2_SWITCH = new Respawn( (byte) -1, 0, (byte) 0, (byte) 0, "default", false, /* HyperFall 20w18a+ */ false, false, /* HyperFall 20w20a+ */ "minecraft:overworld", /* HyperFall 20w21a+ */ "bungeecord:dimension_switch1" /* HyperFall 20w22a+ */);
      public static final ClientStatus CLIENT_LOGIN = new ClientStatus( (byte) 0 );
      public static final PluginMessage FORGE_MOD_REQUEST = new PluginMessage( "FML", new byte[]
      {
 diff --git a/proxy/src/main/java/net/md_5/bungee/ServerConnector.java b/proxy/src/main/java/net/md_5/bungee/ServerConnector.java
-index 35a19224..6a921d59 100644
+index 35a19224..b0ffa4e8 100644
 --- a/proxy/src/main/java/net/md_5/bungee/ServerConnector.java
 +++ b/proxy/src/main/java/net/md_5/bungee/ServerConnector.java
 @@ -246,7 +246,7 @@ public class ServerConnector extends PacketHandler
@@ -1217,7 +1248,7 @@ index 35a19224..6a921d59 100644
              // Set tab list size, TODO: what shall we do about packet mutability
              Login modLogin = new Login( login.getEntityId(), login.getGameMode(), (byte) login.getDimension(), login.getSeed(), login.getDifficulty(),
 -                    (byte) user.getPendingConnection().getListener().getTabListSize(), login.getLevelType(), login.getViewDistance(), login.isReducedDebugInfo(), login.isNormalRespawn() );
-+                    (byte) user.getPendingConnection().getListener().getTabListSize(), login.getLevelType(), login.getViewDistance(), login.isReducedDebugInfo(), login.isNormalRespawn(), login.isDebug(), login.isFlat(), /* HyperFall 20w20a+ */ login.getDimensionCodecName(), login.getCodecTag() /* HyperFall 20w21a+ */);
++                    (byte) user.getPendingConnection().getListener().getTabListSize(), login.getLevelType(), login.getViewDistance(), login.isReducedDebugInfo(), login.isNormalRespawn(), login.isDebug(), login.isFlat(), /* HyperFall 20w20a+ */ login.getDimensionCodecName(), login.getCodecTag(), /* HyperFall 20w21a+ */ login.getWorldNamesList(), login.getWorldName() /* HyperFall 20w22a+ */);
  
              user.unsafe().sendPacket( modLogin );
  
@@ -1226,7 +1257,7 @@ index 35a19224..6a921d59 100644
              if ( !user.isDisableEntityMetadataRewrite() && login.getDimension() == user.getDimension() ) // Waterfall - defer
              {
 -                user.unsafe().sendPacket( new Respawn( ( login.getDimension() >= 0 ? -1 : 0 ), login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType() ) );
-+                user.unsafe().sendPacket( new Respawn( ( login.getDimension() >= 0 ? -1 : 0 ), login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType(), false,  /* HyperFall 20w18a+ */ login.isDebug(), login.isFlat(), /* HyperFall 20w20a+ */ login.getDimensionCodecName() /* HyperFall 20w21a+ */) );
++                user.unsafe().sendPacket( new Respawn( ( login.getDimension() >= 0 ? -1 : 0 ), login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType(), false,  /* HyperFall 20w18a+ */ login.isDebug(), login.isFlat(), /* HyperFall 20w20a+ */ login.getDimensionCodecName(), /* HyperFall 20w21a+ */ login.getWorldName() /* HyperFall 20w22a+ */ ));
              }
  
              user.setServerEntityId( login.getEntityId() );
@@ -1235,25 +1266,25 @@ index 35a19224..6a921d59 100644
                  // Only send if we are not in the same dimension
                  if (user.getDimension() != login.getDimension()) {
 -                    user.unsafe().sendPacket( new Respawn(user.getDimension() == 0 ? -1 : 0, login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType()));
-+                    user.unsafe().sendPacket( new Respawn(user.getDimension() == 0 ? -1 : 0, login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType(), false, /* HyperFall 20w18a+ */ login.isDebug(), login.isFlat(), /* HyperFall 20w20a+ */ login.getDimensionCodecName() /* HyperFall 20w21a+ */ ));
++                    user.unsafe().sendPacket( new Respawn(user.getDimension() == 0 ? -1 : 0, login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType(), false, /* HyperFall 20w18a+ */ login.isDebug(), login.isFlat(), /* HyperFall 20w20a+ */ login.getDimensionCodecName(), /* HyperFall 20w21a+ */ login.getWorldName() /* HyperFall 20w22a+ */ ));
                  }
  
 +                // Set tab list size, TODO: what shall we do about packet mutability
                  Login modLogin = new Login( login.getEntityId(),login.getGameMode(), login.getDimension(), login.getSeed(),
 -                        login.getDifficulty(), login.getMaxPlayers(), login.getLevelType(), login.getViewDistance(), login.isReducedDebugInfo(), login.isNormalRespawn() );
-+                        login.getDifficulty(), login.getMaxPlayers(), login.getLevelType(), login.getViewDistance(), login.isReducedDebugInfo(), login.isNormalRespawn(), login.isDebug(), login.isFlat(), /* HyperFall 20w20a+ */ login.getDimensionCodecName(), login.getCodecTag() /* HyperFall 20w21a+ */);
++                        login.getDifficulty(), login.getMaxPlayers(), login.getLevelType(), login.getViewDistance(), login.isReducedDebugInfo(), login.isNormalRespawn(), login.isDebug(), login.isFlat(), /* HyperFall 20w20a+ */ login.getDimensionCodecName(), login.getCodecTag(), /* HyperFall 20w21a+ */ login.getWorldNamesList(), login.getWorldName() /* HyperFall 20w22a+ */);
 +
                  user.unsafe().sendPacket(modLogin);
  
                  // Only send if we're in the same dimension
                  if (user.getDimension() == login.getDimension()) {
 -                    user.unsafe().sendPacket( new Respawn(user.getDimension() == 0 ? -1 : 0, login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType()));
-+                    user.unsafe().sendPacket( new Respawn(user.getDimension() == 0 ? -1 : 0, login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType(), false, /* HyperFall 20w18a+ */ login.isDebug(), login.isFlat(), /* HyperFall 20w20a+ */ login.getDimensionCodecName() /* HyperFall 20w21a+ */ ));
++                    user.unsafe().sendPacket( new Respawn(user.getDimension() == 0 ? -1 : 0, login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType(), false, /* HyperFall 20w18a+ */ login.isDebug(), login.isFlat(), /* HyperFall 20w20a+ */ login.getDimensionCodecName(), /* HyperFall 20w21a+ */ login.getWorldName() /* HyperFall 20w22a+ */ ));
                  }
              }
              // Waterfall end
 -            user.unsafe().sendPacket( new Respawn( login.getDimension(), login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType() ) );
-+            user.unsafe().sendPacket( new Respawn( login.getDimension(), login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType(), false,  /* HyperFall 20w18a+ */ login.isDebug(), login.isFlat(), /* HyperFall 20w20a+ */ login.getDimensionCodecName() /* HyperFall 20w21a+ */) );
++            user.unsafe().sendPacket( new Respawn( login.getDimension(), login.getSeed(), login.getDifficulty(), login.getGameMode(), login.getLevelType(), false,  /* HyperFall 20w18a+ */ login.isDebug(), login.isFlat(), /* HyperFall 20w20a+ */ login.getDimensionCodecName(), /* HyperFall 20w21a+ */ login.getWorldName() /* HyperFall 20w22a+ */ ));
              if ( user.getPendingConnection().getVersion() >= ProtocolConstants.MINECRAFT_1_14 )
              {
                  user.unsafe().sendPacket( new ViewDistance( login.getViewDistance() ) );

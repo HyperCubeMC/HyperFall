@@ -1,4 +1,4 @@
-From 0da66fa764c9efb2da53db3d763172b8c341714f Mon Sep 17 00:00:00 2001
+From 269d1473ce33cce252f7f377423c7529c85679b1 Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -420,221 +420,754 @@ index 68c716b9..0aba0a24 100644
      private static final boolean PROCESS_TRACES = Boolean.getBoolean("waterfall.bad-packet-traces");
      private static final BadPacketException OVERSIZED_VAR_INT_EXCEPTION = new BadPacketException( "VarInt too big" );
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java b/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
-index aa1515f4..62c8d126 100644
+index aa1515f4..04345a3f 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
-@@ -71,7 +71,8 @@ public enum Protocol
-                     map( ProtocolConstants.MINECRAFT_1_9, 0x1F ),
-                     map( ProtocolConstants.MINECRAFT_1_13, 0x21 ),
-                     map( ProtocolConstants.MINECRAFT_1_14, 0x20 ),
--                    map( ProtocolConstants.MINECRAFT_1_15, 0x21 )
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x21 ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x20 ) // HyperFall 1.16-pre1+ 0x21 -> 0x20)
-             );
-             TO_CLIENT.registerPacket(
-                     Login.class,
-@@ -79,7 +80,8 @@ public enum Protocol
-                     map( ProtocolConstants.MINECRAFT_1_8, 0x01 ),
-                     map( ProtocolConstants.MINECRAFT_1_9, 0x23 ),
-                     map( ProtocolConstants.MINECRAFT_1_13, 0x25 ),
--                    map( ProtocolConstants.MINECRAFT_1_15, 0x26 )
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x26 ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x25 ) // HyperFall 1.16-pre1+ 0x26 -> 0x25)
-             );
-             TO_CLIENT.registerPacket(
-                     Chat.class,
-@@ -87,7 +89,8 @@ public enum Protocol
-                     map( ProtocolConstants.MINECRAFT_1_8, 0x02 ),
-                     map( ProtocolConstants.MINECRAFT_1_9, 0x0F ),
-                     map( ProtocolConstants.MINECRAFT_1_13, 0x0E ),
--                    map( ProtocolConstants.MINECRAFT_1_15, 0x0F )
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x0F ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x0E ) // HyperFall 1.16-pre1+ 0x0F -> 0x0E)
-             );
-             TO_CLIENT.registerPacket(
-                     Respawn.class,
-@@ -98,13 +101,16 @@ public enum Protocol
-                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x35 ),
-                     map( ProtocolConstants.MINECRAFT_1_13, 0x38 ),
-                     map( ProtocolConstants.MINECRAFT_1_14, 0x3A ),
--                    map( ProtocolConstants.MINECRAFT_1_15, 0x3B )
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x3B ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x3A ) // HyperFall 1.16-pre1+ 0x3B -> 0x3A)
-             );
-             TO_CLIENT.registerPacket(
-                     BossBar.class,
-                     BossBar::new, // Waterfall - speed up packet construction
-                     map( ProtocolConstants.MINECRAFT_1_9, 0x0C ),
--                    map( ProtocolConstants.MINECRAFT_1_15, 0x0D )
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x0D ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x0C ) // HyperFall 1.16-pre1+ 0x26 -> 0x25)
-+
-             );
-             // Waterfall start
-             TO_CLIENT.registerPacket(
-@@ -117,7 +123,8 @@ public enum Protocol
-                     map(ProtocolConstants.MINECRAFT_1_12_1, 0x4F),
-                     map(ProtocolConstants.MINECRAFT_1_13, 0x53),
-                     map(ProtocolConstants.MINECRAFT_1_14, 0x59),
--                    map(ProtocolConstants.MINECRAFT_1_15, 0x5A)
-+                    map(ProtocolConstants.MINECRAFT_1_15, 0x5A),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x59 ) // HyperFall 1.16-pre1+ 0x5A -> 0x59)
-             );
-             TO_CLIENT.registerPacket(
-                     EntityRemoveEffect.class,
-@@ -128,7 +135,8 @@ public enum Protocol
-                     map(ProtocolConstants.MINECRAFT_1_12_1, 0x33),
-                     map(ProtocolConstants.MINECRAFT_1_13, 0x36),
-                     map(ProtocolConstants.MINECRAFT_1_14, 0x38),
--                    map(ProtocolConstants.MINECRAFT_1_15, 0x39)
-+                    map(ProtocolConstants.MINECRAFT_1_15, 0x39),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x38 ) // HyperFall 1.16-pre1+ 0x39 -> 0x38)
-             );
-             // Waterfall end
-             TO_CLIENT.registerPacket(
-@@ -139,7 +147,8 @@ public enum Protocol
-                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x2E ),
-                     map( ProtocolConstants.MINECRAFT_1_13, 0x30 ),
-                     map( ProtocolConstants.MINECRAFT_1_14, 0x33 ),
--                    map( ProtocolConstants.MINECRAFT_1_15, 0x34 )
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x34 ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x33 ) // HyperFall 1.16-pre1+ 0x34 -> 0x33)
-             );
-             TO_CLIENT.registerPacket(
-                     TabCompleteResponse.class,
-@@ -147,7 +156,8 @@ public enum Protocol
-                     map( ProtocolConstants.MINECRAFT_1_8, 0x3A ),
-                     map( ProtocolConstants.MINECRAFT_1_9, 0x0E ),
-                     map( ProtocolConstants.MINECRAFT_1_13, 0x10 ),
--                    map( ProtocolConstants.MINECRAFT_1_15, 0x11 )
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x11 ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x10 ) // HyperFall 1.16-pre1+ 0x11 -> 0x10)
-             );
-             TO_CLIENT.registerPacket(
-                     ScoreboardObjective.class,
-@@ -158,7 +168,8 @@ public enum Protocol
-                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x42 ),
-                     map( ProtocolConstants.MINECRAFT_1_13, 0x45 ),
-                     map( ProtocolConstants.MINECRAFT_1_14, 0x49 ),
--                    map( ProtocolConstants.MINECRAFT_1_15, 0x4A )
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x4A ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x4B ) // HyperFall 1.16 Snapshots
-             );
-             TO_CLIENT.registerPacket(
-                     ScoreboardScore.class,
-@@ -169,7 +180,8 @@ public enum Protocol
-                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x45 ),
-                     map( ProtocolConstants.MINECRAFT_1_13, 0x48 ),
-                     map( ProtocolConstants.MINECRAFT_1_14, 0x4C ),
--                    map( ProtocolConstants.MINECRAFT_1_15, 0x4D )
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x4D ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x4E ) // HyperFall 1.16 Snapshots
-             );
-             TO_CLIENT.registerPacket(
-                     ScoreboardDisplay.class,
-@@ -180,7 +192,8 @@ public enum Protocol
-                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x3B ),
-                     map( ProtocolConstants.MINECRAFT_1_13, 0x3E ),
-                     map( ProtocolConstants.MINECRAFT_1_14, 0x42 ),
--                    map( ProtocolConstants.MINECRAFT_1_15, 0x43 )
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x43 ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x44 ) // HyperFall 1.16 Snapshots
-             );
-             TO_CLIENT.registerPacket(
-                     Team.class,
-@@ -191,7 +204,8 @@ public enum Protocol
-                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x44 ),
-                     map( ProtocolConstants.MINECRAFT_1_13, 0x47 ),
-                     map( ProtocolConstants.MINECRAFT_1_14, 0x4B ),
--                    map( ProtocolConstants.MINECRAFT_1_15, 0x4C )
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x4C ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x4D ) // HyperFall 1.16 Snapshots
-             );
-             TO_CLIENT.registerPacket(
-                     PluginMessage.class,
-@@ -200,7 +214,8 @@ public enum Protocol
-                     map( ProtocolConstants.MINECRAFT_1_9, 0x18 ),
-                     map( ProtocolConstants.MINECRAFT_1_13, 0x19 ),
-                     map( ProtocolConstants.MINECRAFT_1_14, 0x18 ),
--                    map( ProtocolConstants.MINECRAFT_1_15, 0x19 )
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x19 ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x18 ) // HyperFall 1.16-pre1+ 0x19 -> 0x18)
-             );
-             TO_CLIENT.registerPacket(
-                     Kick.class,
-@@ -209,7 +224,8 @@ public enum Protocol
-                     map( ProtocolConstants.MINECRAFT_1_9, 0x1A ),
-                     map( ProtocolConstants.MINECRAFT_1_13, 0x1B ),
-                     map( ProtocolConstants.MINECRAFT_1_14, 0x1A ),
--                    map( ProtocolConstants.MINECRAFT_1_15, 0x1B )
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x1B ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x1A ) // HyperFall 1.16-pre1+ 0x1B -> 0x1A)
-             );
-             TO_CLIENT.registerPacket(
-                     Title.class,
-@@ -219,7 +235,8 @@ public enum Protocol
-                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x48 ),
-                     map( ProtocolConstants.MINECRAFT_1_13, 0x4B ),
-                     map( ProtocolConstants.MINECRAFT_1_14, 0x4F ),
--                    map( ProtocolConstants.MINECRAFT_1_15, 0x50 )
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x50 ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x4F ) // HyperFall 1.16-pre1+ 0x50 -> 0x4F)
-             );
-             TO_CLIENT.registerPacket(
-                     PlayerListHeaderFooter.class,
-@@ -231,7 +248,8 @@ public enum Protocol
-                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x4A ),
-                     map( ProtocolConstants.MINECRAFT_1_13, 0x4E ),
-                     map( ProtocolConstants.MINECRAFT_1_14, 0x53 ),
--                    map( ProtocolConstants.MINECRAFT_1_15, 0x54 )
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x54 ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x53 ) // HyperFall 1.16-pre1+ 0x54 -> 0x53)
-             );
-             TO_CLIENT.registerPacket(
-                     EntityStatus.class,
-@@ -240,24 +258,28 @@ public enum Protocol
-                     map( ProtocolConstants.MINECRAFT_1_9, 0x1B ),
-                     map( ProtocolConstants.MINECRAFT_1_13, 0x1C ),
-                     map( ProtocolConstants.MINECRAFT_1_14, 0x1B ),
--                    map( ProtocolConstants.MINECRAFT_1_15, 0x1C )
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x1C ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x1B ) // HyperFall 1.16-pre1+ 0x1C -> 0x1B)
-             );
-             TO_CLIENT.registerPacket(
-                     Commands.class,
-                     Commands::new, // Waterfall - speed up packet construction
-                     map( ProtocolConstants.MINECRAFT_1_13, 0x11 ),
--                    map( ProtocolConstants.MINECRAFT_1_15, 0x12 )
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x12 ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x11 ) // HyperFall 1.16-pre1+ 0x12 -> 0x11)
-             );
-             TO_CLIENT.registerPacket(
-                     GameState.class,
-                     GameState::new, // Waterfall - speed up packet construction
--                    map( ProtocolConstants.MINECRAFT_1_15, 0x1F )
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x1F ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x1E ) // HyperFall 1.16-pre1+ 0x1F -> 0x1E)
-             );
-             TO_CLIENT.registerPacket(
-                     ViewDistance.class,
-                     ViewDistance::new, // Waterfall - speed up packet construction
-                     map( ProtocolConstants.MINECRAFT_1_14, 0x41 ),
--                    map( ProtocolConstants.MINECRAFT_1_15, 0x42 )
-+                    map( ProtocolConstants.MINECRAFT_1_15, 0x42 ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x41 ) // HyperFall 1.16-pre1+ 0x42 -> 0x41)
-             );
+@@ -49,343 +49,361 @@ public enum Protocol
  
-             TO_SERVER.registerPacket(
-@@ -268,7 +290,8 @@ public enum Protocol
-                     map( ProtocolConstants.MINECRAFT_1_12, 0x0C ),
-                     map( ProtocolConstants.MINECRAFT_1_12_1, 0x0B ),
-                     map( ProtocolConstants.MINECRAFT_1_13, 0x0E ),
+     // Undef
+     HANDSHAKE
+-    {
++            {
+ 
+-        {
+-            TO_SERVER.registerPacket(
+-                    Handshake.class,
+-                    Handshake::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x00 )
+-            );
+-        }
+-    },
++                {
++                    TO_SERVER.registerPacket(
++                            Handshake.class,
++                            Handshake::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x00 )
++                    );
++                }
++            },
+     // 0
+     GAME
+-    {
++            {
+ 
+-        {
+-            TO_CLIENT.registerPacket(
+-                    KeepAlive.class,
+-                    KeepAlive::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x00 ),
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x1F ),
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x21 ),
+-                    map( ProtocolConstants.MINECRAFT_1_14, 0x20 ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x21 )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    Login.class,
+-                    Login::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x01 ),
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x23 ),
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x25 ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x26 )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    Chat.class,
+-                    Chat::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x02 ),
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x0F ),
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x0E ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x0F )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    Respawn.class,
+-                    Respawn::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x07 ),
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x33 ),
+-                    map( ProtocolConstants.MINECRAFT_1_12, 0x34 ),
+-                    map( ProtocolConstants.MINECRAFT_1_12_1, 0x35 ),
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x38 ),
+-                    map( ProtocolConstants.MINECRAFT_1_14, 0x3A ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x3B )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    BossBar.class,
+-                    BossBar::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x0C ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x0D )
+-            );
+-            // Waterfall start
+-            TO_CLIENT.registerPacket(
+-                    EntityEffect.class,
+-                    EntityEffect::new, // Waterfall - speed up packet construction
+-                    map(ProtocolConstants.MINECRAFT_1_8, 0x1D),
+-                    map(ProtocolConstants.MINECRAFT_1_9, 0x4C),
+-                    map(ProtocolConstants.MINECRAFT_1_9_4, 0x4B),
+-                    map(ProtocolConstants.MINECRAFT_1_12, 0x4E),
+-                    map(ProtocolConstants.MINECRAFT_1_12_1, 0x4F),
+-                    map(ProtocolConstants.MINECRAFT_1_13, 0x53),
+-                    map(ProtocolConstants.MINECRAFT_1_14, 0x59),
+-                    map(ProtocolConstants.MINECRAFT_1_15, 0x5A)
+-            );
+-            TO_CLIENT.registerPacket(
+-                    EntityRemoveEffect.class,
+-                    EntityRemoveEffect::new, // Waterfall - speed up packet construction
+-                    map(ProtocolConstants.MINECRAFT_1_8, 0x1E),
+-                    map(ProtocolConstants.MINECRAFT_1_9, 0x31),
+-                    map(ProtocolConstants.MINECRAFT_1_12, 0x32),
+-                    map(ProtocolConstants.MINECRAFT_1_12_1, 0x33),
+-                    map(ProtocolConstants.MINECRAFT_1_13, 0x36),
+-                    map(ProtocolConstants.MINECRAFT_1_14, 0x38),
+-                    map(ProtocolConstants.MINECRAFT_1_15, 0x39)
+-            );
+-            // Waterfall end
+-            TO_CLIENT.registerPacket(
+-                    PlayerListItem.class, // PlayerInfo
+-                    PlayerListItem::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x38 ),
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x2D ),
+-                    map( ProtocolConstants.MINECRAFT_1_12_1, 0x2E ),
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x30 ),
+-                    map( ProtocolConstants.MINECRAFT_1_14, 0x33 ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x34 )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    TabCompleteResponse.class,
+-                    TabCompleteResponse::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x3A ),
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x0E ),
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x10 ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x11 )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    ScoreboardObjective.class,
+-                    ScoreboardObjective::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x3B ),
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x3F ),
+-                    map( ProtocolConstants.MINECRAFT_1_12, 0x41 ),
+-                    map( ProtocolConstants.MINECRAFT_1_12_1, 0x42 ),
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x45 ),
+-                    map( ProtocolConstants.MINECRAFT_1_14, 0x49 ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x4A )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    ScoreboardScore.class,
+-                    ScoreboardScore::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x3C ),
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x42 ),
+-                    map( ProtocolConstants.MINECRAFT_1_12, 0x44 ),
+-                    map( ProtocolConstants.MINECRAFT_1_12_1, 0x45 ),
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x48 ),
+-                    map( ProtocolConstants.MINECRAFT_1_14, 0x4C ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x4D )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    ScoreboardDisplay.class,
+-                    ScoreboardDisplay::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x3D ),
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x38 ),
+-                    map( ProtocolConstants.MINECRAFT_1_12, 0x3A ),
+-                    map( ProtocolConstants.MINECRAFT_1_12_1, 0x3B ),
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x3E ),
+-                    map( ProtocolConstants.MINECRAFT_1_14, 0x42 ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x43 )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    Team.class,
+-                    Team::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x3E ),
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x41 ),
+-                    map( ProtocolConstants.MINECRAFT_1_12, 0x43 ),
+-                    map( ProtocolConstants.MINECRAFT_1_12_1, 0x44 ),
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x47 ),
+-                    map( ProtocolConstants.MINECRAFT_1_14, 0x4B ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x4C )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    PluginMessage.class,
+-                    PluginMessage::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x3F ),
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x18 ),
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x19 ),
+-                    map( ProtocolConstants.MINECRAFT_1_14, 0x18 ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x19 )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    Kick.class,
+-                    Kick::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x40 ),
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x1A ),
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x1B ),
+-                    map( ProtocolConstants.MINECRAFT_1_14, 0x1A ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x1B )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    Title.class,
+-                    Title::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x45 ),
+-                    map( ProtocolConstants.MINECRAFT_1_12, 0x47 ),
+-                    map( ProtocolConstants.MINECRAFT_1_12_1, 0x48 ),
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x4B ),
+-                    map( ProtocolConstants.MINECRAFT_1_14, 0x4F ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x50 )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    PlayerListHeaderFooter.class,
+-                    PlayerListHeaderFooter::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x47 ),
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x48 ),
+-                    map( ProtocolConstants.MINECRAFT_1_9_4, 0x47 ),
+-                    map( ProtocolConstants.MINECRAFT_1_12, 0x49 ),
+-                    map( ProtocolConstants.MINECRAFT_1_12_1, 0x4A ),
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x4E ),
+-                    map( ProtocolConstants.MINECRAFT_1_14, 0x53 ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x54 )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    EntityStatus.class,
+-                    EntityStatus::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x1A ),
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x1B ),
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x1C ),
+-                    map( ProtocolConstants.MINECRAFT_1_14, 0x1B ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x1C )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    Commands.class,
+-                    Commands::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x11 ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x12 )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    GameState.class,
+-                    GameState::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x1F )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    ViewDistance.class,
+-                    ViewDistance::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_14, 0x41 ),
+-                    map( ProtocolConstants.MINECRAFT_1_15, 0x42 )
+-            );
+-
+-            TO_SERVER.registerPacket(
+-                    KeepAlive.class,
+-                    KeepAlive::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x00 ),
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x0B ),
+-                    map( ProtocolConstants.MINECRAFT_1_12, 0x0C ),
+-                    map( ProtocolConstants.MINECRAFT_1_12_1, 0x0B ),
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x0E ),
 -                    map( ProtocolConstants.MINECRAFT_1_14, 0x0F )
-+                    map( ProtocolConstants.MINECRAFT_1_14, 0x0F ),
-+                    map( ProtocolConstants.MINECRAFT_1_16, 0x10 ) // HyperFall 1.16 Snapshots
-             );
-             TO_SERVER.registerPacket(
-                     Chat.class,
+-            );
+-            TO_SERVER.registerPacket(
+-                    Chat.class,
+-                    Chat::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x01 ),
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x02 ),
+-                    map( ProtocolConstants.MINECRAFT_1_12, 0x03 ),
+-                    map( ProtocolConstants.MINECRAFT_1_12_1, 0x02 ),
+-                    map( ProtocolConstants.MINECRAFT_1_14, 0x03 )
+-            );
+-            TO_SERVER.registerPacket(
+-                    TabCompleteRequest.class,
+-                    TabCompleteRequest::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x14 ),
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x01 ),
+-                    map( ProtocolConstants.MINECRAFT_1_12, 0x02 ),
+-                    map( ProtocolConstants.MINECRAFT_1_12_1, 0x01 ),
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x05 ),
+-                    map( ProtocolConstants.MINECRAFT_1_14, 0x06 )
+-            );
+-            TO_SERVER.registerPacket(
+-                    ClientSettings.class,
+-                    ClientSettings::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x15 ),
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x04 ),
+-                    map( ProtocolConstants.MINECRAFT_1_12, 0x05 ),
+-                    map( ProtocolConstants.MINECRAFT_1_12_1, 0x04 ),
+-                    map( ProtocolConstants.MINECRAFT_1_14, 0x05 )
+-            );
+-            TO_SERVER.registerPacket(
+-                    PluginMessage.class,
+-                    PluginMessage::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x17 ),
+-                    map( ProtocolConstants.MINECRAFT_1_9, 0x09 ),
+-                    map( ProtocolConstants.MINECRAFT_1_12, 0x0A ),
+-                    map( ProtocolConstants.MINECRAFT_1_12_1, 0x09 ),
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x0A ),
+-                    map( ProtocolConstants.MINECRAFT_1_14, 0x0B )
+-            );
+-        }
+-    },
++                {
++                    TO_CLIENT.registerPacket(
++                            KeepAlive.class,
++                            KeepAlive::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x00 ),
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x1F ),
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x21 ),
++                            map( ProtocolConstants.MINECRAFT_1_14, 0x20 ),
++                            map( ProtocolConstants.MINECRAFT_1_15, 0x21 ),
++                            map( ProtocolConstants.MINECRAFT_1_16, 0x20 ) // HyperFall (1.16: 1.16-pre1+ 0x21 -> 0x20)
++                    );
++                    TO_CLIENT.registerPacket(
++                            Login.class,
++                            Login::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x01 ),
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x23 ),
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x25 ),
++                            map( ProtocolConstants.MINECRAFT_1_15, 0x26 ),
++                            map( ProtocolConstants.MINECRAFT_1_16, 0x25 ) // HyperFall (1.16: 1.16-pre1+ 0x26 -> 0x25)
++                    );
++                    TO_CLIENT.registerPacket(
++                            Chat.class,
++                            Chat::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x02 ),
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x0F ),
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x0E ),
++                            map( ProtocolConstants.MINECRAFT_1_15, 0x0F ),
++                            map( ProtocolConstants.MINECRAFT_1_16, 0x0E ) // HyperFall (1.16: 1.16-pre1+ 0x0F -> 0x0E)
++                    );
++                    TO_CLIENT.registerPacket(
++                            Respawn.class,
++                            Respawn::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x07 ),
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x33 ),
++                            map( ProtocolConstants.MINECRAFT_1_12, 0x34 ),
++                            map( ProtocolConstants.MINECRAFT_1_12_1, 0x35 ),
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x38 ),
++                            map( ProtocolConstants.MINECRAFT_1_14, 0x3A ),
++                            map( ProtocolConstants.MINECRAFT_1_15, 0x3B ),
++                            map( ProtocolConstants.MINECRAFT_1_16, 0x3A ) // HyperFall (1.16: 1.16-pre1+ 0x3B -> 0x3A)
++                    );
++                    TO_CLIENT.registerPacket(
++                            BossBar.class,
++                            BossBar::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x0C ),
++                            map( ProtocolConstants.MINECRAFT_1_15, 0x0D ),
++                            map( ProtocolConstants.MINECRAFT_1_16, 0x0C ) // HyperFall (1.16: 1.16-pre1+ 0x0D -> 0x0C)
++                    );
++                    // Waterfall start
++                    TO_CLIENT.registerPacket(
++                            EntityEffect.class,
++                            EntityEffect::new, // Waterfall - speed up packet construction
++                            map(ProtocolConstants.MINECRAFT_1_8, 0x1D),
++                            map(ProtocolConstants.MINECRAFT_1_9, 0x4C),
++                            map(ProtocolConstants.MINECRAFT_1_9_4, 0x4B),
++                            map(ProtocolConstants.MINECRAFT_1_12, 0x4E),
++                            map(ProtocolConstants.MINECRAFT_1_12_1, 0x4F),
++                            map(ProtocolConstants.MINECRAFT_1_13, 0x53),
++                            map(ProtocolConstants.MINECRAFT_1_14, 0x59),
++                            map(ProtocolConstants.MINECRAFT_1_15, 0x5A),
++                            map(ProtocolConstants.MINECRAFT_1_16, 0x59) // HyperFall (1.16: 1.16-pre1+ 0x5A -> 0x59)
++                    );
++                    TO_CLIENT.registerPacket(
++                            EntityRemoveEffect.class,
++                            EntityRemoveEffect::new, // Waterfall - speed up packet construction
++                            map(ProtocolConstants.MINECRAFT_1_8, 0x1E),
++                            map(ProtocolConstants.MINECRAFT_1_9, 0x31),
++                            map(ProtocolConstants.MINECRAFT_1_12, 0x32),
++                            map(ProtocolConstants.MINECRAFT_1_12_1, 0x33),
++                            map(ProtocolConstants.MINECRAFT_1_13, 0x36),
++                            map(ProtocolConstants.MINECRAFT_1_14, 0x38),
++                            map(ProtocolConstants.MINECRAFT_1_15, 0x39),
++                            map(ProtocolConstants.MINECRAFT_1_16, 0x38) // HyperFall (1.16: 1.16-pre1+ 0x39 -> 0x38)
++                    );
++                    // Waterfall end
++                    TO_CLIENT.registerPacket(
++                            PlayerListItem.class, // PlayerInfo
++                            PlayerListItem::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x38 ),
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x2D ),
++                            map( ProtocolConstants.MINECRAFT_1_12_1, 0x2E ),
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x30 ),
++                            map( ProtocolConstants.MINECRAFT_1_14, 0x33 ),
++                            map( ProtocolConstants.MINECRAFT_1_15, 0x34 ),
++                            map( ProtocolConstants.MINECRAFT_1_16, 0x33 ) // HyperFall (1.16: 1.16-pre1+ 0x34 -> 0x33)
++                    );
++                    TO_CLIENT.registerPacket(
++                            TabCompleteResponse.class,
++                            TabCompleteResponse::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x3A ),
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x0E ),
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x10 ),
++                            map( ProtocolConstants.MINECRAFT_1_15, 0x11 ),
++                            map( ProtocolConstants.MINECRAFT_1_16, 0x10 ) // HyperFall (1.16: 1.16-pre1+ 0x11 -> 0x10)
++                    );
++                    TO_CLIENT.registerPacket(
++                            ScoreboardObjective.class,
++                            ScoreboardObjective::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x3B ),
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x3F ),
++                            map( ProtocolConstants.MINECRAFT_1_12, 0x41 ),
++                            map( ProtocolConstants.MINECRAFT_1_12_1, 0x42 ),
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x45 ),
++                            map( ProtocolConstants.MINECRAFT_1_14, 0x49 ),
++                            map( ProtocolConstants.MINECRAFT_1_15, 0x4A )
++                    );
++                    TO_CLIENT.registerPacket(
++                            ScoreboardScore.class,
++                            ScoreboardScore::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x3C ),
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x42 ),
++                            map( ProtocolConstants.MINECRAFT_1_12, 0x44 ),
++                            map( ProtocolConstants.MINECRAFT_1_12_1, 0x45 ),
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x48 ),
++                            map( ProtocolConstants.MINECRAFT_1_14, 0x4C ),
++                            map( ProtocolConstants.MINECRAFT_1_15, 0x4D )
++                    );
++                    TO_CLIENT.registerPacket(
++                            ScoreboardDisplay.class,
++                            ScoreboardDisplay::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x3D ),
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x38 ),
++                            map( ProtocolConstants.MINECRAFT_1_12, 0x3A ),
++                            map( ProtocolConstants.MINECRAFT_1_12_1, 0x3B ),
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x3E ),
++                            map( ProtocolConstants.MINECRAFT_1_14, 0x42 ),
++                            map( ProtocolConstants.MINECRAFT_1_15, 0x43 )
++                    );
++                    TO_CLIENT.registerPacket(
++                            Team.class,
++                            Team::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x3E ),
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x41 ),
++                            map( ProtocolConstants.MINECRAFT_1_12, 0x43 ),
++                            map( ProtocolConstants.MINECRAFT_1_12_1, 0x44 ),
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x47 ),
++                            map( ProtocolConstants.MINECRAFT_1_14, 0x4B ),
++                            map( ProtocolConstants.MINECRAFT_1_15, 0x4C )
++                    );
++                    TO_CLIENT.registerPacket(
++                            PluginMessage.class,
++                            PluginMessage::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x3F ),
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x18 ),
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x19 ),
++                            map( ProtocolConstants.MINECRAFT_1_14, 0x18 ),
++                            map( ProtocolConstants.MINECRAFT_1_15, 0x19 ),
++                            map( ProtocolConstants.MINECRAFT_1_16, 0x18 ) // HyperFall (1.16: 1.16-pre1+ 0x19 -> 0x18)
++                    );
++                    TO_CLIENT.registerPacket(
++                            Kick.class,
++                            Kick::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x40 ),
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x1A ),
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x1B ),
++                            map( ProtocolConstants.MINECRAFT_1_14, 0x1A ),
++                            map( ProtocolConstants.MINECRAFT_1_15, 0x1B ),
++                            map( ProtocolConstants.MINECRAFT_1_16, 0x1A )
++                    );
++                    TO_CLIENT.registerPacket(
++                            Title.class,
++                            Title::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x45 ),
++                            map( ProtocolConstants.MINECRAFT_1_12, 0x47 ),
++                            map( ProtocolConstants.MINECRAFT_1_12_1, 0x48 ),
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x4B ),
++                            map( ProtocolConstants.MINECRAFT_1_14, 0x4F ),
++                            map( ProtocolConstants.MINECRAFT_1_15, 0x50 ),
++                            map( ProtocolConstants.MINECRAFT_1_16, 0x4F ) // HyperFall (1.16: 1.16-pre1+ 0x50 -> 0x4F)
++                    );
++                    TO_CLIENT.registerPacket(
++                            PlayerListHeaderFooter.class,
++                            PlayerListHeaderFooter::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x47 ),
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x48 ),
++                            map( ProtocolConstants.MINECRAFT_1_9_4, 0x47 ),
++                            map( ProtocolConstants.MINECRAFT_1_12, 0x49 ),
++                            map( ProtocolConstants.MINECRAFT_1_12_1, 0x4A ),
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x4E ),
++                            map( ProtocolConstants.MINECRAFT_1_14, 0x53 ),
++                            map( ProtocolConstants.MINECRAFT_1_15, 0x54 ),
++                            map( ProtocolConstants.MINECRAFT_1_16, 0x53 ) // HyperFall (1.16: 1.16-pre1+ 0x54 -> 0x53)
++                    );
++                    TO_CLIENT.registerPacket(
++                            EntityStatus.class,
++                            EntityStatus::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x1A ),
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x1B ),
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x1C ),
++                            map( ProtocolConstants.MINECRAFT_1_14, 0x1B ),
++                            map( ProtocolConstants.MINECRAFT_1_15, 0x1C ),
++                            map( ProtocolConstants.MINECRAFT_1_16, 0x1B ) // HyperFall (1.16: 1.16-pre1+ 0x1C -> 0x1B)
++                    );
++                    TO_CLIENT.registerPacket(
++                            Commands.class,
++                            Commands::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x11 ),
++                            map( ProtocolConstants.MINECRAFT_1_15, 0x12 ),
++                            map( ProtocolConstants.MINECRAFT_1_16, 0x11 ) // HyperFall (1.16: 1.16-pre1+ 0x12 -> 0x11)
++                    );
++                    TO_CLIENT.registerPacket(
++                            GameState.class,
++                            GameState::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_15, 0x1F ),
++                            map( ProtocolConstants.MINECRAFT_1_16, 0x1E ) // HyperFall (1.16: 1.16-pre1+ 0x1F -> 0x1E)
++                    );
++                    TO_CLIENT.registerPacket(
++                            ViewDistance.class,
++                            ViewDistance::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_14, 0x41 ),
++                            map( ProtocolConstants.MINECRAFT_1_15, 0x42 ),
++                            map( ProtocolConstants.MINECRAFT_1_16, 0x41 ) // HyperFall (1.16: 1.16-pre1+ 0x42 -> 0x41)
++                    );
++
++                    TO_SERVER.registerPacket(
++                            KeepAlive.class,
++                            KeepAlive::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x00 ),
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x0B ),
++                            map( ProtocolConstants.MINECRAFT_1_12, 0x0C ),
++                            map( ProtocolConstants.MINECRAFT_1_12_1, 0x0B ),
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x0E ),
++                            map( ProtocolConstants.MINECRAFT_1_14, 0x0F ),
++                            map( ProtocolConstants.MINECRAFT_1_16, 0x10 ) // HyperFall (1.16: 20w16a+ 0x0F -> 0x10)
++                    );
++                    TO_SERVER.registerPacket(
++                            Chat.class,
++                            Chat::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x01 ),
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x02 ),
++                            map( ProtocolConstants.MINECRAFT_1_12, 0x03 ),
++                            map( ProtocolConstants.MINECRAFT_1_12_1, 0x02 ),
++                            map( ProtocolConstants.MINECRAFT_1_14, 0x03 )
++                    );
++                    TO_SERVER.registerPacket(
++                            TabCompleteRequest.class,
++                            TabCompleteRequest::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x14 ),
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x01 ),
++                            map( ProtocolConstants.MINECRAFT_1_12, 0x02 ),
++                            map( ProtocolConstants.MINECRAFT_1_12_1, 0x01 ),
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x05 ),
++                            map( ProtocolConstants.MINECRAFT_1_14, 0x06 )
++                    );
++                    TO_SERVER.registerPacket(
++                            ClientSettings.class,
++                            ClientSettings::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x15 ),
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x04 ),
++                            map( ProtocolConstants.MINECRAFT_1_12, 0x05 ),
++                            map( ProtocolConstants.MINECRAFT_1_12_1, 0x04 ),
++                            map( ProtocolConstants.MINECRAFT_1_14, 0x05 )
++                    );
++                    TO_SERVER.registerPacket(
++                            PluginMessage.class,
++                            PluginMessage::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x17 ),
++                            map( ProtocolConstants.MINECRAFT_1_9, 0x09 ),
++                            map( ProtocolConstants.MINECRAFT_1_12, 0x0A ),
++                            map( ProtocolConstants.MINECRAFT_1_12_1, 0x09 ),
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x0A ),
++                            map( ProtocolConstants.MINECRAFT_1_14, 0x0B )
++                    );
++                }
++            },
+     // 1
+     STATUS
+-    {
++            {
+ 
+-        {
+-            TO_CLIENT.registerPacket(
+-                    StatusResponse.class,
+-                    StatusResponse::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x00 )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    PingPacket.class,
+-                    PingPacket::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x01 )
+-            );
+-
+-            TO_SERVER.registerPacket(
+-                    StatusRequest.class,
+-                    StatusRequest::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x00 )
+-            );
+-            TO_SERVER.registerPacket(
+-                    PingPacket.class,
+-                    PingPacket::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x01 )
+-            );
+-        }
+-    },
++                {
++                    TO_CLIENT.registerPacket(
++                            StatusResponse.class,
++                            StatusResponse::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x00 )
++                    );
++                    TO_CLIENT.registerPacket(
++                            PingPacket.class,
++                            PingPacket::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x01 )
++                    );
++
++                    TO_SERVER.registerPacket(
++                            StatusRequest.class,
++                            StatusRequest::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x00 )
++                    );
++                    TO_SERVER.registerPacket(
++                            PingPacket.class,
++                            PingPacket::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x01 )
++                    );
++                }
++            },
+     //2
+     LOGIN
+-    {
++            {
+ 
+-        {
+-            TO_CLIENT.registerPacket(
+-                    Kick.class,
+-                    Kick::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x00 )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    EncryptionRequest.class,
+-                    EncryptionRequest::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x01 )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    LoginSuccess.class,
+-                    LoginSuccess::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x02 )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    SetCompression.class,
+-                    SetCompression::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x03 )
+-            );
+-            TO_CLIENT.registerPacket(
+-                    LoginPayloadRequest.class,
+-                    LoginPayloadRequest::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x04 )
+-            );
+-
+-            TO_SERVER.registerPacket(
+-                    LoginRequest.class,
+-                    LoginRequest::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x00 )
+-            );
+-            TO_SERVER.registerPacket(
+-                    EncryptionResponse.class,
+-                    EncryptionResponse::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_8, 0x01 )
+-            );
+-            TO_SERVER.registerPacket(
+-                    LoginPayloadResponse.class,
+-                    LoginPayloadResponse::new, // Waterfall - speed up packet construction
+-                    map( ProtocolConstants.MINECRAFT_1_13, 0x02 )
+-            );
+-        }
+-    };
++                {
++                    TO_CLIENT.registerPacket(
++                            Kick.class,
++                            Kick::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x00 )
++                    );
++                    TO_CLIENT.registerPacket(
++                            EncryptionRequest.class,
++                            EncryptionRequest::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x01 )
++                    );
++                    TO_CLIENT.registerPacket(
++                            LoginSuccess.class,
++                            LoginSuccess::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x02 )
++                    );
++                    TO_CLIENT.registerPacket(
++                            SetCompression.class,
++                            SetCompression::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x03 )
++                    );
++                    TO_CLIENT.registerPacket(
++                            LoginPayloadRequest.class,
++                            LoginPayloadRequest::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x04 )
++                    );
++
++                    TO_SERVER.registerPacket(
++                            LoginRequest.class,
++                            LoginRequest::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x00 )
++                    );
++                    TO_SERVER.registerPacket(
++                            EncryptionResponse.class,
++                            EncryptionResponse::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_8, 0x01 )
++                    );
++                    TO_SERVER.registerPacket(
++                            LoginPayloadResponse.class,
++                            LoginPayloadResponse::new, // Waterfall - speed up packet construction
++                            map( ProtocolConstants.MINECRAFT_1_13, 0x02 )
++                    );
++                }
++            };
+     /*========================================================================*/
+     public static final int MAX_PACKET_ID = 0xFF;
+     /*========================================================================*/
+@@ -519,33 +537,33 @@ public enum Protocol
+                 Constructor<? extends DefinedPacket> constructor = packetClass.getDeclaredConstructor();
+                 */ // Waterfall end
+ 
+-                int mappingIndex = 0;
+-                ProtocolMapping mapping = mappings[mappingIndex];
+-                for ( int protocol : ProtocolConstants.SUPPORTED_VERSION_IDS )
++            int mappingIndex = 0;
++            ProtocolMapping mapping = mappings[mappingIndex];
++            for ( int protocol : ProtocolConstants.SUPPORTED_VERSION_IDS )
++            {
++                if ( protocol < mapping.protocolVersion )
+                 {
+-                    if ( protocol < mapping.protocolVersion )
+-                    {
+-                        // This is a new packet, skip it till we reach the next protocol
+-                        continue;
+-                    }
++                    // This is a new packet, skip it till we reach the next protocol
++                    continue;
++                }
+ 
+-                    if ( mapping.protocolVersion < protocol && mappingIndex + 1 < mappings.length )
++                if ( mapping.protocolVersion < protocol && mappingIndex + 1 < mappings.length )
++                {
++                    // Mapping is non current, but the next one may be ok
++                    ProtocolMapping nextMapping = mappings[mappingIndex + 1];
++                    if ( nextMapping.protocolVersion == protocol )
+                     {
+-                        // Mapping is non current, but the next one may be ok
+-                        ProtocolMapping nextMapping = mappings[mappingIndex + 1];
+-                        if ( nextMapping.protocolVersion == protocol )
+-                        {
+-                            Preconditions.checkState( nextMapping.packetID != mapping.packetID, "Duplicate packet mapping (%s, %s)", mapping.protocolVersion, nextMapping.protocolVersion );
+-
+-                            mapping = nextMapping;
+-                            mappingIndex++;
+-                        }
+-                    }
++                        Preconditions.checkState( nextMapping.packetID != mapping.packetID, "Duplicate packet mapping (%s, %s)", mapping.protocolVersion, nextMapping.protocolVersion );
+ 
+-                    ProtocolData data = protocols.get( protocol );
+-                    data.packetMap.put( packetClass, mapping.packetID );
+-                    data.packetConstructors[mapping.packetID] = constructor;
++                        mapping = nextMapping;
++                        mappingIndex++;
++                    }
+                 }
++
++                ProtocolData data = protocols.get( protocol );
++                data.packetMap.put( packetClass, mapping.packetID );
++                data.packetConstructors[mapping.packetID] = constructor;
++            }
+             // Waterfall start - speed up packet construction
+             /*
+             } catch ( NoSuchMethodException ex )
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 index cd987c8a..94001221 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
@@ -669,7 +1202,7 @@ index cd987c8a..94001221 100644
      public static final boolean isBeforeOrEq(int before, int other)
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/nbt/ByteTag.java b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/ByteTag.java
 new file mode 100644
-index 00000000..aace66b1
+index 00000000..680e375f
 --- /dev/null
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/ByteTag.java
 @@ -0,0 +1,38 @@
@@ -817,7 +1350,7 @@ index 00000000..84bdaf40
 \ No newline at end of file
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/nbt/FloatTag.java b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/FloatTag.java
 new file mode 100644
-index 00000000..dfa48667
+index 00000000..67bb1a58
 --- /dev/null
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/FloatTag.java
 @@ -0,0 +1,38 @@
@@ -936,7 +1469,7 @@ index 00000000..1391631f
 \ No newline at end of file
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/nbt/LongTag.java b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/LongTag.java
 new file mode 100644
-index 00000000..86e3a8ea
+index 00000000..44769668
 --- /dev/null
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/LongTag.java
 @@ -0,0 +1,38 @@
@@ -1665,7 +2198,7 @@ index bc1de55a..ef2a66fa 100644
      }
 diff --git a/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap_1_16.java b/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap_1_16.java
 new file mode 100644
-index 00000000..64fd93a9
+index 00000000..381a8ac9
 --- /dev/null
 +++ b/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap_1_16.java
 @@ -0,0 +1,194 @@
@@ -1733,37 +2266,37 @@ index 00000000..64fd93a9
 +        {
 +            case 0x45 /* Attach Entity : PacketPlayOutAttachEntity */:
 +                rewriteInt( packet, oldId, newId, readerIndex + packetIdLength + 4 );
-+            break;
++                break;
 +            /* HyperFall (1.16: 1.16-pre1+ 0x56 -> 0x55) */ case 0x55 /* Collect Item : PacketPlayOutCollect */:
-+                DefinedPacket.readVarInt( packet );
-+                rewriteVarInt( packet, oldId, newId, packet.readerIndex() );
-+                break;
++            DefinedPacket.readVarInt( packet );
++            rewriteVarInt( packet, oldId, newId, packet.readerIndex() );
++            break;
 +            /* HyperFall (1.16: 1.16-pre1+ 0x4C -> 0x4B) */ case 0x4B /* Set Passengers : PacketPlayOutMount */:
-+                DefinedPacket.readVarInt( packet );
-+                jumpIndex = packet.readerIndex();
-+                // Fall through on purpose to int array of IDs
++            DefinedPacket.readVarInt( packet );
++            jumpIndex = packet.readerIndex();
++            // Fall through on purpose to int array of IDs
 +            /* HyperFall (1.16: 1.16-pre1+ 0x38 -> 0x37) */ case 0x37 /* Destroy Entities : PacketPlayOutEntityDestroy */:
-+                int count = DefinedPacket.readVarInt( packet );
-+                int[] ids = new int[ count ];
-+                for ( int i = 0; i < count; i++ )
++            int count = DefinedPacket.readVarInt( packet );
++            int[] ids = new int[ count ];
++            for ( int i = 0; i < count; i++ )
++            {
++                ids[i] = DefinedPacket.readVarInt( packet );
++            }
++            packet.readerIndex( jumpIndex );
++            packet.writerIndex( jumpIndex );
++            DefinedPacket.writeVarInt( count, packet );
++            for ( int id : ids )
++            {
++                if ( id == oldId )
 +                {
-+                    ids[i] = DefinedPacket.readVarInt( packet );
-+                }
-+                packet.readerIndex( jumpIndex );
-+                packet.writerIndex( jumpIndex );
-+                DefinedPacket.writeVarInt( count, packet );
-+                for ( int id : ids )
++                    id = newId;
++                } else if ( id == newId )
 +                {
-+                    if ( id == oldId )
-+                    {
-+                        id = newId;
-+                    } else if ( id == newId )
-+                    {
-+                        id = oldId;
-+                    }
-+                    DefinedPacket.writeVarInt( id, packet );
++                    id = oldId;
 +                }
-+                break;
++                DefinedPacket.writeVarInt( id, packet );
++            }
++            break;
 +            case 0x00 /* Spawn Object : PacketPlayOutSpawnEntity */:
 +                DefinedPacket.readVarInt( packet );
 +                DefinedPacket.readUUID( packet );
@@ -1790,49 +2323,49 @@ index 00000000..64fd93a9
 +                }
 +                break;
 +            /* HyperFall (1.16: 1.16-pre1+ 0x05 -> 0x04) */ case 0x04 /* Spawn Player : PacketPlayOutNamedEntitySpawn */:
-+                DefinedPacket.readVarInt( packet ); // Entity ID
-+                int idLength = packet.readerIndex() - readerIndex - packetIdLength;
-+                UUID uuid = DefinedPacket.readUUID( packet );
-+                ProxiedPlayer player;
-+                if ( ( player = BungeeCord.getInstance().getPlayerByOfflineUUID( uuid ) ) != null )
-+                {
-+                    int previous = packet.writerIndex();
-+                    packet.readerIndex( readerIndex );
-+                    packet.writerIndex( readerIndex + packetIdLength + idLength );
-+                    DefinedPacket.writeUUID( player.getUniqueId(), packet );
-+                    packet.writerIndex( previous );
-+                }
-+                break;
++            DefinedPacket.readVarInt( packet ); // Entity ID
++            int idLength = packet.readerIndex() - readerIndex - packetIdLength;
++            UUID uuid = DefinedPacket.readUUID( packet );
++            ProxiedPlayer player;
++            if ( ( player = BungeeCord.getInstance().getPlayerByOfflineUUID( uuid ) ) != null )
++            {
++                int previous = packet.writerIndex();
++                packet.readerIndex( readerIndex );
++                packet.writerIndex( readerIndex + packetIdLength + idLength );
++                DefinedPacket.writeUUID( player.getUniqueId(), packet );
++                packet.writerIndex( previous );
++            }
++            break;
 +            /* HyperFall (1.16: 1.16-pre1+ 0x33 -> 0x32) */ case 0x32 /* Combat Event : PacketPlayOutCombatEvent */:
-+                int event = packet.readUnsignedByte();
-+                if ( event == 1 /* End Combat*/ )
-+                {
-+                    DefinedPacket.readVarInt( packet );
-+                    rewriteInt( packet, oldId, newId, packet.readerIndex() );
-+                } else if ( event == 2 /* Entity Dead */ )
-+                {
-+                    int position = packet.readerIndex();
-+                    rewriteVarInt( packet, oldId, newId, packet.readerIndex() );
-+                    packet.readerIndex( position );
-+                    DefinedPacket.readVarInt( packet );
-+                    rewriteInt( packet, oldId, newId, packet.readerIndex() );
-+                }
-+                break;
-+            /* HyperFall (1.16: 1.16-pre1+ 0x45 -> 0x44) */ case 0x44 /* EntityMetadata : PacketPlayOutEntityMetadata */:
-+                DefinedPacket.readVarInt( packet ); // Entity ID
-+                rewriteMetaVarInt( packet, oldId + 1, newId + 1, 7, protocolVersion ); // fishing hook
-+                /*
-++                * HyperFall (1.16: 20w12a+)
-++                * metaVarInt was shifted to 8 from 16 and 16 omitted, previously:
-++                * rewriteMetaVarInt( packet, oldId, newId, 8, protocolVersion ); // fireworks (et al)
-++                * */
-+                rewriteMetaVarInt( packet, oldId, newId, 8, protocolVersion ); // guardian beam
-+                break;
-+            /* HyperFall (1.16: 1.16-pre1+ 0x51 -> 0x50) */ case 0x50 /* Entity Sound Effect : PacketPlayOutEntitySound */:
++            int event = packet.readUnsignedByte();
++            if ( event == 1 /* End Combat*/ )
++            {
 +                DefinedPacket.readVarInt( packet );
-+                DefinedPacket.readVarInt( packet );
++                rewriteInt( packet, oldId, newId, packet.readerIndex() );
++            } else if ( event == 2 /* Entity Dead */ )
++            {
++                int position = packet.readerIndex();
 +                rewriteVarInt( packet, oldId, newId, packet.readerIndex() );
-+                break;
++                packet.readerIndex( position );
++                DefinedPacket.readVarInt( packet );
++                rewriteInt( packet, oldId, newId, packet.readerIndex() );
++            }
++            break;
++            /* HyperFall (1.16: 1.16-pre1+ 0x45 -> 0x44) */ case 0x44 /* EntityMetadata : PacketPlayOutEntityMetadata */:
++            DefinedPacket.readVarInt( packet ); // Entity ID
++            rewriteMetaVarInt( packet, oldId + 1, newId + 1, 7, protocolVersion ); // fishing hook
++            /*
++             * HyperFall (1.16: 20w12a+)
++             * metaVarInt was shifted to 8 from 16 and 16 omitted, previously:
++             * rewriteMetaVarInt( packet, oldId, newId, 8, protocolVersion ); // fireworks (et al)
++             * */
++            rewriteMetaVarInt( packet, oldId, newId, 8, protocolVersion ); // guardian beam
++            break;
++            /* HyperFall (1.16: 1.16-pre1+ 0x51 -> 0x50) */ case 0x50 /* Entity Sound Effect : PacketPlayOutEntitySound */:
++            DefinedPacket.readVarInt( packet );
++            DefinedPacket.readVarInt( packet );
++            rewriteVarInt( packet, oldId, newId, packet.readerIndex() );
++            break;
 +        }
 +        packet.readerIndex( readerIndex );
 +    }

@@ -1,4 +1,4 @@
-From 269d1473ce33cce252f7f377423c7529c85679b1 Mon Sep 17 00:00:00 2001
+From 16fdf073cc91a3a3c1adbfc265b42847020ed760 Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -1169,14 +1169,14 @@ index aa1515f4..04345a3f 100644
              /*
              } catch ( NoSuchMethodException ex )
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
-index cd987c8a..94001221 100644
+index cd987c8a..e7f897e0 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 @@ -28,6 +28,7 @@ public class ProtocolConstants
      public static final int MINECRAFT_1_15 = 573;
      public static final int MINECRAFT_1_15_1 = 575;
      public static final int MINECRAFT_1_15_2 = 578;
-+    public static final int MINECRAFT_1_16 = 722; // HyperFall 1.16 Pre-2
++    public static final int MINECRAFT_1_16 = 727; // HyperFall 1.16 Pre-4
      public static final List<String> SUPPORTED_VERSIONS = Arrays.asList(
              "1.8.x",
              "1.9.x",
@@ -1392,6 +1392,50 @@ index 00000000..67bb1a58
 +
 +
 +}
+diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/nbt/IntTag.java b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/IntTag.java
+new file mode 100644
+index 00000000..b903262f
+--- /dev/null
++++ b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/IntTag.java
+@@ -0,0 +1,38 @@
++package net.md_5.bungee.protocol.nbt;
++
++import java.io.DataInput;
++import java.io.DataOutput;
++import java.io.IOException;
++
++/*
++ * Waterfall NBT-Library substitute module
++ * Minecraft 1.16 - 20w21a
++ * by Xernium (Five)
++ * */
++
++public class IntTag extends NBTTag {
++
++    private int value;
++
++    @Override
++    public int getTagIndex() {
++        return 3;
++    }
++
++    @Override
++    public void write(DataOutput to) throws IOException {
++        to.writeInt(value);
++    }
++
++    @Override
++    public void read(DataInput from) throws IOException {
++        value = from.readInt();
++    }
++
++    @Override
++    public String toString() {
++        return "value: '" + value + "'\n";
++    }
++
++
++}
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/nbt/ListTag.java b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/ListTag.java
 new file mode 100644
 index 00000000..1391631f
@@ -1544,10 +1588,10 @@ index 00000000..a238d9e3
 \ No newline at end of file
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/nbt/NBTTagTypes.java b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/NBTTagTypes.java
 new file mode 100644
-index 00000000..02fc4453
+index 00000000..aad7cc21
 --- /dev/null
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/nbt/NBTTagTypes.java
-@@ -0,0 +1,35 @@
+@@ -0,0 +1,37 @@
 +package net.md_5.bungee.protocol.nbt;
 +
 +import java.io.IOException;
@@ -1567,6 +1611,8 @@ index 00000000..02fc4453
 +                return new EndTag();
 +            case 1:
 +                return new ByteTag();
++            case 3:
++                return new IntTag();
 +            case 4:
 +                return new LongTag();
 +            case 5:
@@ -1630,7 +1676,7 @@ index 00000000..7fa0a7de
 +}
 \ No newline at end of file
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Chat.java b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Chat.java
-index 0ded6739..c33b5064 100644
+index 0ded6739..b425dcab 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/packet/Chat.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/packet/Chat.java
 @@ -9,6 +9,8 @@ import net.md_5.bungee.protocol.AbstractPacketHandler;
@@ -1642,11 +1688,17 @@ index 0ded6739..c33b5064 100644
  @Data
  @NoArgsConstructor
  @AllArgsConstructor
-@@ -18,10 +20,11 @@ public class Chat extends DefinedPacket
+@@ -18,10 +20,17 @@ public class Chat extends DefinedPacket
  
      private String message;
      private byte position;
 +    private UUID sender; // HyperFall 20w21a+
++
++    // HyperFall (1.16+ retain API)
++    public Chat(String message, byte position)
++    {
++        this( message, position, /* HyperFall 20w21a+ */ new UUID( 0, 0 ) );
++    }
  
      public Chat(String message)
      {
@@ -1655,7 +1707,7 @@ index 0ded6739..c33b5064 100644
      }
  
      @Override
-@@ -36,6 +39,12 @@ public class Chat extends DefinedPacket
+@@ -36,6 +45,12 @@ public class Chat extends DefinedPacket
          if ( direction == ProtocolConstants.Direction.TO_CLIENT )
          {
              position = buf.readByte();
@@ -1668,7 +1720,7 @@ index 0ded6739..c33b5064 100644
          }
      }
  
-@@ -51,6 +60,13 @@ public class Chat extends DefinedPacket
+@@ -51,6 +66,13 @@ public class Chat extends DefinedPacket
          if ( direction == ProtocolConstants.Direction.TO_CLIENT )
          {
              buf.writeByte( position );
@@ -2198,7 +2250,7 @@ index bc1de55a..ef2a66fa 100644
      }
 diff --git a/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap_1_16.java b/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap_1_16.java
 new file mode 100644
-index 00000000..381a8ac9
+index 00000000..7c270dc9
 --- /dev/null
 +++ b/proxy/src/main/java/net/md_5/bungee/entitymap/EntityMap_1_16.java
 @@ -0,0 +1,194 @@
@@ -2379,7 +2431,7 @@ index 00000000..381a8ac9
 +        int packetId = DefinedPacket.readVarInt( packet );
 +        int packetIdLength = packet.readerIndex() - readerIndex;
 +
-+        if ( packetId == 0x2B /* Spectate : PacketPlayInSpectate */ && !BungeeCord.getInstance().getConfig().isIpForward() )
++        if ( packetId == 0x2C /* HyperFall 20w16a+ 0x2B -> 0x2C Spectate : PacketPlayInSpectate */ && !BungeeCord.getInstance().getConfig().isIpForward() )
 +        {
 +            UUID uuid = DefinedPacket.readUUID( packet );
 +            ProxiedPlayer player;

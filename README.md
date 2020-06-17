@@ -2,6 +2,7 @@ HyperFall [![Build Status](https://travis-ci.com/hypercubemc-github/HyperFall.sv
 =========
 A patch-based fork of Waterfall, the Minecraft server proxy, with a few changes.
 =========
+# Supports snapshots and prereleases!
 ## How To (Compiling From Source)
 
 To compile HyperFall, you need JDK8, git, bash, maven, and an internet connection.

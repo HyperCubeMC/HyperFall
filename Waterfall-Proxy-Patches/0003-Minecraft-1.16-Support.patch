@@ -1,4 +1,4 @@
-From 01b6be37d76a658b7db03b98296675eabfb91ba1 Mon Sep 17 00:00:00 2001
+From 43322c7759e2ac0135fbd5bf154a6768183f7399 Mon Sep 17 00:00:00 2001
 From: Justsnoopy30 <everettallen30@gmail.com>
 Date: Sun, 16 Feb 2020 16:45:16 -0600
 Subject: [PATCH] Minecraft 1.16 Support
@@ -1168,15 +1168,68 @@ index aa1515f4..04345a3f 100644
              // Waterfall start - speed up packet construction
              /*
              } catch ( NoSuchMethodException ex )
+diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants$Direction.class b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants$Direction.class
+new file mode 100644
+index 0000000000000000000000000000000000000000..24aa31981cc94a13713a174c898a69de55976add
+GIT binary patch
+literal 1156
+zcmbVLZEq4m5PtS}IXJH^(n<yUq7@Zr<utJxg)}utQyKz>Lz2c1%|TCc&9P_hj{YvC
+zi8UHcKl`JMvj?#x_`$H7?Ci|WKC|=8?62S7egb%fCviv!$q1{6Aj<HJo4z(UJ=xW|
+zL*6${?W61XPS3Hmx06l9;ht}B-^;$ST(jp}4rh?Fo!9kuRh{9*`}#Z(B?U3WWkgjd
+zxWN$V*$y`uR&x3JnQ?Atw!!;avwKDn$#(&ZGL}>%aFb#2+M&va1A5K5VGqsb2Zr6;
+z)a{CGcwTABp!=@H`=#j!0wBO&R<VLx4AHX1Eq{+8H4QbnS<81~SY?Q}n<tfet=ecS
+zMCY>LG^1h_cNm_}M@J0nV_3b~>Qq|-aZ|;*K#T_2c?>Ue`8mmE2v?j_qIaooakDWT
+zbWOKybZxR6{Ugo%d^u18y4B}~KXeH=l*@M*V&$GaA@p#n5`y;fd{OpF42tdy-JW@1
+zi40ORomvzPLa`gB=N~$rFXJ&o;s4u|L9KCax<Lb(#C-g3>+e6M$}G@V3hk#w!2yy~
+zCLoa!KZ;Jmh~qBqfnkfZEs|m=Bd{-!uMqo08pC~Bqrq8|{1eF1e(Wy=RwXGFzCyi%
+zH0v*kR;70c|4oEw0&-z{?Gnk)GvE)%BH<x@w@0*&gB;N##VCG<bev3uE^+$;=|EWv
+z2g*j|2OWh*NbASp5jOM-uxo75^*{?5Gzn=OA%{HKBowe6$Q=|(Dil$|4z&IBA3lv8
+A1^@s6
+
+literal 0
+HcmV?d00001
+
+diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.class b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.class
+new file mode 100644
+index 0000000000000000000000000000000000000000..9462476c755d313f7ac2bd5c763dbcece62e752e
+GIT binary patch
+literal 2369
+zcma)-Pf#0G9LIle^JkL~VBfZYfYlbk0=8KKghCU_e`*v6W>Yk+8kexdg=9lFo2o~T
+z9Z#KUuR4wg#~Ck94|bfvt25s0)#*$xTzYY)H!qIAw-4IajXJ{2zVGLk-@oj8zn5SC
+z`srr?xC}RAAVENeU>rgaCZOyYw+yXn*cC0ey=RtP0^y8hTkaJCf#H!Y86qz@>8@kh
+zl?cQLgp!Hr#HSI6dvb=!4vbDFl4DFOTql`UxgKZwG}jYMcXK_-^h;c)nC>GG#5_|m
+zcp1*f@JbwBg|jDpG+nEzEjW(xSp!3i#+uc@u7`$itogr7dW4(22<DcK!T`J`!(beS
+z;B^9{w&`lMol;8MZrT;o)DE1wTQAqE+UBuXs@o0Muw5*r>en_mbNRx`a%pQNuV-@`
+zI=1AmAj2>L`n;2@?V1(SiNSdojl&yofq;C=s5Z^qE`jdh>~V|U4jlV>T_)n7u@<{p
+zs+O|LSh#&XyRovAUsx@alBH<^B#X9_Zns#00B*SEbDUwueFB|g^h_zq%+(h2I5XE;
+z%#+M)6X+0=B*&Qbq2J0flQh1k7kramMUwG*vw|e&_a5io`BuB<U+`y{U|DYay(f5<
+zJFRvv%UypK_ASXHzxO21^0?LRWjSiKd)+)~wR`!W`m3g}sx<5OPI*<OxmG)?DlPi6
+zOff6=7}c$cZMaRxBrxbZsTpBh_*AE_;6@Gohug{dWPZV=`VMC8T(fL*qgmTFor1Al
+zMN8ajESkG@$ILk^H}Ps1&Spoh<1y4-qrAUv92~o~S&fBV*L1j7BvY;)-#Rh9-gL_5
+zs>PCZx6EOJjTV8n4YT2{o2+g_W`}X||Bv$EvgP1SXVoz*p0#b$S*jY1hKVyCefANY
+z!>dBVBi)PtV~_*_<46)rAWsUMLY@-%67sabGsu?(P9tXoo<+VQ@Er2IzzfKW0xuyi
+z3%r87D)3e0HwDfjza{Y7$ZG<xBX0<tL*5kl9pt>gI&wkaYsgyyzl;2yz(wTi0^dM>
+zU*HdrKNPrxjF&UM?~lCqZ6M=K_>8w9h#G&q@L5KWGq@65L!&<e`2hui9elEn*|Qf+
+z*hS4;6S#eBOWXSTzX3V;Ed&GKBT7QRRj8mP1X6UKVC={L6#MnR#IA|45wK2LBwu37
+z_(ukm=po3(fEv|{LA6aUhSYYw7*;#=qO4NA7*S8@MJ23u;Zs(7@EK8i^#{;@AI>Q~
+zhj6|aP_zdyg3-#pw}zCew}zFPx5|p`tq}?jJ)wjtNpmGrlHn>sNsg;1C3&u5loYsX
+zqvSSMaZ2uR)lSJ>t~w}r#8oFHkGWDPIpT^^@`NjulBZmqqS7o^r>Qi@RTq^Ox$35p
+zm&N;*7oYFn9`xZWI}2(2&0K~Hcw{f)u}k35(Qv!QpoT~06CBCUaUj3IfxHJP_zDN{
+zJGcb*aR3it27bZ8`wcVvjstfDv+xHF+Mh5-0x(b7VS)6(BI(Ec0ocP@66`}2S9ZK=
+OP)8N>)BqgJ_x=qPRLP<M
+
+literal 0
+HcmV?d00001
+
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
-index cd987c8a..70b3b103 100644
+index cd987c8a..12ecaa3f 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/ProtocolConstants.java
 @@ -28,6 +28,7 @@ public class ProtocolConstants
      public static final int MINECRAFT_1_15 = 573;
      public static final int MINECRAFT_1_15_1 = 575;
      public static final int MINECRAFT_1_15_2 = 578;
-+    public static final int MINECRAFT_1_16 = 735; // HyperFall 1.16
++    public static final int MINECRAFT_1_16 = 736; // HyperFall 1.16.1
      public static final List<String> SUPPORTED_VERSIONS = Arrays.asList(
              "1.8.x",
              "1.9.x",

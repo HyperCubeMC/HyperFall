@@ -1,4 +1,4 @@
-HyperFall [![Build Status](https://travis-ci.com/hypercubemc-github/HyperFall.svg?branch=master)](https://travis-ci.com/hypercubemc-github/HyperFall)
+HyperFall [![Build Status](https://travis-ci.com/The-HyperZone/HyperFall.svg?branch=master)](https://travis-ci.com/The-HyperZone/HyperFall)
 =========
 A patch-based fork of Waterfall, the Minecraft server proxy, with a few changes.
 =========
